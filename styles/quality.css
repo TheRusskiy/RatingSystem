@@ -1,0 +1,58 @@
+body {                                                    
+        background-color: #ffffff;                        
+        margin : 0 3 0 0;                                 
+        font-weight: none;                                
+        font-size: 9pt;                                   
+        font-family: Arial, Tahoma, Helvetica, sans-serif;
+}                                                         
+
+a img {             
+        border: 0px;
+}                   
+
+a:link {color: #06306E; font-weight: none; font-size: 9pt; font-family:  Arial, Tahoma,  Helvetica, sans-serif; text-decoration: underline}
+a:active {color: #FF7E28; font-weight: none; font-size: 9pt; font-family:  Arial, Tahoma,  Helvetica, sans-serif; text-decoration: underline}
+a:visited {color: #06306E; font-weight: none; font-size: 9pt; font-family:  Arial, Tahoma,  Helvetica, sans-serif; text-decoration: underline}
+a:hover {color: #FF7E28; font-weight: none; font-size: 9pt; font-family:  Arial, Tahoma,  Helvetica, sans-serif; text-decoration: none}
+
+
+
+td {                                                      
+        color: #333333;                                   
+        font-weight: none;                                
+        font-size: 9pt;                                   
+        font-family: Arial, Tahoma, Helvetica, sans-serif;
+                                                          
+}                                                         
+
+h3 {                                                                
+        padding-left : 10px;                                        
+        color: #7285A1;                                             
+        font-weight: bold;                                          
+        font-size: 12pt;                                            
+        font-family: Verdana, Arial, Tahoma, Helvetica, sans-serif;
+
+}
+
+h4 {                                                                
+        padding-left : 10px;                                        
+        color: #7285A1;                                             
+        font-weight: bold;                                          
+        font-size: 11pt;                                            
+        font-family: Verdana, Arial, Tahoma, Helvetica, sans-serif;
+
+}
+
+.vertical {
+	writing-mode: tb-rl; 
+	filter: flipv fliph;
+	font-size: 8pt;
+}
+
+.small {                                                      
+        color: #333333;                                   
+        font-weight: none;                                
+        font-size: 7pt;                                   
+        font-family: Arial, Tahoma, Helvetica, sans-serif;
+                                                          
+}                                                         
