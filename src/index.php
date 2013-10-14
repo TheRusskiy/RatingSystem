@@ -7,23 +7,23 @@ $error="";
 if (isset($_SESSION['error'])) {
   switch ($_SESSION['error']) {
     
-    case "1":   //������������ ������������
-      $error="������������ ������������ �� 10 �����<br />";
+    case "1":   //пользователь заблокирован
+      $error="Пользователь заблокирован на 10 минут<br />";
       break;
       
-    case "2":  //�������� ������
-      $error="�������� ��� ������������ ��� ������. ��������, ����� 5 ������� ����� ��������� ������ ������������ ����� ������������ �� 10 �����!<br />";
+    case "2":  //неверный пароль
+      $error="Неверное имя пользователя или пароль. Внимание, после 5 попыток ввода неверного пароля пользователь будет заблокирован на 10 минут!<br />";
       break;
       
-    case "3":  //�������� ������ ��� ��� ������������
-      $error="�������� ��� ������������ ��� ������. ��������, ����� 5 ������� ����� ��������� ������ ������������ ����� ������������ �� 10 �����!<br />";
+    case "3":  //неверный пароль или имя пользователя
+      $error="Неверное имя пользователя или пароль. Внимание, после 5 попыток ввода неверного пароля пользователь будет заблокирован на 10 минут!<br />";
       break; 
     
   }  
   unset($_SESSION['error']);
 }
 
-if (!(isset($_SESSION['user_id']) AND $_SESSION['ip'] == $_SERVER['REMOTE_ADDR'])AND (!isset($_POST['auth_name']))) {   //���� �� ������������
+if (!(isset($_SESSION['user_id']) AND $_SESSION['ip'] == $_SERVER['REMOTE_ADDR'])AND (!isset($_POST['auth_name']))) {   //если не авторизованы
 	echo fLoginForm($error);
   exit;
 }
@@ -46,7 +46,7 @@ function write_log($act,$comment)  {
   mysql_query($sSQL);  
 }
 
-if (isset($_POST['check'])) {  //�����������
+if (isset($_POST['check'])) {  //авторизация
 
   $name = mysql_real_escape_string($_POST['auth_name']);
   $pass = md5(mysql_real_escape_string($_POST['auth_pass']));
@@ -54,7 +54,7 @@ if (isset($_POST['check'])) {  //�����������
   $query = "SELECT id, id_group FROM user WHERE name LIKE BINARY '$name' AND flag_hide=0";
   $res = mysql_query($query);
   sleep(1);
-  if (list($id_user, $id_group) = mysql_fetch_array($res)) {     //���� ���� ����� ������������, ���������, ������������ �� ��� ���
+  if (list($id_user, $id_group) = mysql_fetch_array($res)) {     //если есть такой пользователь, проверяем, заблокирован он или нет
     $q = "SELECT UNIX_TIMESTAMP(lastlogintime) as lastlogintime 
           FROM log_attempts WHERE id_user='$id_user' AND ip LIKE '$ip'
           ORDER BY lastlogintime DESC";
@@ -62,29 +62,29 @@ if (isset($_POST['check'])) {  //�����������
 	
     $row = mysql_fetch_array($r);
     $lastlogintime = $row['lastlogintime'];
-    if ((mysql_num_rows($r)>4)&&((time()-$lastlogintime)<$time_for_block)) { //������������ ������������
+    if ((mysql_num_rows($r)>4)&&((time()-$lastlogintime)<$time_for_block)) { //пользователь заблокирован
       $_SESSION['error'] = 1;
       header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
       exit;
     }
-    else {     //������������ �� ������������
+    else {     //пользователь не заблокирован
       $qpass = "SELECT * FROM user WHERE name LIKE BINARY '$name' AND pass='$pass' 
-    		AND ( ('$ip' REGEXP `ipmask`) OR (`ipmask` = '') )";     //��������� ������
+    		AND ( ('$ip' REGEXP `ipmask`) OR (`ipmask` = '') )";     //проверяем пароль
       $rpass = mysql_query($qpass);
-      if ($row = mysql_fetch_assoc($rpass)) {            //���������� ������ 
+      if ($row = mysql_fetch_assoc($rpass)) {            //правильный пароль 
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['user_name'] = $row['name'];
-        if ($id_group==10) $_SESSION['user_name'] = "admin"; //������������ ��������� � ���������������
+        if ($id_group==10) $_SESSION['user_name'] = "admin"; //пользователь относится к администраторам
         $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
         $_SESSION['error'] = 0;
-        $out.= "����������� ������ �������";
+        $out.= "Авторизация прошла успешно";
         write_log("log in","");       
         $q = "DELETE FROM log_attempts WHERE UNIX_TIMESTAMP(now())-UNIX_TIMESTAMP(lastlogintime)>1800 OR id_user='$id_user'";
-        $r = mysql_query($q);         //������� ��� ������ ����������� �������� ��� ���������� ��������� ������������
+        $r = mysql_query($q);         //очищаем все записи получасовой давности или касающиеся вошедшего пользователя
         $q = "UPDATE user SET lastlogin=NOW() WHERE id='$id_user'";
-        $r = mysql_query($q);         //����� ����� ���������� �����
+        $r = mysql_query($q);         //пишем время последнего входа
       } 
-      else {                              //������������ ������, ���������� ������� ����� � ���� � ������� log_attempts � log_user
+      else {                              //неправильный пароль, записываем попытку входа в базу в таблицы log_attempts и log_user
         $q = "INSERT INTO log_attempts (id, id_user, lastlogintime, ip) 
               VALUES (NULL, '$id_user', NOW(), '$ip')";
         $r = mysql_query($q);
@@ -96,9 +96,9 @@ if (isset($_POST['check'])) {  //�����������
       }
     } 
   }
-  else {                        //��� ������ ������������
+  else {                        //нет такого пользователя
     $q = "INSERT INTO log_incorrect (id, name, logtime, ip)     
-          VALUES (NULL, '$name', NOW(), '$ip')";           //���������� ������� ����� � log_incorrect
+          VALUES (NULL, '$name', NOW(), '$ip')";           //записываем попытку входа в log_incorrect
     $r = mysql_query($q);
     $_SESSION['error'] = 3;
     header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
@@ -106,14 +106,14 @@ if (isset($_POST['check'])) {  //�����������
   }
 }  
 
-if (isset($_GET['logout'])) {  //����� �� �����������
+if (isset($_GET['logout'])) {  //выход из авторизации
   write_log("log out","");
   session_destroy();
   header("Location: https://".$_SERVER['HTTP_HOST']);
   exit;
 }
 
-if ($_SESSION['user_name']=="admin") {         //���� ���� �������������
+if ($_SESSION['user_name']=="admin") {         //если зашёл администратор
 
   require('sources/admin/admin.php');  
   exit;
@@ -121,7 +121,7 @@ if ($_SESSION['user_name']=="admin") {         //���� ���� ��
 }
 
 /*
-if ( (isset($_GET['staff'])) && (isset($_GET['id'])) ) {     //���� ��������� ���������� � ����������
+if ( (isset($_GET['staff'])) && (isset($_GET['id'])) ) {     //если запросили информацию о сотруднике
 
   require('sources/core/all_about_staff.php');  
   $id = (int)$_GET['id'];
@@ -155,7 +155,7 @@ class info {
     
 
 	//.............................................................
-  //������������� ������� �������
+  //инициализация свойств объекта
   function info() {
 			
     $this->user_id = $_SESSION['user_id'];
@@ -192,17 +192,17 @@ class info {
   $object = new info;
    
   if (($object->iddep==0)||($object->arm=="")) {
-    $out="��� ������ ������������ �� ������� ������������� ���� ������� �����";
+    $out="Для вашего пользователя не выбрано подразделение либо рабочее место";
   }
   
   else {
   $out ="";
 //
-//		����� ��� ������ ��� ������: 
+//		общий вид ссылки для отчета: 
 //		http://monitoring.ssau.ru/index.php?act=reports&report=cafedra&page=totalactivity
 //
 
-	if ($object->composite == 0) {
+	if ($object->composite == 1) {
 
 		require("sources/core/skin.php");
 
@@ -216,7 +216,7 @@ class info {
 			if ($module == $modulereq) {
 				require("sources/reports/$module/$module.php");
 				$out .= $result->out;
-				$menu .= $result->navmenu;
+				$menu += $result->navmenu;
 			}
 		}
 		
@@ -228,9 +228,9 @@ class info {
 		foreach ($menu as $k => $v) {
 			if (ereg("report","^$v")) {
 				$curval = $v;
-				$menutxt .= "<br><b><a href=index.php?act=reports&$v>$k</a></b><br>\n";
+				$menutxt .= "<br><b><a href=./index.php?act=reports&$v>$k</a></b><br>\n";
 			} else {
-				$menutxt .= "<div align=left><a href=index.php?act=reports&$curval&page=$v>$k</a></div>\n";
+				$menutxt .= "<div align=left><a href=./index.php?act=reports&$curval&page=$v>$k</a></div>\n";
 			}
 		}
 		$out = (!isset($_GET["print"])) ? fSkin($object->armname,$menutxt,$out) : fSkinPrint($object->armname,$menutxt,$out);
@@ -242,16 +242,16 @@ class info {
 
 	}
   
-  /*  $out.="<p><a href='?logout'>�����</a></p>"; 
-    $out.="����� ������������: ".$object->user_id."<br />"; 
-    $out.="����� �������������: $object->iddep <br />���: $object->arm <br />";
+  /*  $out.="<p><a href='?logout'>Выход</a></p>"; 
+    $out.="Номер пользователя: ".$object->user_id."<br />"; 
+    $out.="Номер подразделения: $object->iddep <br />АРМ: $object->arm <br />";
  
-    $out .= "<h3>��������� ������������� \"".$object->deps[0]['name']."\"</h3>";
+    $out .= "<h3>Структура подразделения \"".$object->deps[0]['name']."\"</h3>";
     $out .= draw_deps($object->deps,"");
     $out .= draw_depstaff($object->depstaff,"staff");
     $out .= draw_post($object->postdep);
     //$id = $object->iddep;
-    //$out .= "������� �� ��� ������ <a href='/sources/caf/caf.php?id=$id'>���</a>";
+    //$out .= "Сссылка на ваш модуль <a href='/sources/caf/caf.php?id=$id'>тут</a>";
    */ 
     
  	
@@ -266,7 +266,7 @@ function fLoginForm($error = "") {
 return "<html>
   <head>
     <meta http-equiv=Content-Type content='text/html; charset=windows-1251'>
-    <title>���������� ������������ ������������� ������������</title>
+    <title>Мониторинг деятельности подразделений университета</title>
     <link type=text/css href=/styles/common.css rel=stylesheet>
   </head>
   <body bottommargin=0 leftmargin=0 rightmargin=0 topmargin=0 bgcolor=#FFFFFF>
@@ -278,7 +278,7 @@ return "<html>
 <tr>
 	<td width=1   bgcolor=#7F99BE rowspan=5><img src=/images/blank.gif width=1></td>
 	<td width=140 height=80 align=center valign=center bgcolor=#7F99BE><img src=/images/ssaulogo.gif width=120 height=60></td>
-	<td width=358 valign=center bgcolor=#7F99BE><h3 style='color:#ffffff'>������� ����������� ������������ ������������� ������������</h3></td>
+	<td width=358 valign=center bgcolor=#7F99BE><h3 style='color:#ffffff'>Система мониторинга деятельности подразделений университета</h3></td>
 	<td width=1   bgcolor=#7F99BE rowspan=5><img src=/images/blank.gif></td>
 </tr>
 </table>
@@ -293,15 +293,15 @@ return "<html>
 	<td colspan=2 height=80 align=center>&nbsp; <b style='color:red'>$error</b></td>
 </tr>
 <tr>
-	<td align=right>����� &nbsp; &nbsp; </td>
+	<td align=right>Логин &nbsp; &nbsp; </td>
 	<td><input type=text maxlength=20 name=auth_name></td>
 </tr>
 <tr>
-	<td align=right>������ &nbsp; &nbsp; </td>
+	<td align=right>Пароль &nbsp; &nbsp; </td>
 	<td><input type=password maxlength=20 name=auth_pass></td>
 </tr>
 	<td>&nbsp;</td>
-	<td><input type=submit name=check value='����'></td>
+	<td><input type=submit name=check value='Вход'></td>
 <tr>
 	<td colspan=4 height=1 bgcolor=#7F99BE><img src=/images/blank.gif></td>
 </tr>
@@ -315,20 +315,20 @@ return "<html>
 <tr>
 	<td width=498 valign=center bgcolor=#FFFFFF>
 		<p>
-		<font color=red>�������� ������������� ��� \"�������\"!</font> ��� ���������� ������ ��� ��������� <a href=http://www.adobe.com/products/flashplayer/ target=_blank>���������� Adobe Flash Player 10</a>
+		<font color=red>Вниманию пользователей АРМ \"Кафедра\"!</font> Для нормальной работы Вам требуется <a href=http://www.adobe.com/products/flashplayer/ target=_blank>установить Adobe Flash Player 10</a>
 		<br><br>
-�� �������� ������ ������� ���������� �� ���.:<br>
-45-62, ������ ������� ����������,<br>
-44-46, ������ ������� ����������<br>
+По вопросам работы системы обращаться по тел.:<br>
+45-62, Еленев Дмитрий Валерьевич,<br>
+44-46, Пашков Дмитрий Евгеньевич<br>
 		<br><br>
 
-		<b>���������� �������</b><br>
-		<i>02.04.2010</i>: ���������� ��� \"�������\": ��������� 1 ���������, ����������� � �������� ��������� ������� � ����������� ����� �����.
+		<b>Обновления системы</b><br>
+		<i>02.04.2010</i>: Обновления АРМ \"Кафедра\": устранено 1 замечание, относящееся к закрытию отчетного периода и отображению кодов ГРНТИ.
 		<br>
 		</p>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_userlist.pdf>����������  �� ������� ������� ������������� � ������</a><br>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_arm_cafedra.pdf>���������� ������������ ��� &quot;�������&quot; ������</a><br>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_passwords.pdf>���������� �� ����������� ��������� ������ � ������</a><br>
+		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_userlist.pdf>Инструкция  по ведению списков пользователей в ИАСМиО</a><br>
+		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_arm_cafedra.pdf>Инструкция пользователю АРМ &quot;Кафедра&quot; ИАСМиО</a><br>
+		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_passwords.pdf>Инструкция по организации парольной защиты в ИАСМиО</a><br>
 </td>
 </tr>
 <tr>
