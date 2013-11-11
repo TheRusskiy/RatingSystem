@@ -19,6 +19,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "year_limit" => 100,
             "calculation_type" => "sum"
         ));
+        $this->assertEquals($criteria->id, 1);
         $this->assertEquals($criteria->fetch_type, "sql");
         $this->assertEquals($criteria->fetch_value, $query);
         $this->assertEquals($criteria->name, "name of criteria");
@@ -43,6 +44,35 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 70);
+    }
+
+
+    function testCalculateSqlWithPlaceholders(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id < @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "calculation_type" => "sql/php"
+        ));
+        $_REQUEST['from_date'] = '2010-01-10';
+        $_REQUEST['to_date'] = '2013-03-09';
+        $_REQUEST['staff_id'] = '2';
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 40);
     }
 
     function testCalculatePhp(){

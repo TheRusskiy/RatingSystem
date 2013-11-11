@@ -4,9 +4,19 @@ class CriteriaCalculator {
     function __construct() {
         if (isset($_REQUEST['from_date'])){
             $this->from_date = mysql_real_escape_string($_REQUEST['from_date']);
+            $query = "SELECT id FROM ka_periods " .
+                     "WHERE start_date <= '$this->from_date' " .
+                     "AND end_date >= '$this->from_date'";
+            $row = mysql_fetch_array(mysql_query($query));
+            $this->from_date_id = intval($row[0]);
         }
         if (isset($_REQUEST['to_date'])){
             $this->to_date = mysql_real_escape_string($_REQUEST['to_date']);
+            $query = "SELECT id FROM ka_periods " .
+                "WHERE start_date <= '$this->to_date' " .
+                "AND end_date >= '$this->to_date'";
+            $row = mysql_fetch_array(mysql_query($query));
+            $this->to_date_id = intval($row[0]);
         }
         if (isset($_REQUEST['staff_id'])){
             $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
@@ -28,7 +38,17 @@ class CriteriaCalculator {
     }
 
     private function sql_calculate($criteria){
-        $query = mysql_query($criteria->fetch_value);
+        $text_query = $criteria->fetch_value;
+        if (isset($this->staff_id)){
+            $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
+        }
+        if (isset($this->from_date_id)){
+            $text_query = str_replace("@from_period_id@", $this->from_date_id, $text_query);
+        }
+        if (isset($this->to_date_id)){
+            $text_query = str_replace("@to_period_id@", $this->to_date_id, $text_query);
+        }
+        $query = mysql_query($text_query);
         $row = mysql_fetch_array($query);
         $query_result = intval($row[0]);
         return $query_result * $criteria->multiplier;
