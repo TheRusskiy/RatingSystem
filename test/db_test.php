@@ -1,5 +1,4 @@
 <?php
-require_once '../vendor/autoload.php';
 require_once '../test/test_helper.php';
 
 class DbTest extends PHPUnit_Framework_TestCase {
@@ -25,6 +24,6 @@ class DbTest extends PHPUnit_Framework_TestCase {
         }
         $now = new DateTime();//new DateTime('now', new DateTimeZone(date_default_timezone_get()));
 
-        $this->assertLessThanOrEqual($date, $now->getTimestamp());
+        $this->assertLessThanOrEqual($now->getTimestamp(), $date); // <<< THIS SHIT IS FREAKING BACKWARDS! >_<
     }
 }
