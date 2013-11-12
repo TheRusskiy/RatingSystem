@@ -1,29 +1,22 @@
 <?php
 require_once "criteria.php";
 class CriteriaCalculator {
-    function __construct() {
+    public function __construct() {
         if (isset($_REQUEST['from_date'])){
             $this->from_date = mysql_real_escape_string($_REQUEST['from_date']);
-            $query = "SELECT id FROM ka_periods " .
-                     "WHERE start_date <= '$this->from_date' " .
-                     "AND end_date >= '$this->from_date'";
-            $row = mysql_fetch_array(mysql_query($query));
-            $this->from_date_id = intval($row[0]);
+            $this->from_date_id = $this->period_from_date($this->from_date);
         }
         if (isset($_REQUEST['to_date'])){
             $this->to_date = mysql_real_escape_string($_REQUEST['to_date']);
-            $query = "SELECT id FROM ka_periods " .
-                "WHERE start_date <= '$this->to_date' " .
-                "AND end_date >= '$this->to_date'";
-            $row = mysql_fetch_array(mysql_query($query));
-            $this->to_date_id = intval($row[0]);
+            $this->to_date_id = $this->period_from_date($this->to_date);
         }
         if (isset($_REQUEST['staff_id'])){
             $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
         }
     }
 
-    function calculate($criteria){
+    public function calculate($criteria){
+        $old_from = $this->from_date_id
         switch($criteria->fetch_type){
             case "sql":
                 return $this->sql_calculate($criteria);
@@ -116,5 +109,14 @@ class CriteriaCalculator {
             }
         }
         return $result;
+    }
+
+    private function period_from_date($date)
+    {
+        $query = "SELECT id FROM ka_periods " .
+            "WHERE start_date <= '$date' " .
+            "AND end_date >= '$date'";
+        $row = mysql_fetch_array(mysql_query($query));
+        return intval($row[0]);
     }
 }

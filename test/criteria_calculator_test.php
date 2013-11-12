@@ -55,7 +55,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
     WHERE
     staff_id = @staff_id@
     AND period_id >= @from_period_id@
-    AND period_id < @to_period_id@
+    AND period_id <= @to_period_id@
 EOF;
 
         $criteria = new Criteria(array(
@@ -70,6 +70,39 @@ EOF;
         $_REQUEST['from_date'] = '2010-01-10';
         $_REQUEST['to_date'] = '2013-03-09';
         $_REQUEST['staff_id'] = '2';
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 50);
+    }
+
+
+    function testCalculateSqlWithLimit(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id < @to_period_id@
+EOF;
+
+//        $date = new DateTime('1980-02-15');
+//        $date->modify('+75 year');
+//        echo $date->format('Y-m-d');
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "year_limit" => 20,
+            "calculation_type" => "sql/php"
+        ));
+        $_REQUEST['from_date'] = '2012-02-10';
+        $_REQUEST['to_date'] = '2013-03-10';
+        $_REQUEST['staff_id'] = '3';
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 40);
