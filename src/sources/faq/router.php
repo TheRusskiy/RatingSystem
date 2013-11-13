@@ -15,6 +15,6 @@ class Router {
     }
 
     public function execute(){
-        $this->controller->{$this->action}();
+        return $this->controller->{$this->action}();
     }
 }

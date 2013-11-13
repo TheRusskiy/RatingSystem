@@ -1,6 +1,5 @@
 <?php
-$out.= "Вы подключились к рабочему месту Факультет!";
+require_once('router.php');
 $router = new Router();
-$out.=$router->controller->render();
-//$out.=include("controllers/$controller");
+$out.=$router->execute();
 ?>
