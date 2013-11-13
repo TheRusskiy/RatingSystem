@@ -13,6 +13,6 @@
 </table>
 On page: <?= count($teachers)?>
 <br>
-<?php $p = 1; while($p <= $page_count) :?>
-    <a <?= href('teachers', 'index', array("page"=>$p))?>><?= $p++ ?></a>
+<?php $p = 0; while($p <= $page_count) :?> <?php $p++ ?>
+    <a <?= href('teachers', 'index', array("page"=>$p))?>><?= $p ?></a>
 <?php endwhile; ?>
