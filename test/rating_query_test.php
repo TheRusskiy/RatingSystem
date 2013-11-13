@@ -1,6 +1,6 @@
 <?php
 require_once '../test/test_helper.php';
-require_once '../src/sources/rating/rating_query.php';
+require_once '../src/sources/faq/rating/rating_query.php';
 
 class TestQuery extends PHPUnit_Framework_TestCase {
 

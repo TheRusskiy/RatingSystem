@@ -1,6 +1,6 @@
 <?php
 require_once '../test/test_helper.php';
-require_once '../src/sources/rating/date_splitter.php';
+require_once '../src/sources/faq/rating/date_splitter.php';
 
 class TestDateSplitter extends PHPUnit_Framework_TestCase {
 

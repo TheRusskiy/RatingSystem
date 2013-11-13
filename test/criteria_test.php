@@ -1,6 +1,6 @@
 <?php
 require_once '../test/test_helper.php';
-require_once '../src/sources/rating/criteria.php';
+require_once '../src/sources/faq/rating/criteria.php';
 
 class TestCriteria extends PHPUnit_Framework_TestCase {
 
