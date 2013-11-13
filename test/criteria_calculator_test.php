@@ -6,6 +6,10 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
 
     protected function setUp(){
         connect_test_db();
+        // Just some dummy values for test that don't need those
+        $_REQUEST['from_date'] = '1980-01-01';
+        $_REQUEST['to_date'] = '1980-01-10';
+        $_REQUEST['staff_id'] = '99999';
     }
 
     function testInitialize(){
@@ -39,7 +43,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "name" => "name of criteria",
             "multiplier" => 10,
             "year_limit" => 100,
-            "calculation_type" => "sql/php"
+            "calculation_type" => "max"
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -65,7 +69,7 @@ EOF;
             "name" => "name of criteria",
             "multiplier" => 10,
             "year_limit" => 100,
-            "calculation_type" => "sql/php"
+            "calculation_type" => "sum"
         ));
         $_REQUEST['from_date'] = '2010-01-10';
         $_REQUEST['to_date'] = '2013-03-09';
@@ -76,7 +80,7 @@ EOF;
     }
 
 
-    function testCalculateSqlWithLimit(){
+    function testCalculateSqlWithYearLimit(){
         $query =
 <<<EOF
     SELECT count(*)
@@ -84,12 +88,8 @@ EOF;
     WHERE
     staff_id = @staff_id@
     AND period_id >= @from_period_id@
-    AND period_id < @to_period_id@
+    AND period_id <= @to_period_id@
 EOF;
-
-//        $date = new DateTime('1980-02-15');
-//        $date->modify('+75 year');
-//        echo $date->format('Y-m-d');
 
         $criteria = new Criteria(array(
             "id" => 6,
@@ -98,14 +98,14 @@ EOF;
             "name" => "name of criteria",
             "multiplier" => 10,
             "year_limit" => 20,
-            "calculation_type" => "sql/php"
+            "calculation_type" => "sum"
         ));
-        $_REQUEST['from_date'] = '2012-02-10';
+        $_REQUEST['from_date'] = '2011-01-01';
         $_REQUEST['to_date'] = '2013-03-10';
         $_REQUEST['staff_id'] = '3';
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 40);
+        $this->assertEquals($result, 50);
     }
 
     function testCalculatePhp(){
@@ -116,8 +116,8 @@ EOF;
             "fetch_value" => $file,
             "name" => "name of criteria",
             "multiplier" => 10,
-            "year_limit" => 100,
-            "calculation_type" => "sql/php"
+            "year_limit" => 200,
+            "calculation_type" => "sum"
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);

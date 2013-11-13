@@ -1,22 +1,57 @@
 <?php
 require_once "criteria.php";
+require_once "date_splitter.php";
 class CriteriaCalculator {
     public function __construct() {
         if (isset($_REQUEST['from_date'])){
-            $this->from_date = mysql_real_escape_string($_REQUEST['from_date']);
-            $this->from_date_id = $this->period_from_date($this->from_date);
+            $from_date = mysql_real_escape_string($_REQUEST['from_date']);
+//            $this->from_date_id = $this->period_from_date($this->from_date);
+        } else {
+            throw new Exception("from_date isn't set!");
         }
         if (isset($_REQUEST['to_date'])){
-            $this->to_date = mysql_real_escape_string($_REQUEST['to_date']);
-            $this->to_date_id = $this->period_from_date($this->to_date);
+            $to_date = mysql_real_escape_string($_REQUEST['to_date']);
+//            $this->to_date_id = $this->period_from_date($this->to_date);
+        } else {
+            throw new Exception("to_date isn't set!");
         }
         if (isset($_REQUEST['staff_id'])){
             $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
+        } else {
+            throw new Exception("staff_id isn't set!");
+        }
+
+        $splitter = new DateSplitter();
+        $this->dates = $splitter->split($from_date, $to_date);
+        $this->date_ids = array();
+        foreach($this->dates as $d){
+            $this->date_ids[] = $this->period_from_date($d);
         }
     }
 
     public function calculate($criteria){
-        $old_from = $this->from_date_id
+//        $old_from = $this->from_date_id;
+        $values = array();
+        for ($i=0; $i<count($this->dates); $i=$i+2){
+            $this->from_date = $this->dates[$i];
+            $this->to_date = $this->dates[$i+1];
+            $this->from_date_id = $this->date_ids[$i];
+            $this->to_date_id = $this->date_ids[$i+1];
+            $values[]= $this->with_limit($criteria->year_limit,
+                $this->calculate_for_current_dates($criteria)
+            );
+        }
+        return $this->calculate_based_on_type($criteria, $values);
+    }
+
+    private function with_limit($limit, $value){
+        if ($value > $limit){
+            return $limit;
+        } else {
+            return $value;
+        }
+    }
+    private function calculate_for_current_dates($criteria){
         switch($criteria->fetch_type){
             case "sql":
                 return $this->sql_calculate($criteria);
@@ -32,15 +67,9 @@ class CriteriaCalculator {
 
     private function sql_calculate($criteria){
         $text_query = $criteria->fetch_value;
-        if (isset($this->staff_id)){
-            $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
-        }
-        if (isset($this->from_date_id)){
-            $text_query = str_replace("@from_period_id@", $this->from_date_id, $text_query);
-        }
-        if (isset($this->to_date_id)){
-            $text_query = str_replace("@to_period_id@", $this->to_date_id, $text_query);
-        }
+        $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
+        $text_query = str_replace("@from_period_id@", $this->from_date_id, $text_query);
+        $text_query = str_replace("@to_period_id@", $this->to_date_id, $text_query);
         $query = mysql_query($text_query);
         $row = mysql_fetch_array($query);
         $query_result = intval($row[0]);
@@ -74,13 +103,7 @@ class CriteriaCalculator {
         } else {
             throw new Exception("Unknown fetch type");
         }
-        switch($criteria->calculation_type){
-            case "sum": $result = $this->sum($values); break;
-            case "max": $result = $this->max($values); break;
-            // exists unsupported for manual_options!!
-            case "exists": $result = $this->exists($values) * $criteria->multiplier; break;
-            default: throw new Exception("Unknown calculation type");
-        }
+        $result = $this->calculate_based_on_type($criteria, $values);
         return $result;
     }
 
@@ -101,11 +124,11 @@ class CriteriaCalculator {
         }
         return $result;
     }
-    private function exists($values){
+    private function exists($values, $multiplier){
         $result = 0;
         foreach($values as $v){
             if ($v>0){
-                $result = 1;
+                $result = $multiplier;
             }
         }
         return $result;
@@ -118,5 +141,17 @@ class CriteriaCalculator {
             "AND end_date >= '$date'";
         $row = mysql_fetch_array(mysql_query($query));
         return intval($row[0]);
+    }
+
+    private function calculate_based_on_type($criteria, $values){
+        switch($criteria->calculation_type){
+            case "sum": $result = $this->sum($values); break;
+//            case "sql/php": $result = $this->sum($values); break;
+            case "max": $result = $this->max($values); break;
+            // exists unsupported for manual_options!!
+            case "exists": $result = $this->exists($values, $criteria->multiplier); break;
+            default: throw new Exception("Unknown calculation type");
+        }
+        return $result;
     }
 }
