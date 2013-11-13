@@ -1,15 +1,14 @@
 <?php
-
-
 class AppController {
+    function render($path){
+        return include(dirname(__FILE__)."/../views/".$path.'.php');
+    }
     function head(){
-        return include('./sources/faq/views/head.php');
-//        return include('../views/head.php');
+        return $this->render("head");
     }
 
     function footer(){
-//        return include('../views/footer.php');
-        return include('./sources/faq/views/footer.php');
+        return $this->render("footer");
     }
 
     function wrap($content){

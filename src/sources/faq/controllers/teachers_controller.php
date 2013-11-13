@@ -1,9 +1,9 @@
 <?php
 require_once 'app_controller.php';
 
-class HomeController extends AppController{
+class TeachersController extends AppController{
     function index(){
-        $result=$this->render('home');
+        $result=$this->render('teachers/index');
         return $this->wrap($result);
     }
 
