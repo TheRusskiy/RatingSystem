@@ -62,3 +62,11 @@ function keep_flash(){
 function redirect($location){
     header("Location: $location");
 }
+
+function params($param, $default = null){
+    return isset($_REQUEST[$param]) ? $_REQUEST[$param] : $default;
+}
+
+function href($controller, $action, $params = array()){
+    return "href="."/?".http_build_query(array_merge(array('controller'=>$controller, 'action' =>$action), $params));
+}

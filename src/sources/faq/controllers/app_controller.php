@@ -1,7 +1,12 @@
 <?php
 class AppController {
-    function render($path){
-        return include(dirname(__FILE__)."/../views/".$path.'.php');
+    function render($path, $vars = array()){
+        extract($vars);
+//        return include(dirname(__FILE__)."/../views/".$path.'.php');
+        ob_start();
+        include(dirname(__FILE__)."/../views/".$path.'.php');
+        $xhtml = ob_get_clean();
+        return $xhtml;
     }
     function head(){
         return $this->render("head");
