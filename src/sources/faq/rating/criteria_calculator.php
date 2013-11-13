@@ -77,7 +77,7 @@ class CriteriaCalculator {
     }
 
     private function php_calculate($criteria){
-        $file_result = (include $criteria->fetch_value);
+        $file_result = include($criteria->fetch_value);
         return $file_result * $criteria->multiplier;
     }
 

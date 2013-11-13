@@ -27,9 +27,4 @@ class TestCriteria extends PHPUnit_Framework_TestCase {
         $this->assertEquals($criteria->calculation_type, "sum");
     }
 
-    function testCriteria() {
-//        $queryText = "SELECT count(*) FROM staff";
-//        $query = new RatingQuery($queryText);
-//        $this->assertEquals(7, $query->execute());
-    }
 }

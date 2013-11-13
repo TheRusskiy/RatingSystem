@@ -10,7 +10,7 @@ class JustToCheckMockeryTest extends PHPUnit_Framework_TestCase {
         $mock = \Mockery::mock('AClassToBeMocked');
         $mock->shouldReceive('someMethod')->once();
         $workerObject = new AClassToWorkWith;
-        $workerObject->doSomethingWit($mock);
+        $workerObject->doSomethingWith($mock);
     }
 }
 
@@ -18,7 +18,7 @@ class AClassToBeMocked {}
 
 class AClassToWorkWith {
 
-    function doSomethingWit($anotherClass) {
+    function doSomethingWith($anotherClass) {
         return $anotherClass->someMethod();
     }
 }
