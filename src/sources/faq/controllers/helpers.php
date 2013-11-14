@@ -74,9 +74,14 @@ function params_from_url($url){
     return $query;
 }
 
-function redirect($url, $params = array()){
+function modify_url($url, $new_params){
     $old_params = params_from_url($url);
     $old_params = ($old_params == null) ? array() : $old_params;
-    $url = "/?".http_build_query(array_merge($old_params, $params));
+    $url = "/?".http_build_query(array_merge($old_params, $new_params));
+    return $url;
+}
+
+function redirect($url, $params = array()){
+    $url = modify_url($url, $params);
     header("Location: $url");
 }
