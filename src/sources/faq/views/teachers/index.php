@@ -13,4 +13,4 @@
 </table>
 On page: <?= count($teachers)?>
 <br>
-<?= pager(href('teachers', 'index'), $page_count, $page) ?>
+<?= pagination(href('teachers', 'index'), $page_count, $page) ?>

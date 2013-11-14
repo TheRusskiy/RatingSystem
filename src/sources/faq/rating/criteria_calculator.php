@@ -45,7 +45,7 @@ class CriteriaCalculator {
     }
 
     private function with_limit($limit, $value){
-        if ($value > $limit){
+        if ($value > $limit && $limit != 0){
             return $limit;
         } else {
             return $value;
