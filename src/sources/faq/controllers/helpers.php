@@ -1,5 +1,5 @@
 <?php
-// This file can only be required once due to setup code
+// This file can only be required once due to flash setup code
 if (isset($GLOBALS['helpers_called'])){
     throw new Exception("Helpers can only be required once!");
 } else {
@@ -28,9 +28,11 @@ function session($param, $value = "UNDEFINED_VALUE"){
         return $result;
     }
 }
+// Flash setup code
 session('old_flash', session('new_flash'));
 session('new_flash', null);
-function flash($param, $value = "UNDEFINED_VALUE"){
+
+function flash($param, $value = "UNDEFINED_VALUE", $now = false){
     $new_flash = session('new_flash');
     $new_flash = ($new_flash == null) ? array() : $new_flash;
     $old_flash = session('old_flash');
@@ -38,14 +40,17 @@ function flash($param, $value = "UNDEFINED_VALUE"){
     if ($value!="UNDEFINED_VALUE" )
     {   // SET VALUE
         $new_flash[$param] = $value;
+        session('new_flash', $new_flash);
     }
     else
     {   // GET VALUE
-        if (isset($new_flash[$param])){
+        if (isset($new_flash[$param]) && $now){
             $result = $new_flash[$param];
-        } elseif (isset($old_flash[$param])) {
+        }
+        elseif (isset($old_flash[$param])) {
             $result = $old_flash[$param];
-        } else {
+        }
+        else {
             $result = null;
         }
         return $result;
@@ -59,10 +64,19 @@ function keep_flash(){
     }
 }
 
-function redirect($location){
-    header("Location: $location");
-}
-
 function params($param, $default = null){
     return isset($_REQUEST[$param]) ? $_REQUEST[$param] : $default;
+}
+
+function params_from_url($url){
+    $parts = parse_url($url);
+    parse_str($parts['query'], $query);
+    return $query;
+}
+
+function redirect($url, $params = array()){
+    $old_params = params_from_url($url);
+    $old_params = ($old_params == null) ? array() : $old_params;
+    $url = "/?".http_build_query(array_merge($old_params, $params));
+    header("Location: $url");
 }

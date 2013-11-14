@@ -3,6 +3,7 @@ $user = session('user_name');
 $notice = flash('notice');
 $error = flash('error');
 $logout = "";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,11 +19,11 @@ $logout = "";
         <li><a href='/?controller=teachers&action=index'>Преподаватели</a></li>
         <li><a href='/?controller=criteria&action=index'>Критерии</a></li>
         <li>
-            <b><?php $user?></b>
+            <b><?= $user?></b>
             <a href='/?controller=sessions&action=logout'>Выйти</a>
         </li>
     </ul>
 </header>
-<div class='notice'><?php $notice?></div>
-<div class='error'><?php $error?></div>
+<div class='notice'><?= $notice?></div>
+<div class='error'><?= $error?></div>
 <body>
