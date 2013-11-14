@@ -8,7 +8,7 @@ class CriteriaController extends AppController{
         $teachers = CriteriaDao::all($page-1, $on_page);
         $page_count = CriteriaDao::count()/$on_page;
         $result=$this->render('criteria/index', array(
-            'teachers'=>$teachers,
+            'criteria'=>$teachers,
             'page_count'=>$page_count,
             'page'=> $page));
         return $this->wrap($result);

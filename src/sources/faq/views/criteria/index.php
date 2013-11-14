@@ -9,7 +9,7 @@
         <td>Calculation type</td>
         <td>Year limit</td>
     </tr>
-    <?php foreach ($teachers as $row) : ?>
+    <?php foreach ($criteria as $row) : ?>
         <tr>
             <td><?= $row["id"]; ?></td>
             <td><?= $row["name"]; ?></td>
@@ -21,6 +21,6 @@
         </tr>
     <?php endforeach; ?>
 </table>
-On page: <?= count($teachers)?>
+On page: <?= count($criteria)?>
 <br>
-<?= pagination(href('teachers', 'index'), $page_count, $page) ?>
+<?= pagination(href('criteria', 'index'), $page_count, $page) ?>
