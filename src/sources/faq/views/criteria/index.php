@@ -14,7 +14,7 @@
             <td><?= $row["id"]; ?></td>
             <td><?= $row["name"]; ?></td>
             <td><?= $row["fetch_type"]; ?></td>
-            <td><?= $row["fetch_value"]; ?></td>
+            <td><?= str_replace("\n", "</br>", $row["fetch_value"]); ?></td>
             <td><?= $row["multiplier"]; ?></td>
             <td><?= $row["calculation_type"]; ?></td>
             <td><?= $row["year_limit"]; ?></td>
