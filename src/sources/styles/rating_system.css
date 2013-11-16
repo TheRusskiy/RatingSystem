@@ -1,4 +1,16 @@
 td, th {
     word-wrap: break-word;
     max-width: 600px;
+    padding: 5px;
+}
+.menu {
+    padding: 10px;
+}
+.menu li {
+    padding: 5px;
+    display: inline-block;
+}
+
+.menu .current {
+    font-weight: bold;
 }

@@ -1,10 +1,3 @@
-<?php
-$user = session('user_name');
-$notice = flash('notice');
-$error = flash('error');
-$logout = "";
-?>
-
 <!doctype html>
 <html>
 <head>
@@ -24,19 +17,3 @@ $logout = "";
     <script src="/sources/js/modernizr-2.6.3.custom.js"></script>
     <script src="/sources/js/rating_system.js"></script>
 </head>
-
-<body>
-<div class="header">
-    <ul class = 'menu'>
-        <li><a href='/?controller=home&action=index'>Рейтинговая cистема</a></li>
-        <li><a href='/?controller=teachers&action=index'>Преподаватели</a></li>
-        <li><a href='/?controller=criteria&action=index'>Критерии</a></li>
-        <li>
-            <b><?= $user?></b>
-            <a href='/?controller=sessions&action=logout'>Выйти</a>
-        </li>
-    </ul>
-    <div class='notice'><?= $notice?></div>
-    <div class='error'><?= $error?></div>
-</div>
-<div class="content">
