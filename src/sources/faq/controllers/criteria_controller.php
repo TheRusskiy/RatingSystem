@@ -5,10 +5,10 @@ class CriteriaController extends AppController{
     function index(){
         $on_page = 50;
         $page = intval(params("page", 1));
-        $teachers = CriteriaDao::all($page-1, $on_page);
+        $criteria = CriteriaDao::all($page-1, $on_page);
         $page_count = CriteriaDao::count()/$on_page;
         $result=$this->render('criteria/index', array(
-            'criteria'=>$teachers,
+            'criteria'=>$criteria,
             'page_count'=>$page_count,
             'page'=> $page));
         return $this->wrap($result);

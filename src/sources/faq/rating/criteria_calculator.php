@@ -17,6 +17,8 @@ class CriteriaCalculator {
         }
         if (isset($_REQUEST['staff_id'])){
             $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
+        } elseif (isset($_REQUEST['id'])){
+            $this->staff_id = mysql_real_escape_string($_REQUEST['id']);
         } else {
             throw new Exception("staff_id isn't set!");
         }

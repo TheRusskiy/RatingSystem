@@ -29,4 +29,15 @@ class TeachersDao {
         return $row[0];
     }
 
+    static function find($id){
+        $count_query = mysql_query("
+            SELECT *
+            FROM staff2
+            WHERE id = $id
+            LIMIT 1
+            ");
+        $row = mysql_fetch_array($count_query);
+        return $row;
+    }
+
 }

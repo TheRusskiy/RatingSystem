@@ -3,8 +3,8 @@ $user = session('user_name');
 $notice = flash('notice');
 $error = flash('error');
 $logout = "";
-
 ?>
+
 <!doctype html>
 <html>
 <head>

@@ -3,11 +3,13 @@
     <tr>
         <td>id</td>
         <td>shortname</td>
+        <td>Actions</td>
     </tr>
     <?php foreach ($teachers as $row) : ?>
         <tr>
-            <td><?= $row[0]; ?></td>
-            <td><?= $row[1]; ?></td>
+            <td><?= $row['id']; ?></td>
+            <td><?= $row['shortname']; ?></td>
+            <td><?= link_for_teacher($row); ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

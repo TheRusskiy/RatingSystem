@@ -9,15 +9,15 @@
         <td>Calculation type</td>
         <td>Year limit</td>
     </tr>
-    <?php foreach ($criteria as $row) : ?>
+    <?php foreach ($criteria as $cr) : ?>
         <tr>
-            <td><?= $row["id"]; ?></td>
-            <td><?= $row["name"]; ?></td>
-            <td><?= $row["fetch_type"]; ?></td>
-            <td><?= str_replace("\n", "</br>", $row["fetch_value"]); ?></td>
-            <td><?= $row["multiplier"]; ?></td>
-            <td><?= $row["calculation_type"]; ?></td>
-            <td><?= $row["year_limit"]; ?></td>
+            <td><?= $cr->id; ?></td>
+            <td><?= $cr->name; ?></td>
+            <td><?= $cr->fetch_type; ?></td>
+            <td><?= str_replace("\n", "</br>", $cr->fetch_value); ?></td>
+            <td><?= $cr->multiplier; ?></td>
+            <td><?= $cr->calculation_type; ?></td>
+            <td><?= $cr->year_limit; ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

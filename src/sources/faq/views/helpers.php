@@ -1,4 +1,7 @@
 <?php
+function url($text, $href){
+    return "<a href = $href>$text</a>";
+}
 function href($controller, $action, $params = array()){
     return "/?".http_build_query(array_merge(array('controller'=>$controller, 'action' =>$action), $params));
 }
@@ -22,4 +25,7 @@ function pagination($link, $page_count, $current_page){
         }
     }
     return $result;
+}
+function link_for_teacher($teacher){
+    return url('details', href("teachers", "show", array('id' => $teacher['id'])));
 }
