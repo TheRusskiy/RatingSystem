@@ -8,7 +8,7 @@ class TeachersController extends AppController{
         $page = intval(params("page", 1));
         $teachers = TeachersDao::all($page-1, $on_page);
         $page_count = TeachersDao::count()/$on_page;
-        $result=$this->render('teachers/index', array(
+        $result=render('teachers/index', array(
             'teachers'=>$teachers,
             'page_count'=>$page_count,
             'page'=> $page));
@@ -23,9 +23,9 @@ class TeachersController extends AppController{
         $_REQUEST['to_date']='2012-01-01';
         $calculator = new CriteriaCalculator();
         foreach($criteria as $c){
-            $c->calculate($calculator);
+            $calculator->calculate($c);
         }
-        $result=$this->render('teachers/show', array(
+        $result=render('teachers/show', array(
             'teacher'=>$teacher,
             'criteria'=>$criteria));
         return $this->wrap($result);

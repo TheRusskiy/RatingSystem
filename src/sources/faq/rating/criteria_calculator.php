@@ -5,14 +5,20 @@ class CriteriaCalculator {
     public function __construct() {
         if (isset($_REQUEST['from_date'])){
             $from_date = mysql_real_escape_string($_REQUEST['from_date']);
+        } elseif (isset($_SESSION['from_date'])){
+            $from_date = mysql_real_escape_string($_SESSION['from_date']);
         } else {
             throw new Exception("from_date isn't set!");
         }
+
         if (isset($_REQUEST['to_date'])){
             $to_date = mysql_real_escape_string($_REQUEST['to_date']);
+        } elseif (isset($_SESSION['to_date'])){
+            $from_date = mysql_real_escape_string($_SESSION['to_date']);
         } else {
             throw new Exception("to_date isn't set!");
         }
+
         if (isset($_REQUEST['staff_id'])){
             $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
         } elseif (isset($_REQUEST['id'])){
@@ -40,7 +46,10 @@ class CriteriaCalculator {
                 $this->calculate_for_current_dates($criteria)
             );
         }
-        return $this->calculate_based_on_type($criteria, $values);
+        $result = $this->calculate_based_on_type($criteria, $values);
+        $criteria->result =$result;
+        $criteria->value = $result / $criteria->multiplier;
+        return $result;
     }
 
     private function with_limit($limit, $value){

@@ -29,3 +29,7 @@ function pagination($link, $page_count, $current_page){
 function link_for_teacher($teacher){
     return url('details', href("teachers", "show", array('id' => $teacher['id'])));
 }
+
+function hidden_field($name, $value){
+    return "<input type='hidden' name='$name' value='$value'/>";
+}

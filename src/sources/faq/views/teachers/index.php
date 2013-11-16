@@ -1,3 +1,4 @@
+<?= render('home/_date_range')?>
 <table>
     <caption>Teachers</caption>
     <tr>

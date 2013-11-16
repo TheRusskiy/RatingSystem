@@ -3,8 +3,11 @@ require_once 'app_controller.php';
 
 class HomeController extends AppController{
     function index(){
-        $result=$this->render('home/home');
+        $result=render('home/home');
         return $this->wrap($result);
     }
 
+    function set_period(){
+
+    }
 }

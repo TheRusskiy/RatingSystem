@@ -85,3 +85,11 @@ function redirect($url, $params = array()){
     $url = modify_url($url, $params);
     header("Location: $url");
 }
+
+function render($path, $vars = array()){
+    extract($vars);
+    ob_start();
+    include(dirname(__FILE__)."/../views/".$path.'.php');
+    $xhtml = ob_get_clean();
+    return $xhtml;
+}

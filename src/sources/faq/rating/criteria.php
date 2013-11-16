@@ -9,11 +9,8 @@ class Criteria {
         $this->year_limit = $map["year_limit"];
         $this->calculation_type = $map["calculation_type"];
         $this->result = null;
+        $this->value = null;
         $this->multiplier = $this->make_multiplier($map["multiplier"]);
-    }
-
-    public function calculate($calculator){
-        $this->result = $calculator->calculate($this);
     }
 
     private function make_multiplier($value){

@@ -1,5 +1,8 @@
 <?php
 require_once '../vendor/autoload.php';
+include_once('../src/sources/faq/helpers.php');
+include_once('../src/sources/faq/controllers/helpers.php');
+include_once('../src/sources/faq//helpers.php');
 //$TEST_CONFS['sql_host'] 		= 'localhost';
 //#$TEST_CONFS['sql_database'] 	= 'test';
 //$TEST_CONFS['sql_user'] 		= 'TheRusskiy';

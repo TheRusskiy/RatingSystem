@@ -1,23 +1,24 @@
 <?php
 class AppController {
-    function render($path, $vars = array()){
-        extract($vars);
-//        return include(dirname(__FILE__)."/../views/".$path.'.php');
-        ob_start();
-        include(dirname(__FILE__)."/../views/".$path.'.php');
-        $xhtml = ob_get_clean();
-        return $xhtml;
+    function execute_before(){
+        if (params('from')!=null){
+            session('from', params('from'));
+        }
+        if (params('to')!=null){
+            session('to', params('to'));
+        }
     }
+
     function head(){
-        return $this->render("head");
+        return render("head");
     }
 
     function footer(){
-        return $this->render("footer");
+        return render("footer");
     }
 
     function wrap($content){
+        $this->execute_before();
         return $this->head().$content.$this->footer();
     }
-
 }
