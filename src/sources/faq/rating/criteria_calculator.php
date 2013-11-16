@@ -48,7 +48,12 @@ class CriteriaCalculator {
         }
         $result = $this->calculate_based_on_type($criteria, $values);
         $criteria->result =$result;
-        $criteria->value = $result / $criteria->multiplier;
+        if ($criteria->fetch_type != 'manual_options'){
+            $criteria->value = $result / $criteria->multiplier;
+        } else {
+//            $criteria->value = $result / $criteria->multiplier;
+        }
+
         return $result;
     }
 
@@ -111,7 +116,11 @@ class CriteriaCalculator {
         } else {
             throw new Exception("Unknown fetch type");
         }
-        $result = $this->calculate_based_on_type($criteria, $values);
+        if (sizeof($values) == 0){
+            $result = '?';
+        } else {
+            $result = $this->calculate_based_on_type($criteria, $values);
+        }
         return $result;
     }
 
@@ -152,6 +161,18 @@ class CriteriaCalculator {
     }
 
     private function calculate_based_on_type($criteria, $values){
+        $unknown = true;
+        $new_values = array();
+        foreach($values as $v){
+            if ($v!='?') {$unknown = false; $new_values[]=$v;}
+            else {$new_values[]=0;}
+        }
+
+        if ($unknown){
+            return '?';
+        } else {
+            $values = $new_values;
+        }
         switch($criteria->calculation_type){
             case "sum": $result = $this->sum($values); break;
 // I decided not to support sql/php, it should be customizable how to calculate as well

@@ -9,14 +9,6 @@ class AppController {
         }
     }
 
-    function head(){
-        return render("head");
-    }
-
-    function footer(){
-        return render("footer");
-    }
-
     function wrap($content, $variables = array()){
         $this->execute_before();
         $footer = render("footer", $variables);

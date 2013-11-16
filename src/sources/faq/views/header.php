@@ -6,9 +6,7 @@ $logout = "";
 function class_for($controller){
     if (params('controller', 'home')==$controller){
         return 'current';
-    } else {
-        return '';
-    }
+    } else { return ''; }
 }
 ?>
 <body>

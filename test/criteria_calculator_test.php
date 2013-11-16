@@ -173,4 +173,31 @@ EOF;
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 25);
     }
+
+    function testManuallyReturnsQuestionOnNoRecords(){
+        $criteria = new Criteria(array(
+            "id" => -1,
+            "fetch_type" => "manual",
+            "fetch_value" => "", // doesn't matter
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "calculation_type" => "sum"
+        ));
+        $_REQUEST['from_date'] = '2013-01-01';
+        $_REQUEST['to_date'] = '2014-01-01';
+        $_REQUEST['staff_id'] = '1';
+        $calculator = new CriteriaCalculator();
+
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, '?');
+
+        $criteria->calculation_type = "sum";
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, '?');
+
+        $criteria->calculation_type = "exists";
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, '?');
+    }
 }
