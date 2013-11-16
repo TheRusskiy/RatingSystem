@@ -1,3 +1,9 @@
+<?php
+    $sum = 0;
+    foreach($criteria as $c){
+        $sum+=$c->result;
+    }
+?>
 <h1>Rating for <?= $teacher['shortname'] ?></h1>
 <table>
     <caption>Criteria</caption>
@@ -14,3 +20,4 @@
         </tr>
     <?php endforeach; ?>
 </table>
+<h2>Sum: <?= $sum?></h2>

@@ -5,13 +5,11 @@ class CriteriaCalculator {
     public function __construct() {
         if (isset($_REQUEST['from_date'])){
             $from_date = mysql_real_escape_string($_REQUEST['from_date']);
-//            $this->from_date_id = $this->period_from_date($this->from_date);
         } else {
             throw new Exception("from_date isn't set!");
         }
         if (isset($_REQUEST['to_date'])){
             $to_date = mysql_real_escape_string($_REQUEST['to_date']);
-//            $this->to_date_id = $this->period_from_date($this->to_date);
         } else {
             throw new Exception("to_date isn't set!");
         }
@@ -32,7 +30,6 @@ class CriteriaCalculator {
     }
 
     public function calculate($criteria){
-//        $old_from = $this->from_date_id;
         $values = array();
         for ($i=0; $i<count($this->dates); $i=$i+2){
             $this->from_date = $this->dates[$i];
@@ -148,6 +145,7 @@ class CriteriaCalculator {
     private function calculate_based_on_type($criteria, $values){
         switch($criteria->calculation_type){
             case "sum": $result = $this->sum($values); break;
+// I decided not to support sql/php, it should be customizable how to calculate as well
 //            case "sql/php": $result = $this->sum($values); break;
             case "max": $result = $this->max($values); break;
             // exists unsupported for manual_options!!
