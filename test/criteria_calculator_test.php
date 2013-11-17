@@ -170,6 +170,7 @@ EOF;
         $this->assertEquals($result, 40);
         $this->assertEquals($criteria->value, 4);
         $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 3);
 
         $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "max";
@@ -177,6 +178,7 @@ EOF;
         $this->assertEquals($result, 20);
         $this->assertEquals($criteria->value, 2);
         $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 3);
 
         $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "exists";
@@ -184,6 +186,7 @@ EOF;
         $this->assertEquals($result, 10);
         $this->assertEquals($criteria->value, 1);
         $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 3);
     }
 
     function testManuallyNoRecords(){
@@ -210,6 +213,7 @@ EOF;
         $this->assertEquals($criteria->result, 0);
         $this->assertEquals($criteria->value, 0);
         $this->assertEquals($criteria->has_records, false);
+        $this->assertEquals(sizeof($criteria->records), 0);
 
         $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "sum";
@@ -250,6 +254,7 @@ EOF;
         $this->assertEquals($result, 75);
         $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
         $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 6);
 
         $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "max";
@@ -257,6 +262,7 @@ EOF;
         $this->assertEquals($result, 25);
         $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
         $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 6);
     }
 
     function testCalculateManuallyFromOptionsNoRecords(){
@@ -281,6 +287,7 @@ EOF;
         $this->assertEquals($result, 0);
         $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
         $this->assertEquals($criteria->has_records, false);
+        $this->assertEquals(sizeof($criteria->records), 0);
 
         $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "max";
@@ -288,5 +295,6 @@ EOF;
         $this->assertEquals($result, 0);
         $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
         $this->assertEquals($criteria->has_records, false);
+        $this->assertEquals(sizeof($criteria->records), 0);
     }
 }

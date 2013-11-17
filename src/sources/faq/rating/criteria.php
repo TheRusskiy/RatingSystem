@@ -11,7 +11,9 @@ class Criteria {
         $this->result = null;
         $this->value = null;
         $this->has_records = false;
+        $this->records = array();
         $this->multiplier = $this->make_multiplier($map["multiplier"]);
+        $this->options = $this->make_options();
     }
 
     public function multiplier_to_string(){
@@ -47,6 +49,14 @@ class Criteria {
             return $multiplier;
         } else {
             return intval($value);
+        }
+    }
+
+    private function make_options(){
+        if ($this->fetch_type=='manual_options'){
+            return explode("\n", $this->fetch_value);
+        } else {
+            return null;
         }
     }
 

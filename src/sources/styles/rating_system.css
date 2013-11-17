@@ -14,3 +14,13 @@ td, th {
 .menu .current {
     font-weight: bold;
 }
+
+.record {
+    display: block;
+}
+.record-field{
+    width: 80px;
+}
+#from, #to{
+    width: 80px;
+}
