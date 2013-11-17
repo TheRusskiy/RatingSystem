@@ -16,6 +16,6 @@ insert into criteria (name, fetch_type, fetch_value, multiplier, calculation_typ
     AND p.period_id >= @from_period_id@
     AND p.period_id <= @to_period_id@
     AND s.staff_id = @staff_id@",
-    100,
+    "100",
     "sum",
     0)

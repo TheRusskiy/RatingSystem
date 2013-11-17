@@ -6,8 +6,4 @@ class HomeController extends AppController{
         $result=render('home/home');
         return $this->wrap($result);
     }
-
-    function set_period(){
-
-    }
 }

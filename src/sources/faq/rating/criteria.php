@@ -14,6 +14,28 @@ class Criteria {
         $this->multiplier = $this->make_multiplier($map["multiplier"]);
     }
 
+    public function multiplier_to_string(){
+        $m = $this->multiplier;
+        if(is_int($m)){
+            return $m;
+        } else {
+            // in PHP arrays are assigned by copy, so there's no danger of messing up an original
+            array_shift($m);
+            return implode("|", $m);
+        }
+    }
+
+    public function value_to_string(){
+        $m = $this->value;
+        if(is_int($m)){
+            return $m;
+        } else {
+            // in PHP arrays are assigned by copy, so there's no danger of messing up an original
+            array_shift($m);
+            return implode("|", $m);
+        }
+    }
+
     private function make_multiplier($value){
         if ($this->fetch_type=='manual_options'){
             $multis = explode('|', $value);

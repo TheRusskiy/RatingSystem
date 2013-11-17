@@ -15,7 +15,7 @@
             <td><?= $cr->name; ?></td>
             <td><?= $cr->fetch_type; ?></td>
             <td><?= str_replace("\n", "</br>", $cr->fetch_value); ?></td>
-            <td><?= $cr->multiplier; ?></td>
+            <td><?= $cr->multiplier_to_string(); ?></td>
             <td><?= $cr->calculation_type; ?></td>
             <td><?= $cr->year_limit; ?></td>
         </tr>

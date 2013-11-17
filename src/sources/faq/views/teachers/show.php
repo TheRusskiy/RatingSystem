@@ -5,6 +5,7 @@
     }
 ?>
 <h1>Rating for <?= $teacher['shortname'] ?></h1>
+<hr/>
 <?= render('home/_date_range')?>
 <table>
     <caption>Criteria</caption>
@@ -17,8 +18,8 @@
     <?php foreach ($criteria as $c) : ?>
         <tr>
             <td><?= $c->name; ?></td>
-            <td><?= $c->value; ?></td>
-            <td><?= $c->multiplier; ?></td>
+            <td><?= $c->value_to_string(); ?></td>
+            <td><?= $c->multiplier_to_string(); ?></td>
             <td><?= $c->result; ?></td>
         </tr>
     <?php endforeach; ?>

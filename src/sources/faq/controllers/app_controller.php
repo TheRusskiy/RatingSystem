@@ -1,11 +1,11 @@
 <?php
 class AppController {
     function execute_before(){
-        if (params('from')!=null){
-            session('from', params('from'));
+        if (params('from_date')!=null){
+            session('from_date', params('from_date'));
         }
-        if (params('to')!=null){
-            session('to', params('to'));
+        if (params('to_date')!=null){
+            session('to_date', params('to_date'));
         }
     }
 

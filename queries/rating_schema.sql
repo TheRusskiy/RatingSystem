@@ -4,7 +4,7 @@ CREATE TABLE criteria (
   name VARCHAR(120) NOT NULL ,
   fetch_type VARCHAR(30) NOT NULL ,
   fetch_value VARCHAR(4000) NOT NULL,
-  multiplier INT(10),
+  multiplier VARCHAR(30),
   calculation_type VARCHAR(30) NOT NULL ,
   year_limit INT(10),
   PRIMARY KEY(id)

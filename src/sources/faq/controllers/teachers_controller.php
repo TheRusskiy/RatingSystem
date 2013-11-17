@@ -19,8 +19,6 @@ class TeachersController extends AppController{
         $id = intval(params("id"));
         $teacher = TeachersDao::find($id);
         $criteria = CriteriaDao::all();
-        $_REQUEST['from_date']='2011-01-01';
-        $_REQUEST['to_date']='2012-01-01';
         $calculator = new CriteriaCalculator();
         foreach($criteria as $c){
             $calculator->calculate($c);
