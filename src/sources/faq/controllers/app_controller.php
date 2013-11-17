@@ -9,11 +9,12 @@ class AppController {
         }
     }
 
-    function wrap($content, $variables = array()){
+    function wrap($content_path, $variables = array()){
         $this->execute_before();
-        $footer = render("footer", $variables);
         $head = render("head", $variables);
         $header = render("header", $variables);
+        $content = render($content_path, $variables);
+        $footer = render("footer", $variables);
         return $head.$header.$content.$footer;
     }
 }

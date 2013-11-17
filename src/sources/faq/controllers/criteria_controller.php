@@ -7,11 +7,10 @@ class CriteriaController extends AppController{
         $page = intval(params("page", 1));
         $criteria = CriteriaDao::all($page-1, $on_page);
         $page_count = CriteriaDao::count()/$on_page;
-        $result=render('criteria/index', array(
+        return $this->wrap('criteria/index', array(
             'criteria'=>$criteria,
             'page_count'=>$page_count,
             'page'=> $page));
-        return $this->wrap($result);
     }
 
 }

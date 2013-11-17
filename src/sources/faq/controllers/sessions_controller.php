@@ -6,5 +6,4 @@ class SessionsController extends AppController{
         session('user_id', null);
         redirect('/');
     }
-
 }

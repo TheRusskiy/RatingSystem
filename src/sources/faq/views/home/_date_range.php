@@ -17,7 +17,7 @@
 <div id = "date_range">
     <form action="/">
         <?= $current_params ?>
-        <label for="from">Перид с</label>
+        <label for="from">Период с</label>
         <input type="text" id="from" name="from_date" value="<?= $from ?>"/>
         <label for="to">по</label>
         <input type="text" id="to" name="to_date"  value="<?= $to ?>"/>
