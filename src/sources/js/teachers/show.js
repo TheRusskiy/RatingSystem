@@ -6,7 +6,9 @@ $(document).ready(function (){
     };
     Rating.assign_datepicker = function(element){
         element = typeof element !== 'undefined' ?
-            element.removeClass('hasDatepicker') : $('input[data-type="date"]');
+            // datepicker fucks up template, gotta clean it:
+            element.removeClass('hasDatepicker').removeAttr('id')
+            : $('input[data-type="date"]');
         element.datepicker({
             defaultDate: "+1w",
             changeMonth: true,

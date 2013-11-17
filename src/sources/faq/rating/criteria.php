@@ -54,7 +54,9 @@ class Criteria {
 
     private function make_options(){
         if ($this->fetch_type=='manual_options'){
-            return explode("\n", $this->fetch_value);
+            $options = explode("\n", $this->fetch_value);
+            array_unshift($options , '-');
+            return $options;
         } else {
             return null;
         }
