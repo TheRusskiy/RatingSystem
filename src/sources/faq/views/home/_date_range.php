@@ -18,9 +18,9 @@
     <form action="/">
         <?= $current_params ?>
         <label for="from">Период с</label>
-        <input type="text" id="from" name="from_date" value="<?= $from ?>"/>
+        <input type="text" class="field date-field" id="from" name="from_date" value="<?= $from ?>"/>
         <label for="to">по</label>
-        <input type="text" id="to" name="to_date"  value="<?= $to ?>"/>
+        <input type="text" class="field date-field" id="to" name="to_date"  value="<?= $to ?>"/>
         <input type="submit" value="обновить">
     </form>
 </div>

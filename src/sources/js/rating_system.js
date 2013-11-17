@@ -42,6 +42,16 @@ $(document).ready(function (){
         });
     });
 
+    Rating.getURLParameter = function(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+    };
+
+    Rating.navigateTo = function(params){
+        var query = $.param(params);
+        var hostAddress= window.location.host.toString();
+        window.location="http://"+hostAddress+"/?"+query;
+    };
+
 });
 
 /* optional triggers

@@ -58,8 +58,8 @@ INSERT INTO some_entries (staff_id, period_id)
   (3, 4791), -- 2013-03-10
   (3, 4792); -- 2013-03-20
 
-DROP TABLE IF EXISTS rating_entries;
-CREATE TABLE rating_entries (
+DROP TABLE IF EXISTS rating_records;
+CREATE TABLE rating_records (
   id INT(17) NOT NULL auto_increment,
   staff_id INT(10) NOT NULL ,
   criteria_id INT(10) NOT NULL ,
@@ -69,7 +69,7 @@ CREATE TABLE rating_entries (
   INDEX staff_criteria (staff_id, criteria_id)
 );
 
-INSERT INTO rating_entries (staff_id, criteria_id, date, value)
+INSERT INTO rating_records (staff_id, criteria_id, date, value)
   VALUES
   (1, 4, '2010-01-01', 1),
   (0, 4, '2013-01-01', 1),

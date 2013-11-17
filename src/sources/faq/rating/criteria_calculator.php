@@ -99,7 +99,7 @@ class CriteriaCalculator {
     }
 
     private function manual_calculate($criteria){
-        $query = mysql_query("SELECT * FROM rating_entries " .
+        $query = mysql_query("SELECT * FROM rating_records " .
                              "WHERE ".
                              "staff_id=$this->staff_id " .
                              "AND criteria_id = $criteria->id " .

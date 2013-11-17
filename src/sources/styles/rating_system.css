@@ -15,12 +15,9 @@ td, th {
     font-weight: bold;
 }
 
-.record {
-    display: block;
+.field {
+    width: 120px;
 }
-.record-field{
-    width: 80px;
-}
-#from, #to{
+.field.date-field{
     width: 80px;
 }

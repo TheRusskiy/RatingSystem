@@ -1,5 +1,4 @@
 <?php
-require_relative(__FILE__, '../dao/criteria_dao.php');
 class CriteriaDao {
     static function all($page=null, $count=null){
         $limiter = "";

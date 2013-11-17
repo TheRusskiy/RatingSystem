@@ -10,8 +10,8 @@ CREATE TABLE criteria (
   PRIMARY KEY(id)
 );
 
-DROP TABLE IF EXISTS rating_entries;
-CREATE TABLE rating_entries (
+DROP TABLE IF EXISTS rating_records;
+CREATE TABLE rating_records (
   id INT(17) NOT NULL auto_increment,
   staff_id INT(10) NOT NULL ,
   criteria_id INT(10) NOT NULL ,

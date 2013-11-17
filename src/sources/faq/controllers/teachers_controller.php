@@ -2,6 +2,7 @@
 require_once 'app_controller.php';
 require_relative(__FILE__, '../dao/teachers_dao.php');
 require_relative(__FILE__, '../rating/criteria_calculator.php');
+require_relative(__FILE__, '../dao/records_dao.php');
 class TeachersController extends AppController{
     function index(){
         $on_page = 50;
@@ -26,6 +27,28 @@ class TeachersController extends AppController{
             'teacher'=>$teacher,
             'criteria'=>$criteria,
             'script'=>'teachers/show'));
+    }
+
+    function save_records(){
+        $records = params('records');
+        $to_delete = array();
+        $to_update = array();
+        $to_create = array();
+        foreach ($records as $r) {
+            if (isset($r['id']) && $r['id']!==null && $r['action']!=='delete'){
+                $to_update[]=$r;
+            }elseif (isset($r['id']) && $r['id']!==null && $r['action']==='delete'){
+                $to_delete[]=$r;
+            } elseif ($r['action']==='create'){
+                $to_create[]=$r;
+            } else {
+                throw new Exception("Unknown record action!");
+            }
+        }
+        RecordsDao::create($to_create);
+        RecordsDao::update($to_update);
+        RecordsDao::delete($to_delete);
+        redirect("/", array('controller'=>'teachers', 'action'=>'show', 'id'=>params('staff_id')));
     }
 
 }

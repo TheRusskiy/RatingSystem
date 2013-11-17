@@ -4,14 +4,19 @@
         $sum+=$c->result;
     }
 
-    function create_record($cr){
+    function create_record($cr, $is_template = false){
         $r = "";
-        $r.="<div class='record' data-criteria='$cr->id'>\n";
-        $r.="<input class='record-field' data-type='date' type='text'/>\n";
+        $class = 'record';
+        if ($is_template){
+            $class = '';
+        }
+        $r.="<div class='$class' data-criteria='$cr->id'>\n";
+        $r.="<a class='delete_record' href='#'>X</a>\n";
+        $r.="<input class='field date-field' data-type='date' type='text'/>\n";
         if($cr->fetch_type=="manual"){
-            $r.="<input class='record-field' data-type='value' type='text'/>\n";
+            $r.="<input class='field' data-type='value' type='text'/>\n";
         } else{
-            $r.="<select class='record-field' data-type='value' type='text'>\n";
+            $r.="<select class='field' data-type='value' type='text'>\n";
             foreach ($cr->options as $i => $o){
                 $r.="<option value='$i'>$o</option>\n";
             }
@@ -19,6 +24,9 @@
         }
         $r.="</div>\n";
         return $r;
+    }
+    function create_records(){
+        return "";
     }
 ?>
 <h1>Rating for <?= $teacher['shortname'] ?></h1>
@@ -40,15 +48,12 @@
                 <br/>
 
                 <?php if($c->fetch_type=="manual" || $c->fetch_type=="manual_options") : ?>
-                <div class='record'>
-                    <input class='record-field' data-type="date" type="text"/>
-                    <input class='record-field' data-type="value" type="text"/>
-                </div>
-
-                <div style="display: none" id="template_<?=$c->id?>">
-                    <?= create_record($c) ?>
-                </div>
-                <a class="new_record" data-id="<?=$c->id?>" href="#">Новая запись</a>
+                        <?= create_records($c, true) ?>
+                    <!--TEMPLATE for new record creation via JS:-->
+                    <div style="display: none" id="template_<?=$c->id?>">
+                        <?= create_record($c, true) ?>
+                    </div>
+                    <a class="new_record" data-id="<?=$c->id?>" href="#">Новая запись</a>
                 <?php endif ?>
             </td>
             <td><?= $c->multiplier_to_string(); ?></td>
@@ -57,9 +62,5 @@
 
     <?php endforeach; ?>
 </table>
+<a id="save_criteria" href="#">Сохранить изменения</a>
 <h2>Sum: <?= $sum?></h2>
-
-<div id="show-templates" style="display: none">
-    <!--TEMPLATES-->
-
-</div>
