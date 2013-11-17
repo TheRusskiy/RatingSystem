@@ -6,7 +6,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
 
     protected function setUp(){
         connect_test_db();
-        // Just some dummy values for test that don't need those
+        // Just some dummy values for tests that don't need those
         $_REQUEST['from_date'] = '1980-01-01';
         $_REQUEST['to_date'] = '1980-01-10';
         $_REQUEST['staff_id'] = '99999';
@@ -48,6 +48,27 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 70);
+        $this->assertEquals($criteria->value, 7);
+        $this->assertEquals($criteria->has_records, true);
+    }
+
+    function testCalculateSqlNoRecords(){
+        $query = "SELECT count(*) FROM staff WHERE 1=2";
+        $criteria = new Criteria(array(
+            "id" => 2,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "calculation_type" => "max"
+        ));
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->value, 0);
+        // Sql calculation should always say there are records
+        $this->assertEquals($criteria->has_records, true);
     }
 
 
@@ -61,7 +82,6 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
     AND period_id >= @from_period_id@
     AND period_id <= @to_period_id@
 EOF;
-
         $criteria = new Criteria(array(
             "id" => 6,
             "fetch_type" => "sql",
@@ -106,6 +126,8 @@ EOF;
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 50);
+        $this->assertEquals($criteria->value, 5);
+        $this->assertEquals($criteria->has_records, true);
     }
 
     function testCalculatePhp(){
@@ -122,82 +144,149 @@ EOF;
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 170);
+        $this->assertEquals($criteria->value, 17);
+        $this->assertEquals($criteria->has_records, true);
     }
 
     function testCalculateManually(){
-        $criteria = new Criteria(array(
-            "id" => 4,
-            "fetch_type" => "manual",
-            "fetch_value" => "", // doesn't matter
-            "name" => "name of criteria",
-            "multiplier" => 10,
-            "year_limit" => 100,
-            "calculation_type" => "sum"
-        ));
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 4,
+                "fetch_type" => "manual",
+                "fetch_value" => "", // doesn't matter
+                "name" => "name of criteria",
+                "multiplier" => 10,
+                "year_limit" => 100,
+                "calculation_type" => "sum"
+            ));
+        };
         $_REQUEST['from_date'] = '2013-01-01';
         $_REQUEST['to_date'] = '2014-01-01';
         $_REQUEST['staff_id'] = '1';
         $calculator = new CriteriaCalculator();
 
+        $criteria = $this->build_criteria->__invoke();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 40);
+        $this->assertEquals($criteria->value, 4);
+        $this->assertEquals($criteria->has_records, true);
 
+        $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "max";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 20);
+        $this->assertEquals($criteria->value, 2);
+        $this->assertEquals($criteria->has_records, true);
 
+        $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "exists";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 10);
+        $this->assertEquals($criteria->value, 1);
+        $this->assertEquals($criteria->has_records, true);
+    }
+
+    function testManuallyNoRecords(){
+        $this->build_criteria = function (){
+            return new Criteria(array(
+                "id" => -1,
+                "fetch_type" => "manual",
+                "fetch_value" => "", // doesn't matter
+                "name" => "name of criteria",
+                "multiplier" => 10,
+                "year_limit" => 100,
+                "calculation_type" => "sum"
+            ));
+        };
+        $_REQUEST['from_date'] = '2013-01-01';
+        $_REQUEST['to_date'] = '2014-01-01';
+        $_REQUEST['staff_id'] = '1';
+
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->result, 0);
+        $this->assertEquals($criteria->value, 0);
+        $this->assertEquals($criteria->has_records, false);
+
+        $criteria = $this->build_criteria->__invoke();
+        $criteria->calculation_type = "sum";
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->result, 0);
+        $this->assertEquals($criteria->value, 0);
+        $this->assertEquals($criteria->has_records, false);
+
+        $criteria = $this->build_criteria->__invoke();
+        $criteria->calculation_type = "exists";
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->result, 0);
+        $this->assertEquals($criteria->value, 0);
+        $this->assertEquals($criteria->has_records, false);
     }
 
     function testCalculateManuallyFromOptions(){
-        $criteria = new Criteria(array(
-            "id" => 5,
-            "fetch_type" => "manual_options",
-            "fetch_value" => "v1\nv2\nv3",
-            "name" => "name of criteria",
-            "multiplier" => '25|15|10',
-            "year_limit" => 100,
-            "calculation_type" => "sum"
-        ));
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 5,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1\nv2\nv3",
+                "name" => "name of criteria",
+                "multiplier" => '25|15|10',
+                "year_limit" => 100,
+                "calculation_type" => "sum"
+            ));
+        };
         $_REQUEST['from_date'] = '2013-01-01';
         $_REQUEST['to_date'] = '2014-01-01';
         $_REQUEST['staff_id'] = '1';
         $calculator = new CriteriaCalculator();
 
+        $criteria = $this->build_criteria->__invoke();
         $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 50);
+        $this->assertEquals($result, 75);
+        $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
+        $this->assertEquals($criteria->has_records, true);
 
+        $criteria = $this->build_criteria->__invoke();
         $criteria->calculation_type = "max";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 25);
+        $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
+        $this->assertEquals($criteria->has_records, true);
     }
 
-    function testManuallyReturnsQuestionOnNoRecords(){
-        $criteria = new Criteria(array(
-            "id" => -1,
-            "fetch_type" => "manual",
-            "fetch_value" => "", // doesn't matter
-            "name" => "name of criteria",
-            "multiplier" => 10,
-            "year_limit" => 100,
-            "calculation_type" => "sum"
-        ));
+    function testCalculateManuallyFromOptionsNoRecords(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => -1,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1\nv2\nv3",
+                "name" => "name of criteria",
+                "multiplier" => '25|15|10',
+                "year_limit" => 100,
+                "calculation_type" => "sum"
+            ));
+        };
         $_REQUEST['from_date'] = '2013-01-01';
         $_REQUEST['to_date'] = '2014-01-01';
         $_REQUEST['staff_id'] = '1';
         $calculator = new CriteriaCalculator();
 
+        $criteria = $this->build_criteria->__invoke();
         $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, '?');
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
+        $this->assertEquals($criteria->has_records, false);
 
-        $criteria->calculation_type = "sum";
+        $criteria = $this->build_criteria->__invoke();
+        $criteria->calculation_type = "max";
         $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, '?');
-
-        $criteria->calculation_type = "exists";
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, '?');
+        $this->assertEquals($result, 0);
+        $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
+        $this->assertEquals($criteria->has_records, false);
     }
 }

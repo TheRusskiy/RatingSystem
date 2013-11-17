@@ -10,6 +10,7 @@ class Criteria {
         $this->calculation_type = $map["calculation_type"];
         $this->result = null;
         $this->value = null;
+        $this->has_records = false;
         $this->multiplier = $this->make_multiplier($map["multiplier"]);
     }
 

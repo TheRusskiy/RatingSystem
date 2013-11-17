@@ -14,7 +14,7 @@ class CriteriaCalculator {
         if (isset($_REQUEST['to_date'])){
             $to_date = mysql_real_escape_string($_REQUEST['to_date']);
         } elseif (isset($_SESSION['to_date'])){
-            $from_date = mysql_real_escape_string($_SESSION['to_date']);
+            $to_date = mysql_real_escape_string($_SESSION['to_date']);
         } else {
             throw new Exception("to_date isn't set!");
         }
@@ -51,7 +51,9 @@ class CriteriaCalculator {
         if ($criteria->fetch_type != 'manual_options'){
             $criteria->value = $result / $criteria->multiplier;
         } else {
-//            $criteria->value = $result / $criteria->multiplier;
+            // values for manual_options were calculated earlier in manual_calculate
+            // one caveat is that values for manual_options do not get cut according to year_limit
+            // (final results still do)
         }
 
         return $result;
@@ -79,6 +81,7 @@ class CriteriaCalculator {
     }
 
     private function sql_calculate($criteria){
+        $criteria->has_records = true;
         $text_query = $criteria->fetch_value;
         $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
         $text_query = str_replace("@from_period_id@", $this->from_date_id, $text_query);
@@ -90,6 +93,7 @@ class CriteriaCalculator {
     }
 
     private function php_calculate($criteria){
+        $criteria->has_records = true;
         $file_result = include($criteria->fetch_value);
         return $file_result * $criteria->multiplier;
     }
@@ -103,24 +107,27 @@ class CriteriaCalculator {
                              "AND date <='$this->to_date' ");
         $values = array();
         while ($row = mysql_fetch_array($query)) {
-            $values[] = $row[0];
+            $criteria->has_records = true;
+            $values[] = $row['value'];
         }
         if ($criteria->fetch_type == 'manual'){
             for ($i=0; $i<count($values); $i++){
                 $values[$i] = $values[$i] * $criteria->multiplier;
             }
         } else if ($criteria->fetch_type == 'manual_options'){
+            $option_values_acc = $criteria->value;
+            if ($option_values_acc === null){
+                $option_values_acc = array_fill(0, sizeof($criteria->multiplier), 0);
+            }
             for ($i=0; $i<count($values); $i++){
+                $option_values_acc[$values[$i]]+=1;
                 $values[$i] = $criteria->multiplier[intval($values[$i])];
             }
+            $criteria->value = $option_values_acc;
         } else {
             throw new Exception("Unknown fetch type");
         }
-        if (sizeof($values) == 0){
-            $result = '?';
-        } else {
-            $result = $this->calculate_based_on_type($criteria, $values);
-        }
+        $result = $this->calculate_based_on_type($criteria, $values);
         return $result;
     }
 
@@ -161,22 +168,10 @@ class CriteriaCalculator {
     }
 
     private function calculate_based_on_type($criteria, $values){
-        $unknown = true;
-        $new_values = array();
-        foreach($values as $v){
-            if ($v!='?') {$unknown = false; $new_values[]=$v;}
-            else {$new_values[]=0;}
-        }
-
-        if ($unknown){
-            return '?';
-        } else {
-            $values = $new_values;
-        }
         switch($criteria->calculation_type){
             case "sum": $result = $this->sum($values); break;
-// I decided not to support sql/php, it should be customizable how to calculate as well
-//            case "sql/php": $result = $this->sum($values); break;
+            // I decided not to support sql/php, as it should be customizable how to calculate as well
+            // case "sql/php": $result = $this->sum($values); break;
             case "max": $result = $this->max($values); break;
             // exists unsupported for manual_options!!
             case "exists": $result = $this->exists($values, $criteria->multiplier); break;
