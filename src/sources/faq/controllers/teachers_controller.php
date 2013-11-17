@@ -35,9 +35,9 @@ class TeachersController extends AppController{
         $to_update = array();
         $to_create = array();
         foreach ($records as $r) {
-            if (isset($r['id']) && $r['id']!==null && $r['action']!=='delete'){
+            if (isset($r['id']) && $r['id']!=null && $r['action']!=='delete'){
                 $to_update[]=$r;
-            }elseif (isset($r['id']) && $r['id']!==null && $r['action']==='delete'){
+            }elseif (isset($r['id']) && $r['id']!=null && $r['action']==='delete'){
                 $to_delete[]=$r;
             } elseif ($r['action']==='create'){
                 $to_create[]=$r;

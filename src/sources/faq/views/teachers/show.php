@@ -2,31 +2,47 @@
     $sum = 0;
     foreach($criteria as $c){
         $sum+=$c->result;
+        if (!$c->has_records){
+            $sum='?';
+            break;
+        }
     }
 
-    function create_record($cr, $is_template = false){
+    function create_record($cr, $record = array(
+        'id'=>null,
+        'value'=>'',
+        'date'=>''
+    )){ // when null template is rendered
         $r = "";
         $class = 'record';
-        if ($is_template){
+        if ($record['id'] === null){
             $class = '';
         }
-        $r.="<div class='$class' data-criteria='$cr->id'>\n";
+        $id = $record['id'];
+        $value = $record['value'];
+        $date = $record['date'];
+        $r.="<div class='$class' data-id='$id' data-criteria='$cr->id'>\n";
         $r.="<a class='delete_record' href='#'>X</a>\n";
-        $r.="<input class='field date-field' data-type='date' type='text'/>\n";
+        $r.="<input class='field date-field' data-type='date' type='text' value='$date'/>\n";
         if($cr->fetch_type=="manual"){
-            $r.="<input class='field' data-type='value' type='text'/>\n";
+            $r.="<input class='field' data-type='value' type='text' value='$value'/>\n";
         } else{
             $r.="<select class='field' data-type='value' type='text'>\n";
             foreach ($cr->options as $i => $o){
-                $r.="<option value='$i'>$o</option>\n";
+                $selected = $i=== intval($value) ? 'selected' : '';
+                $r.="<option value='$i' $selected>$o</option>\n";
             }
             $r.="</select>\n";
         }
         $r.="</div>\n";
         return $r;
     }
-    function create_records(){
-        return "";
+    function create_records($criteria){
+        $result = "";
+        foreach ($criteria->records as $r) {
+            $result.=create_record($criteria, $r);
+        }
+        return $result;
     }
 ?>
 <h1>Rating for <?= $teacher['shortname'] ?></h1>
@@ -44,20 +60,20 @@
         <tr>
             <td><?= $c->name; ?></td>
             <td>
-                <?= $c->value_to_string(); ?>
+                <?= $c->value_to_string()." ($c->calculation_type)"; ?>
                 <br/>
 
                 <?php if($c->fetch_type=="manual" || $c->fetch_type=="manual_options") : ?>
-                        <?= create_records($c, true) ?>
+                        <?= create_records($c) ?>
                     <!--TEMPLATE for new record creation via JS:-->
                     <div style="display: none" id="template_<?=$c->id?>">
-                        <?= create_record($c, true) ?>
+                        <?= create_record($c) ?>
                     </div>
                     <a class="new_record" data-id="<?=$c->id?>" href="#">Новая запись</a>
                 <?php endif ?>
             </td>
             <td><?= $c->multiplier_to_string(); ?></td>
-            <td><?= $c->result; ?></td>
+            <td><?= $c->result_to_string(); ?></td>
         </tr>
 
     <?php endforeach; ?>

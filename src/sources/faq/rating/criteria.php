@@ -38,6 +38,14 @@ class Criteria {
         }
     }
 
+    public function result_to_string(){
+        if($this->has_records){
+            return $this->result;
+        } else {
+            return '?';
+        }
+    }
+
     private function make_multiplier($value){
         if ($this->fetch_type=='manual_options'){
             $multis = explode('|', $value);

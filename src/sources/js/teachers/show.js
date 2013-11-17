@@ -25,7 +25,7 @@ $(document).ready(function (){
             $('a.delete_record');
         link.on('click', function(){
             if (confirm('Вы уверены?')){
-                var record = link.parent();
+                var record = $(this).parent();
                 record.fadeOut();
                 if (record.data('action')==='create'){
                     record.remove();
@@ -58,6 +58,7 @@ $(document).ready(function (){
             $('.record').each(function(){
                 var $this = $(this);
                 var record = {
+                    id : $this.data('id'),
                     criteria_id : $this.data('criteria'),
                     staff_id: staff_id,
                     date : $this.find('input[data-type="date"]').val(),
@@ -66,7 +67,7 @@ $(document).ready(function (){
                 };
                 records.push(record);
             });
-            alert(JSON.stringify(records));
+//            alert(JSON.stringify(records));
             var params = {
                 controller: "teachers",
                 action: "save_records",
