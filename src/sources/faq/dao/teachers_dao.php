@@ -12,7 +12,7 @@ class TeachersDao {
         $teachers_query = mysql_query("
             SELECT *
             FROM staff2
-            WHERE $filter
+            WHERE ".$filter."
             $limiter
             ");
         $teachers = array();
@@ -52,10 +52,10 @@ class TeachersDao {
         $r="";
         foreach ($tokens as $i => $t) {
             $t=strtolower($t);
-            $r.=" LOWER(name) LIKE '%$t%' OR ";
-            $r.="LOWER(surname) LIKE '%$t%' ";
+            $r.=" (LOWER(name) LIKE '%$t%' OR ";
+            $r.="LOWER(surname) LIKE '%$t%' )";
             if ($i!==sizeof($tokens)-1){
-                $r.=' OR ';
+                $r.=' AND ';
             }
         }
         return $r;

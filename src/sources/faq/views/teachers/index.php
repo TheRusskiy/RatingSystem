@@ -3,7 +3,7 @@
     <form action="/">
         <?= hidden_field('controller', 'teachers')?>
         <?= hidden_field('action', 'index')?>
-        <label>ФИО
+        <label>Фамилия и/или имя
             <input name="search" value="<?=params('search', '')?>"/>
             <input type="submit" value="Поиск"/>
         </label>
