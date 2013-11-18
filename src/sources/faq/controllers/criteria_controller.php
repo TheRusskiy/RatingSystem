@@ -13,4 +13,34 @@ class CriteriaController extends AppController{
             'page'=> $page));
     }
 
+    function new_criteria(){
+        $criteria = new Criteria();
+        return $this->wrap('criteria/new_criteria', array(
+            'criteria'=>$criteria));
+    }
+
+    function edit(){
+        $criteria = CriteriaDao::find(params('id'));
+        return $this->wrap('criteria/edit_criteria', array(
+            'criteria'=>$criteria));
+    }
+
+    function upsert(){
+        $criteria = new Criteria($_REQUEST);
+        if($criteria->id !== null && $criteria->id !== ""){
+            CriteriaDao::update($criteria);
+            flash('notice', 'Критерий успешно обновлён');
+        } else {
+            CriteriaDao::insert($criteria);
+            flash('notice', 'Критерий успешно создан');
+        }
+        redirect('/', array('controller'=>'criteria', 'action'=>'index'));
+    }
+
+    function delete(){
+        CriteriaDao::delete(params('id'));
+        flash('notice', 'Критерий успешно удалён');
+        redirect('/', array('controller'=>'criteria', 'action'=>'index'));
+    }
+
 }

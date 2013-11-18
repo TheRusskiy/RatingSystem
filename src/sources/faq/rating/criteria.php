@@ -1,7 +1,15 @@
 <?php
 
 class Criteria {
-    public function __construct($map){
+    public function __construct($map = array(
+        'id'=>null,
+        'fetch_type'=>"",
+        'fetch_value'=>"",
+        'name'=>"",
+        'year_limit'=>0,
+        'multiplier'=>0,
+        'calculation_type'=>""
+    )){
         $this->id = $map["id"];
         $this->fetch_type = $map["fetch_type"];
         $this->fetch_value = $map["fetch_value"];
@@ -16,6 +24,9 @@ class Criteria {
         $this->options = $this->make_options();
     }
 
+    public function calculation_types(){
+        return array('sql', 'php', 'manual', 'manual_options');
+    }
     public function multiplier_to_string(){
         $m = $this->multiplier;
         if(is_int($m)){
