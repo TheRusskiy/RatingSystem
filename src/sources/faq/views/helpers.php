@@ -6,7 +6,7 @@ function href($controller, $action, $params = array()){
     return "/?".http_build_query(array_merge(array('controller'=>$controller, 'action' =>$action), $params));
 }
 
-function pagination($link, $page_count, $current_page){
+function pagination($link, $page_count, $current_page, $params = array()){
     $result = "<div id='pagination'>";
     $range = 3;
     $p = 0;
@@ -18,7 +18,7 @@ function pagination($link, $page_count, $current_page){
                 $result.="<b>... </b>";
                 $print_dots = false;
             }
-            $page_link = modify_url($link, array("page"=>$p));
+            $page_link = modify_url($link, array_merge(array("page"=>$p), $params));
             $result.="<a href=$page_link#pagination>$p</a> ";
         } else {
             $print_dots = true;

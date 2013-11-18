@@ -1,4 +1,14 @@
 <?= render('home/_date_range')?>
+<div id="search">
+    <form action="/">
+        <?= hidden_field('controller', 'teachers')?>
+        <?= hidden_field('action', 'index')?>
+        <label>ФИО
+            <input name="search" value="<?=params('search', '')?>"/>
+            <input type="submit" value="Поиск"/>
+        </label>
+    </form>
+</div>
 <div class="index">
     <table>
         <caption>Преподаватели</caption>
@@ -20,4 +30,4 @@
 </div>
 <div>На странице: <?= count($teachers)?></div>
 <br/>
-<?= pagination(href('teachers', 'index'), $page_count, $page) ?>
+<?= pagination(href('teachers', 'index'), $page_count, $page, array('search'=>params('search'))) ?>

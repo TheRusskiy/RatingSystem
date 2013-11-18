@@ -1,8 +1,9 @@
 <?php
 
 class TeachersDao {
-    static function all($page=null, $count=null){
+    static function all($page=null, $count=null, $search = null){
         $limiter = "";
+        $filter = TeachersDao::filter($search);
         if ($page!==null) {
             $from = $page * $count;
             $limiter = "ORDER BY id
@@ -11,6 +12,7 @@ class TeachersDao {
         $teachers_query = mysql_query("
             SELECT *
             FROM staff2
+            WHERE $filter
             $limiter
             ");
         $teachers = array();
@@ -20,10 +22,12 @@ class TeachersDao {
         return $teachers;
     }
 
-    static function count(){
+    static function count($search = null){
+        $filter = TeachersDao::filter($search);
         $count_query = mysql_query("
             SELECT count(*)
             FROM staff2
+            WHERE $filter
             ");
         $row = mysql_fetch_array($count_query);
         return $row[0];
@@ -40,4 +44,20 @@ class TeachersDao {
         return $row;
     }
 
+    static function filter($search){
+        if ($search=== null || trim($search)===""){
+            return " 1=1 ";
+        }
+        $tokens = explode(' ', $search);
+        $r="";
+        foreach ($tokens as $i => $t) {
+            $t=strtolower($t);
+            $r.=" LOWER(name) LIKE '%$t%' OR ";
+            $r.="LOWER(surname) LIKE '%$t%' ";
+            if ($i!==sizeof($tokens)-1){
+                $r.=' OR ';
+            }
+        }
+        return $r;
+    }
 }
