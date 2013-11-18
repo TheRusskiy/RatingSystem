@@ -126,7 +126,7 @@ EOF;
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 50);
-        $this->assertEquals($criteria->value, 5);
+        $this->assertEquals($criteria->value, 10);
         $this->assertEquals($criteria->has_records, true);
     }
 
@@ -176,7 +176,7 @@ EOF;
         $criteria->calculation_type = "max";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 20);
-        $this->assertEquals($criteria->value, 2);
+        $this->assertEquals($criteria->value, 4);
         $this->assertEquals($criteria->has_records, true);
         $this->assertEquals(sizeof($criteria->records), 3);
 
@@ -184,7 +184,7 @@ EOF;
         $criteria->calculation_type = "exists";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 10);
-        $this->assertEquals($criteria->value, 1);
+        $this->assertEquals($criteria->value, 4);
         $this->assertEquals($criteria->has_records, true);
         $this->assertEquals(sizeof($criteria->records), 3);
     }

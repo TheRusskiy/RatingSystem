@@ -48,14 +48,6 @@ class CriteriaCalculator {
         }
         $result = $this->calculate_based_on_type($criteria, $values);
         $criteria->result =$result;
-        if ($criteria->fetch_type != 'manual_options'){
-            $criteria->value = $result / $criteria->multiplier;
-        } else {
-            // values for manual_options were calculated earlier in manual_calculate
-            // one caveat is that values for manual_options do not get cut according to year_limit
-            // (final results still do)
-        }
-
         return $result;
     }
 
@@ -89,12 +81,14 @@ class CriteriaCalculator {
         $query = mysql_query($text_query);
         $row = mysql_fetch_array($query);
         $query_result = intval($row[0]);
+        $criteria->value = ($criteria->value===null) ? $query_result : $query_result + $criteria->value;
         return $query_result * $criteria->multiplier;
     }
 
     private function php_calculate($criteria){
         $criteria->has_records = true;
         $file_result = include($criteria->fetch_value);
+        $criteria->value = ($criteria->value===null) ? $file_result : $file_result + $criteria->value;
         return $file_result * $criteria->multiplier;
     }
 
@@ -112,9 +106,13 @@ class CriteriaCalculator {
             $values[] = $row['value'];
         }
         if ($criteria->fetch_type == 'manual'){
+            $values_acc = $criteria->value;
+            $values_acc = $values_acc === null ? 0 : $values_acc;
             for ($i=0; $i<count($values); $i++){
+                $values_acc+=$values[$i];
                 $values[$i] = $values[$i] * $criteria->multiplier;
             }
+            $criteria->value = $values_acc;
         } else if ($criteria->fetch_type == 'manual_options'){
             $option_values_acc = $criteria->value;
             if ($option_values_acc === null){
