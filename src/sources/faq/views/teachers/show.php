@@ -63,7 +63,8 @@
                 <td><?= $c->id; ?></td>
                 <td><?= $c->name; ?></td>
                 <td>
-                    <?= $c->value_to_string()." ($c->calculation_type)"; ?>
+                    <?php $ct = $c->calculation_types(); $ct = $ct[$c->calculation_type] ?>
+                    <?= $c->value_to_string()." ($ct)"; ?>
                     <br/>
 
                     <?php if($c->fetch_type=="manual" || $c->fetch_type=="manual_options") : ?>

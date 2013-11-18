@@ -24,8 +24,12 @@ class Criteria {
         $this->options = $this->make_options();
     }
 
+    public function fetch_types(){
+        return array('sql'=>"SQL запрос", 'php' => "PHP файл", 'manual' => "Вручную", 'manual_options' => "Вручную из вариантов");
+    }
+
     public function calculation_types(){
-        return array('sql', 'php', 'manual', 'manual_options');
+        return array('sum'=>"Сумма", 'max' => "Максимум", 'exists' => "Существует");
     }
     public function multiplier_to_string(){
         $m = $this->multiplier;
@@ -63,7 +67,7 @@ class Criteria {
             array_unshift($multis , '0');
             $multiplier = array();
             for ($i=0; $i<count($multis); $i++){
-                $multiplier[$i] = intval($multis[$i]);
+                $multiplier[$i] = intval(trim($multis[$i]));
             }
             return $multiplier;
         } else {
@@ -73,9 +77,13 @@ class Criteria {
 
     private function make_options(){
         if ($this->fetch_type=='manual_options'){
-            $options = explode("\n", $this->fetch_value);
+            $options = explode("|", $this->fetch_value);
             array_unshift($options , '-');
-            return $options;
+            $new_options = array();
+            foreach($options as $o){
+                $new_options[]=trim($o);
+            }
+            return $new_options;
         } else {
             return null;
         }

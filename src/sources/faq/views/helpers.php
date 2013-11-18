@@ -34,3 +34,7 @@ function link_for_teacher($teacher, $text = 'rating'){
 function hidden_field($name, $value){
     return "<input type='hidden' name='$name' value='$value'/>";
 }
+
+function selected($k1, $k2){
+    return $k1===$k2 ? "selected" : "";
+}

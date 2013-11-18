@@ -1,6 +1,6 @@
 <div class="index">
     <table>
-        <caption>Criteria</caption>
+        <caption>Критерии</caption>
         <tr>
             <td>Id</td>
             <td>Название</td>

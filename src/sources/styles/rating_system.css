@@ -127,3 +127,7 @@ body {
 .right {
     float: right;
 }
+
+div.field {
+    padding: 5px;
+}

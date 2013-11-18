@@ -40,6 +40,7 @@ class CriteriaDao {
     }
 
     static function update($criteria){
+        $multi = $criteria->multiplier_to_string();
         $query = mysql_query("
             UPDATE criteria
             SET
@@ -47,7 +48,7 @@ class CriteriaDao {
             fetch_value = '$criteria->fetch_value',
             name = '$criteria->name',
             year_limit = $criteria->year_limit,
-            multiplier = '$criteria->multiplier',
+            multiplier = '$multi',
             calculation_type = '$criteria->calculation_type'
             WHERE id = $criteria->id
             ");
@@ -57,6 +58,7 @@ class CriteriaDao {
     }
 
     static function insert($criteria){
+        $multi = $criteria->multiplier_to_string();
         $query = mysql_query("
             INSERT INTO criteria(fetch_type, fetch_value, name, year_limit, multiplier, calculation_type)
              VALUES
@@ -64,7 +66,7 @@ class CriteriaDao {
              '$criteria->fetch_value',
              '$criteria->name',
              $criteria->year_limit,
-             '$criteria->multiplier',
+             '$multi',
              '$criteria->calculation_type')
             ");
         if(!$query){

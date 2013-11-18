@@ -237,7 +237,7 @@ EOF;
             return new Criteria(array(
                 "id" => 5,
                 "fetch_type" => "manual_options",
-                "fetch_value" => "v1\nv2\nv3",
+                "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
@@ -270,7 +270,7 @@ EOF;
             return new Criteria(array(
                 "id" => -1,
                 "fetch_type" => "manual_options",
-                "fetch_value" => "v1\nv2\nv3",
+                "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
