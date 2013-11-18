@@ -35,20 +35,32 @@ body {
 .content {
     padding: 10px;
     width: 900px;
-    margin: 10px auto;
+    margin: 0px auto;
     background-color: #ffffff;
 }
 .menu, .footer {
     margin: 0px auto;
+    padding: 10px;
     width: 900px;
     background-color: #eaeaea;
 }
 
+.menu{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.footer{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 #date_range {
+    padding: 5px;
     display: block;
     float: right;
     position: relative;
     margin: 10px;
+    border: thin solid #c7c7c7;
 }
 #rating_table table {
     width: 700px;
@@ -58,4 +70,6 @@ body {
     margin: 0px auto;
     width: 300px;
     background-color: #919191;
+    padding: 2px;
+    border-radius: 3px;
 }
