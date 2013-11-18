@@ -50,6 +50,7 @@ body {
     width: 900px;
     margin: 0px auto;
     background-color: #ffffff;
+    min-height: 600px;
 }
 .header, .footer {
     margin: 0px auto;
@@ -87,12 +88,16 @@ body {
     width: 800px;
 }
 
+.content {
+    position: relative;
+}
 #pagination {
     /*margin: 0px auto;*/
     width: 270px;
     background-color: #eaeaea;
     padding: 2px;
     border-radius: 3px;
+    position: absolute; bottom: 0; left: 0;
 }
 
 .error, .notice {

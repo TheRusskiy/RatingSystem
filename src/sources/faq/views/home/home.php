@@ -1,2 +1,2 @@
-<h1>Welcome Home!</h1>
-<p>**Some help information**</p>
+<h1>Добро пожаловать,</h1>
+<p>в рейтинговую систему</p>
