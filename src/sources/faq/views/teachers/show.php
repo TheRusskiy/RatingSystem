@@ -45,20 +45,22 @@
         return $result;
     }
 ?>
-<h1>Rating for <?= $teacher['shortname'] ?></h1>
+<h1>Рейтинг для <?= $teacher['name']." ".$teacher['surname'] ?></h1>
 <hr/>
 <?= render('home/_date_range')?>
 <div id="rating_table">
     <table>
-        <caption>Criteria</caption>
+        <caption>Критерии</caption>
         <tr>
-            <td>Name</td>
-            <td>Value</td>
-            <td>Multiplier</td>
-            <td>Result</td>
+            <td>id</td>
+            <td>Название</td>
+            <td>Значение</td>
+            <td>Множитель</td>
+            <td>Баллы</td>
         </tr>
         <?php foreach ($criteria as $c) : ?>
             <tr>
+                <td><?= $c->id; ?></td>
                 <td><?= $c->name; ?></td>
                 <td>
                     <?= $c->value_to_string()." ($c->calculation_type)"; ?>
@@ -79,6 +81,6 @@
 
         <?php endforeach; ?>
     </table>
+    <a id="save_criteria" href="#">Сохранить изменения</a>
+    <h2 class="right">Всего баллов: <?= $sum?></h2>
 </div>
-<a id="save_criteria" href="#">Сохранить изменения</a>
-<h2>Sum: <?= $sum?></h2>

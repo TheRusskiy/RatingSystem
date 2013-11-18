@@ -80,6 +80,9 @@ body {
     border: thin solid #c7c7c7;
     border-radius: 5px;
 }
+#rating_table{
+    width: 800px;
+}
 #rating_table table {
     width: 800px;
 }
@@ -111,4 +114,11 @@ body {
 #logo {
     width: 5%;
     height: 5%;
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
 }

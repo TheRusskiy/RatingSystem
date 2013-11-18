@@ -2,12 +2,12 @@
     <caption>Criteria</caption>
     <tr>
         <td>Id</td>
-        <td>Name</td>
-        <td>Fetch type</td>
-        <td>Fetch value</td>
-        <td>Multiplier</td>
-        <td>Calculation type</td>
-        <td>Year limit</td>
+        <td>Название</td>
+        <td>Способ вычисление</td>
+        <td>Данные</td>
+        <td>Множитель</td>
+        <td>Метод оценки</td>
+        <td>Лимит в год</td>
     </tr>
     <?php foreach ($criteria as $cr) : ?>
         <tr>
@@ -21,6 +21,6 @@
         </tr>
     <?php endforeach; ?>
 </table>
-On page: <?= count($criteria)?>
+На странице: <?= count($criteria)?>
 <br>
 <?= pagination(href('criteria', 'index'), $page_count, $page) ?>

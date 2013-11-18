@@ -9,7 +9,7 @@ class TeachersDao {
                         LIMIT" . " $count OFFSET $from";
         }
         $teachers_query = mysql_query("
-            SELECT id, shortname
+            SELECT *
             FROM staff2
             $limiter
             ");

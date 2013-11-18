@@ -1,19 +1,21 @@
 <?= render('home/_date_range')?>
 <table>
-    <caption>Teachers</caption>
+    <caption>Преподаватели</caption>
     <tr>
         <td>id</td>
-        <td>shortname</td>
-        <td>Actions</td>
+        <td>Имя</td>
+        <td>Фамилия</td>
+        <td>Действия</td>
     </tr>
     <?php foreach ($teachers as $row) : ?>
         <tr>
             <td><?= $row['id']; ?></td>
-            <td><?= $row['shortname']; ?></td>
-            <td><?= link_for_teacher($row); ?></td>
+            <td><?= $row['name']; ?></td>
+            <td><?= $row['surname']; ?></td>
+            <td><?= link_for_teacher($row, 'Рейтинг'); ?></td>
         </tr>
     <?php endforeach; ?>
 </table>
-On page: <?= count($teachers)?>
+На странице: <?= count($teachers)?>
 <br>
 <?= pagination(href('teachers', 'index'), $page_count, $page) ?>
