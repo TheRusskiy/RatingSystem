@@ -15,3 +15,4 @@ Bringing some Rails and TDD awesomeness into PHP.
   * Ajax rating from index page
   * Teacher search
   * admin role?
+  * enable/disable criteria
