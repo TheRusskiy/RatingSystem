@@ -2,17 +2,30 @@ table, td, th {
     border: 1px solid #bebebe;
     padding: 5px;
     margin: 5px;
+    border-spacing: 0;
+    font-size: 14px;
 }
 td, th {
     word-wrap: break-word;
-    max-width: 600px;
+    max-width: 300px;
 }
 .menu {
-    padding: 10px;
+    padding: 0px;
 }
 .menu li {
+    /*box-shadow: 1px 1px 1px #888888;*/
     padding: 5px;
     display: inline-block;
+    /*background-color: #8fb9fd;*/
+    border-radius: 5px;
+    font-size: large;
+}
+.menu a {
+    text-decoration: none;
+}
+
+.menu li:last-child {
+    float: right;
 }
 
 .menu .current {
@@ -38,14 +51,18 @@ body {
     margin: 0px auto;
     background-color: #ffffff;
 }
-.menu, .footer {
+.header, .footer {
     margin: 0px auto;
-    padding: 10px;
+    padding: 5px;
     width: 900px;
     background-color: #eaeaea;
 }
 
-.menu{
+.header, .footer, .content {
+    box-shadow: 1px 1px 1px #888888;
+}
+
+.header{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -61,15 +78,16 @@ body {
     position: relative;
     margin: 10px;
     border: thin solid #c7c7c7;
+    border-radius: 5px;
 }
 #rating_table table {
-    width: 700px;
+    width: 800px;
 }
 
 #pagination {
-    margin: 0px auto;
-    width: 300px;
-    background-color: #919191;
+    /*margin: 0px auto;*/
+    width: 270px;
+    background-color: #eaeaea;
     padding: 2px;
     border-radius: 3px;
 }
@@ -88,4 +106,9 @@ body {
 .notice {
     color: green;
     background-color: #9bff9f;
+}
+
+#logo {
+    width: 5%;
+    height: 5%;
 }

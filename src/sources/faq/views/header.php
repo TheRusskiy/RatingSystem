@@ -12,6 +12,7 @@ function class_for($controller){
 <body>
 <div class="header">
     <ul class = 'menu'>
+        <li id='logo'><img src="images/ssaulogo.gif"/></li>
         <li class="<?= class_for('home')?>">
             <a href='/?controller=home&action=index'>Рейтинговая cистема</a>
         </li>
@@ -22,7 +23,7 @@ function class_for($controller){
             <a href='/?controller=criteria&action=index'>Критерии</a>
         </li>
         <li>
-            <b><?= $user?></b>
+            <b><?= $user?></b> |
             <a href='/?controller=sessions&action=logout'>Выйти</a>
         </li>
     </ul>
