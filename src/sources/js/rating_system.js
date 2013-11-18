@@ -52,6 +52,8 @@ $(document).ready(function (){
         window.location="http://"+hostAddress+"/?"+query;
     };
 
+    $('.notice').hide().slideDown(500).delay(4000).slideUp(500);
+    $('.error').hide().slideDown(500);
 });
 
 /* optional triggers

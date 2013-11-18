@@ -30,25 +30,34 @@ class TeachersController extends AppController{
     }
 
     function save_records(){
-        $records = params('records');
-        $to_delete = array();
-        $to_update = array();
-        $to_create = array();
-        foreach ($records as $r) {
-            if (isset($r['id']) && $r['id']!=null && $r['action']!=='delete'){
-                $to_update[]=$r;
-            }elseif (isset($r['id']) && $r['id']!=null && $r['action']==='delete'){
-                $to_delete[]=$r;
-            } elseif ($r['action']==='create'){
-                $to_create[]=$r;
-            } else {
-                throw new Exception("Unknown record action!");
+        try {
+            ob_start(); //todelete in production
+            $records = params('records');
+            $to_delete = array();
+            $to_update = array();
+            $to_create = array();
+            foreach ($records as $r) {
+                if (isset($r['id']) && $r['id']!=null && $r['action']!=='delete'){
+                    $to_update[]=$r;
+                }elseif (isset($r['id']) && $r['id']!=null && $r['action']==='delete'){
+                    $to_delete[]=$r;
+                } elseif ($r['action']==='create'){
+                    $to_create[]=$r;
+                } else {
+                    throw new Exception("Unknown record action!");
+                }
             }
+            RecordsDao::create($to_create);
+            RecordsDao::update($to_update);
+            RecordsDao::delete($to_delete);
+            $xhtml = ob_get_clean();
+            flash('notice', "Записи успешно обновлены");
+            redirect("/", array('controller'=>'teachers', 'action'=>'show', 'id'=>params('staff_id')));
+        } catch(Exception $e){
+            $xhtml = ob_get_clean();
+            flash('error', $e->getMessage().$xhtml);
+            redirect("/", array('controller'=>'teachers', 'action'=>'show', 'id'=>params('staff_id')));
         }
-        RecordsDao::create($to_create);
-        RecordsDao::update($to_update);
-        RecordsDao::delete($to_delete);
-        redirect("/", array('controller'=>'teachers', 'action'=>'show', 'id'=>params('staff_id')));
     }
 
 }

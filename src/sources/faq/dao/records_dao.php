@@ -4,6 +4,9 @@ class RecordsDao {
         if(sizeof($records)===0){return;}
         $values = "";
         foreach($records as $i => $r){
+            if (is_array($r['value'])){ // weird IE bug
+                $r['value'] = $r['value'][0];
+            }
             $values.="(";
             $values.="'".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
@@ -40,6 +43,9 @@ class RecordsDao {
     static function update($records){
         if(sizeof($records)===0){return;}
         foreach($records as $r){
+            if (is_array($r['value'])){  // weird IE bug
+                $r['value'] = $r['value'][0];
+            }
             $id = mysql_real_escape_string($r['id']);
             $values="SET ";
             $values.="staff_id='".mysql_real_escape_string($r['staff_id'])."', ";

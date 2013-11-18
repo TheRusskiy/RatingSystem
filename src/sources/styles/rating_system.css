@@ -73,3 +73,19 @@ body {
     padding: 2px;
     border-radius: 3px;
 }
+
+.error, .notice {
+    display: block;
+    font-size: large;
+    border-radius: 5px;
+    display: block;
+    padding: 5px;
+}
+.error {
+    color: red;
+    background-color: #ffc3d2;
+}
+.notice {
+    color: green;
+    background-color: #9bff9f;
+}

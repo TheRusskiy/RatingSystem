@@ -26,7 +26,11 @@ function class_for($controller){
             <a href='/?controller=sessions&action=logout'>Выйти</a>
         </li>
     </ul>
-    <div class='notice'><?= $notice?></div>
-    <div class='error'><?= $error?></div>
 </div>
 <div class="content">
+<?php if($notice): ?>
+    <div class='notice'><?= $notice?></div>
+<?php endif ?>
+<?php if($error): ?>
+    <div class='error'><?= $error?></div>
+<?php endif ?>
