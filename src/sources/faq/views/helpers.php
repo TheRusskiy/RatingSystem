@@ -26,8 +26,8 @@ function pagination($link, $page_count, $current_page){
     }
     return $result;
 }
-function link_for_teacher($teacher){
-    return url('details', href("teachers", "show", array('id' => $teacher['id'])));
+function link_for_teacher($teacher, $text = 'rating'){
+    return url($text, href("teachers", "show", array('id' => $teacher['id'])));
 }
 
 function hidden_field($name, $value){

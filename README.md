@@ -13,4 +13,5 @@ Bringing some Rails and TDD awesomeness into PHP.
   * Client/server side validations
   * Highlight updated field
   * Ajax rating from index page
+  * Teacher search
   * admin role?
