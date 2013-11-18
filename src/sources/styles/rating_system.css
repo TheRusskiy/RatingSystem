@@ -1,5 +1,5 @@
 table, td, th {
-    border: 1px solid black;
+    border: 1px solid #bebebe;
     padding: 5px;
     margin: 5px;
 }
@@ -26,7 +26,7 @@ td, th {
     width: 80px;
 }
 
-h1 {
+h1, caption {
     font-size: large;
 }
 body {
@@ -45,6 +45,17 @@ body {
 }
 
 #date_range {
+    display: block;
     float: right;
+    position: relative;
     margin: 10px;
+}
+#rating_table table {
+    width: 700px;
+}
+
+#pagination {
+    margin: 0px auto;
+    width: 300px;
+    background-color: #919191;
 }

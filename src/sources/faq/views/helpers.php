@@ -7,7 +7,7 @@ function href($controller, $action, $params = array()){
 }
 
 function pagination($link, $page_count, $current_page){
-    $result = "";
+    $result = "<div id='pagination'>";
     $range = 3;
     $p = 0;
     $print_dots = false;
@@ -19,11 +19,12 @@ function pagination($link, $page_count, $current_page){
                 $print_dots = false;
             }
             $page_link = modify_url($link, array("page"=>$p));
-            $result.="<a href=$page_link>$p</a> ";
+            $result.="<a href=$page_link#pagination>$p</a> ";
         } else {
             $print_dots = true;
         }
     }
+    $result.="</div>";
     return $result;
 }
 function link_for_teacher($teacher, $text = 'rating'){
