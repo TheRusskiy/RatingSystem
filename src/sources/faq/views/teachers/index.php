@@ -1,12 +1,14 @@
+<?php
+    $initial_class = params('search') == null ? "" : 'x';
+?>
+
 <?= render('home/_date_range')?>
 <div id="search">
     <form action="/">
         <?= hidden_field('controller', 'teachers')?>
         <?= hidden_field('action', 'index')?>
-        <label>Фамилия и/или имя
-            <input name="search" value="<?=params('search', '')?>"/>
-            <input type="submit" value="Поиск"/>
-        </label>
+        <input placeholder="Фамилия и/или имя" class="clearable <?=$initial_class?>" name="search" value="<?=params('search', '')?>"/>
+        <input type="submit" value="Поиск"/>
     </form>
 </div>
 <div class="index">

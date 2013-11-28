@@ -45,6 +45,7 @@ class TeachersDao {
     }
 
     static function filter($search){
+        $search = mysql_real_escape_string($search);
         if ($search=== null || trim($search)===""){
             return " 1=1 ";
         }
