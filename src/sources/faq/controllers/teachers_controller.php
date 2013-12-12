@@ -12,7 +12,8 @@ class TeachersController extends AppController{
         return $this->wrap('teachers/index', array(
             'teachers'=>$teachers,
             'page_count'=>$page_count,
-            'page'=> $page));
+            'page'=> $page,
+            'script'=>'teachers/index'));
     }
 
     function show(){
@@ -26,7 +27,19 @@ class TeachersController extends AppController{
         return $this->wrap('teachers/show', array(
             'teacher'=>$teacher,
             'criteria'=>$criteria,
-            'script'=>'teachers/show'));
+            'script'=>'teachers/show',
+            'result'=>$this->get_result($criteria)));
+    }
+
+    function calculate_rating(){
+        $id = intval(params("id"));
+        $teacher = TeachersDao::find($id);
+        $criteria = CriteriaDao::all();
+        $calculator = new CriteriaCalculator();
+        foreach($criteria as $c){
+            $calculator->calculate($c);
+        }
+        return $this->get_result($criteria);
     }
 
     function save_records(){
@@ -60,4 +73,16 @@ class TeachersController extends AppController{
         }
     }
 
+    private function get_result($criteria){
+        $sum = 0;
+        $warning="";
+        foreach($criteria as $c){
+            $warning = "";
+            $sum+=$c->result;
+            if (!$c->has_records){
+                $warning='(?)';
+            }
+        }
+        return $sum.$warning;
+    }
 }

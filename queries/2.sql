@@ -2,9 +2,7 @@ insert into criteria (name, fetch_type, fetch_value, multiplier, calculation_typ
   VALUES(
     "Conducting conferences",
     "manual_options",
-    "International
-    National
-    Regional",
+    "International|National|Regional",
     "15|10|5",
     "sum",
     60)

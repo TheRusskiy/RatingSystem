@@ -1,12 +1,4 @@
 <?php
-    $sum = 0;
-    foreach($criteria as $c){
-        $sum+=$c->result;
-        if (!$c->has_records){
-            $sum='?';
-            break;
-        }
-    }
 
     function create_record($cr, $record = array(
         'id'=>null,
@@ -83,5 +75,5 @@
         <?php endforeach; ?>
     </table>
     <a id="save_criteria" href="#">Сохранить изменения</a>
-    <h2 class="right">Всего баллов: <?= $sum?></h2>
+    <h2 class="right">Всего баллов: <?= $result?></h2>
 </div>

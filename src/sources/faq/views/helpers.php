@@ -1,6 +1,10 @@
 <?php
-function url($text, $href){
-    return "<a href = $href>$text</a>";
+function url($text, $href, $attrs = array()){
+    $attrs_text = "";
+    foreach($attrs as $name => $value){
+        $attrs_text.= "$name='$value'";
+    }
+    return "<a $attrs_text href = $href>$text</a>";
 }
 function href($controller, $action, $params = array()){
     return "/?".http_build_query(array_merge(array('controller'=>$controller, 'action' =>$action), $params));
@@ -29,6 +33,14 @@ function pagination($link, $page_count, $current_page, $params = array()){
 }
 function link_for_teacher($teacher, $text = 'rating'){
     return url($text, href("teachers", "show", array('id' => $teacher['id'])));
+}
+
+function link_to_calculate_rating($id){
+    return url(
+        "Вычислить",
+        href("teachers", "calculate_rating", array('id' => $id)),
+        array('id' => "calculation_link_$id", 'class' => "calculation_link")
+    );
 }
 
 function hidden_field($name, $value){

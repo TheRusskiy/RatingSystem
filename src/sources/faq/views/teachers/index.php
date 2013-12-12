@@ -19,13 +19,25 @@
             <td>Имя</td>
             <td>Фамилия</td>
             <td>Действия</td>
+            <td>Рейтинг</td>
         </tr>
-        <?php foreach ($teachers as $row) : ?>
+        <?php foreach ($teachers as $t) : ?>
             <tr>
-                <td><?= $row['id']; ?></td>
-                <td><?= $row['name']; ?></td>
-                <td><?= $row['surname']; ?></td>
-                <td><?= link_for_teacher($row, 'Рейтинг'); ?></td>
+                <td><div class="cell">
+                    <?= $t['id']?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $t['name']; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $t['surname']; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= link_for_teacher($t, 'Записи по критериям'); ?>
+                </div></td>
+                <td><div class="cell">
+                   <?= link_to_calculate_rating($t['id'])?>
+                </div></td>
             </tr>
         <?php endforeach; ?>
     </table>
