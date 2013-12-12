@@ -36,7 +36,7 @@
                     <?= link_for_teacher($t, 'Записи по критериям'); ?>
                 </div></td>
                 <td><div class="cell">
-                   <?= link_to_calculate_rating($t['id'])?>
+                   <?= link_to_calculate_rating($t)?>
                 </div></td>
             </tr>
         <?php endforeach; ?>

@@ -7,7 +7,9 @@ class TeachersController extends AppController{
     function index(){
         $on_page = 50;
         $page = intval(params("page", 1));
-        $teachers = TeachersDao::all($page-1, $on_page, params('search'));
+        $from = session('from_date');
+        $to = session('to_date');
+        $teachers = TeachersDao::all($from, $to, $page-1, $on_page, params('search'));
         $page_count = TeachersDao::count(params('search'))/$on_page;
         return $this->wrap('teachers/index', array(
             'teachers'=>$teachers,
@@ -24,6 +26,13 @@ class TeachersController extends AppController{
         foreach($criteria as $c){
             $calculator->calculate($c);
         }
+        TeachersDao::cache(
+            $id,
+            session('from_date'),
+            session('to_date'),
+            $this->get_result_value($criteria),
+            $this->get_result_completeness($criteria)
+        );
         return $this->wrap('teachers/show', array(
             'teacher'=>$teacher,
             'criteria'=>$criteria,
@@ -39,6 +48,13 @@ class TeachersController extends AppController{
         foreach($criteria as $c){
             $calculator->calculate($c);
         }
+        TeachersDao::cache(
+            $id,
+            session('from_date'),
+            session('to_date'),
+            $this->get_result_value($criteria),
+            $this->get_result_completeness($criteria)
+        );
         return $this->get_result($criteria);
     }
 
@@ -84,5 +100,21 @@ class TeachersController extends AppController{
             }
         }
         return $sum.$warning;
+    }
+    private function get_result_value($criteria){
+        $sum = 0;
+        foreach($criteria as $c){
+            $sum+=$c->result;
+        }
+        return $sum;
+    }
+    private function get_result_completeness($criteria){
+        $warning=1;
+        foreach($criteria as $c){
+            if (!$c->has_records){
+                $warning=0;
+            }
+        }
+        return $warning;
     }
 }

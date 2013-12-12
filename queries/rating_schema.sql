@@ -21,3 +21,15 @@ CREATE TABLE rating_records (
   PRIMARY KEY(id),
   INDEX staff_criteria (staff_id, criteria_id)
 );
+
+DROP TABLE IF EXISTS cached_rating;
+CREATE TABLE cached_rating (
+  id INT(17) NOT NULL auto_increment,
+  staff_id INT(10) NOT NULL,
+  date_from DATE NOT NULL,
+  date_to DATE NOT NULL,
+  value INT(10) NOT NULL,
+  is_data_complete INT(1) NOT NULL,
+  PRIMARY KEY(id),
+  INDEX staff_dates (staff_id, date_from, date_to)
+);

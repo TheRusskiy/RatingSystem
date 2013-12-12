@@ -1,18 +1,23 @@
 <?php
 
 class TeachersDao {
-    static function all($page=null, $count=null, $search = null){
+    static function all($from_date, $to_date, $page=null, $count=null, $search = null){
         $limiter = "";
         $filter = TeachersDao::filter($search);
         if ($page!==null) {
-            $from = $page * $count;
-            $limiter = "ORDER BY id
-                        LIMIT" . " $count OFFSET $from";
+            $from_page = $page * $count;
+            $limiter = "ORDER BY s.id
+                        LIMIT" . " $count OFFSET $from_page";
         }
         $teachers_query = mysql_query("
-            SELECT *
-            FROM staff2
-            WHERE ".$filter."
+            SELECT s.*, c.value, c.is_data_complete
+            FROM staff2 s
+            LEFT JOIN cached_rating c ON
+            (s.id = c.staff_id
+            AND c.date_from='$from_date'
+            AND c.date_to='$to_date')
+            WHERE
+            ".$filter."
             $limiter
             ");
         $teachers = array();
@@ -26,7 +31,7 @@ class TeachersDao {
         $filter = TeachersDao::filter($search);
         $count_query = mysql_query("
             SELECT count(*)
-            FROM staff2
+            FROM staff2 s
             WHERE $filter
             ");
         $row = mysql_fetch_array($count_query);
@@ -44,7 +49,24 @@ class TeachersDao {
         return $row;
     }
 
-    static function filter($search){
+    static function cache($id, $from, $to, $value, $is_data_complete){
+        $query = mysql_query("
+            DELETE FROM cached_rating
+            WHERE staff_id = $id AND date_from = '$from' AND date_to = '$to'
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $query = mysql_query("
+            INSERT INTO cached_rating (staff_id, date_from, date_to, value, is_data_complete)
+            VALUES($id, '$from', '$to', $value, $is_data_complete)
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+    }
+
+    private static function filter($search){
         $search = mysql_real_escape_string($search);
         if ($search=== null || trim($search)===""){
             return " 1=1 ";
@@ -53,8 +75,8 @@ class TeachersDao {
         $r="";
         foreach ($tokens as $i => $t) {
             $t=strtolower($t);
-            $r.=" (LOWER(name) LIKE '%$t%' OR ";
-            $r.="LOWER(surname) LIKE '%$t%' )";
+            $r.=" (LOWER(s.name) LIKE '%$t%' OR ";
+            $r.="LOWER(s.surname) LIKE '%$t%' )";
             if ($i!==sizeof($tokens)-1){
                 $r.=' AND ';
             }

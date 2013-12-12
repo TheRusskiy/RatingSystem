@@ -35,7 +35,14 @@ function link_for_teacher($teacher, $text = 'rating'){
     return url($text, href("teachers", "show", array('id' => $teacher['id'])));
 }
 
-function link_to_calculate_rating($id){
+function link_to_calculate_rating($teacher){
+    $id = $teacher['id'];
+    $value = $teacher['value'];
+    $is_data_complete = $teacher['is_data_complete'];
+    if ($value!==null) {
+        $warning = $is_data_complete > 0 ? "" : "(?)";
+        return $value.$warning;
+    }
     return url(
         "Вычислить",
         href("teachers", "calculate_rating", array('id' => $id)),
