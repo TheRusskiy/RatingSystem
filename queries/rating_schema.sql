@@ -7,6 +7,7 @@ CREATE TABLE criteria (
   multiplier VARCHAR(30),
   calculation_type VARCHAR(30) NOT NULL ,
   year_limit INT(10),
+  creation_date DATE,
   PRIMARY KEY(id)
 );
 

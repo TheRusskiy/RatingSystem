@@ -16,13 +16,15 @@ class CriteriaController extends AppController{
     function new_criteria(){
         $criteria = new Criteria();
         return $this->wrap('criteria/new_criteria', array(
-            'criteria'=>$criteria));
+            'criteria'=>$criteria,
+            'script'=>'criteria/_form'));
     }
 
     function edit(){
         $criteria = CriteriaDao::find(params('id'));
         return $this->wrap('criteria/edit_criteria', array(
-            'criteria'=>$criteria));
+            'criteria'=>$criteria,
+            'script'=>'criteria/_form'));
     }
 
     function upsert(){

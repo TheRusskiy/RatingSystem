@@ -42,6 +42,11 @@
             <input id= 'year_limit'type="text" name="year_limit" value="<?=$criteria->year_limit?>"/>
         </div>
 
+        <div class="field">
+            <label  for='creation_date'>Дата</label>
+            <input id= 'creation_date'type="text" name="creation_date" value="<?=$criteria->creation_date?>"/>
+        </div>
+
         <input class='left' type="submit" value="Сохранить"/>
     </form>
 </div>

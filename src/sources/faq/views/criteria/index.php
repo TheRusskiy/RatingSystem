@@ -9,21 +9,39 @@
             <td>Множитель</td>
             <td>Метод оценки</td>
             <td>Лимит в год</td>
+            <td>Дата создания критерия</td>
             <td>Действия</td>
         </tr>
         <?php foreach ($criteria as $cr) : ?>
             <tr>
-                <td><?= $cr->id; ?></td>
-                <td><?= $cr->name; ?></td>
-                <td><?= $cr->fetch_type; ?></td>
-                <td><?= str_replace("\n", "</br>", $cr->fetch_value); ?></td>
-                <td><?= $cr->multiplier_to_string(); ?></td>
-                <td><?= $cr->calculation_type; ?></td>
-                <td><?= $cr->year_limit; ?></td>
-                <td>
+                <td><div class="cell">
+                    <?= $cr->id; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->name; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->fetch_type; ?>
+                </div></td>
+                <td><div class="cell" title="<?=$cr->fetch_value?>">
+                    <?= str_replace("\n", "</br>", $cr->fetch_value); ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->multiplier_to_string(); ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->calculation_type; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->year_limit; ?>
+                </div></td>
+                <td><div class="cell">
+                    <?= $cr->creation_date; ?>
+                </div></td>
+                <td><div class="cell">
                     <?= url('Редактировать', href('criteria', 'edit', array('id'=>$cr->id))); ?>
                     <?= url('Удалить', href('criteria', 'delete', array('id'=>$cr->id))); ?>
-                </td>
+                </div></td>
             </tr>
         <?php endforeach; ?>
     </table>

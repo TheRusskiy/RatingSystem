@@ -7,7 +7,12 @@ table, td, th {
 }
 td, th {
     word-wrap: break-word;
-    max-width: 300px;
+    max-width: 200px;
+}
+.cell {
+    max-height: 100px;
+    overflow: hidden;
+    display: inline-block;
 }
 .menu {
     padding: 0px;

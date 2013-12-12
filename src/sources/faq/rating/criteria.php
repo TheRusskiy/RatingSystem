@@ -16,6 +16,7 @@ class Criteria {
         $this->name = $map["name"];
         $this->year_limit = $map["year_limit"];
         $this->calculation_type = $map["calculation_type"];
+        $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
         $this->result = null;
         $this->value = null;
         $this->has_records = false;
