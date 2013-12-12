@@ -50,6 +50,7 @@ class TeachersDao {
     }
 
     static function cache($id, $from, $to, $value, $is_data_complete){
+        // DELETE EXISTING RECORD:
         $query = mysql_query("
             DELETE FROM cached_rating
             WHERE staff_id = $id AND date_from = '$from' AND date_to = '$to'
@@ -57,12 +58,30 @@ class TeachersDao {
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
         }
+        // CACHE VALUE:
         $query = mysql_query("
             INSERT INTO cached_rating (staff_id, date_from, date_to, value, is_data_complete)
             VALUES($id, '$from', '$to', $value, $is_data_complete)
             ");
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
+        }
+        // FROM TIME TO TIME CHECK CACHE TABLE
+        // IF RECORD COUNT > 6000 DELETE FIRST N RECORDS
+        if (rand(0, 100)==0) {
+            $count_query = mysql_query("
+            SELECT count(*)
+            FROM cached_rating
+            ");
+            $row = mysql_fetch_array($count_query);
+            $count =  $row[0];
+            if ($count>6000) {
+                $count=$count-6000;
+                mysql_query("
+                    DELETE FROM cached_rating
+                    LIMIT $count
+                    ");
+            }
         }
     }
 
