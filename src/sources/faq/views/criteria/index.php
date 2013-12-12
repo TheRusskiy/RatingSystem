@@ -21,7 +21,7 @@
                     <?= $cr->name; ?>
                 </div></td>
                 <td><div class="cell">
-                    <?= $cr->fetch_type; ?>
+                    <?= $cr->fetch_type_to_string(); ?>
                 </div></td>
                 <td><div class="cell" title="<?=$cr->fetch_value?>">
                     <?= str_replace("\n", "</br>", $cr->fetch_value); ?>
@@ -30,7 +30,7 @@
                     <?= $cr->multiplier_to_string(); ?>
                 </div></td>
                 <td><div class="cell">
-                    <?= $cr->calculation_type; ?>
+                    <?= $cr->calculation_type_to_string(); ?>
                 </div></td>
                 <td><div class="cell">
                     <?= $cr->year_limit; ?>

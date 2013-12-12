@@ -32,6 +32,14 @@ class Criteria {
     public function calculation_types(){
         return array('sum'=>"Сумма", 'max' => "Максимум", 'exists' => "Существует");
     }
+    public function calculation_type_to_string(){
+        $types = $this->calculation_types();
+        return $types[$this->calculation_type];
+    }
+    public function fetch_type_to_string(){
+        $types = $this->fetch_types();
+        return $types[$this->fetch_type];
+    }
     public function multiplier_to_string(){
         $m = $this->multiplier;
         if(is_int($m)){
