@@ -84,6 +84,14 @@ class TeachersDao {
             }
         }
     }
+    static function flush_cache(){
+        $query = mysql_query("
+            DELETE FROM cached_rating
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+    }
 
     private static function filter($search){
         $search = mysql_real_escape_string($search);

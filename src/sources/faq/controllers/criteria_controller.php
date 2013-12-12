@@ -36,6 +36,7 @@ class CriteriaController extends AppController{
             CriteriaDao::insert($criteria);
             flash('notice', 'Критерий успешно создан');
         }
+        TeachersDao::flush_cache();
         redirect('/', array('controller'=>'criteria', 'action'=>'index'));
     }
 
