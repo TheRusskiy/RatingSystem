@@ -22,3 +22,6 @@ Bringing some Rails and TDD awesomeness into PHP.
   * server side data validation
   * db schema data validation
   * exception handling + flash message
+  * coeff for every entry
+  * log exceptions
+  * catch all exceptions
