@@ -1,5 +1,6 @@
 -- This file runs before every test suite
 
+use diploma_test;
 DROP TABLE IF EXISTS testings;
 CREATE TABLE testings(
   id INT(10) NOT NULL AUTO_INCREMENT,
@@ -93,11 +94,12 @@ DROP PROCEDURE IF EXISTS setup_script$$
 
 CREATE PROCEDURE setup_script ()
   BEGIN
+  use diploma_test;
 
     -- Following inserts data only once if table doesn't exist
     IF (SELECT count(*)
         FROM information_schema.tables
-        WHERE table_schema = (select database()) -- current DB
+        WHERE table_schema = ('diploma_test') -- current DB
               AND table_name = 'ka_periods'
         LIMIT 1) <1 THEN
       BEGIN
