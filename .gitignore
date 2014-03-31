@@ -32,4 +32,4 @@ examples
 out
 
 junk/
-prototypes/node_modules
+src/prototypes/node_modules
