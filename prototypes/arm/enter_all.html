@@ -1,0 +1,428 @@
+<!doctype html>
+
+<html>
+  
+  <head>
+    <title>СМК СГАУ</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+  </head>
+  
+  <body>
+    <div class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+          </button>
+          <a href="#" class="navbar-brand">СМК СГАУ</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="#">Ввод достижений</a>
+            </li>
+            <li>
+              <a href="#">Руководство пользователя</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href>Muraveva E.V.</a>
+            </li>
+            <li>
+              <a href>Выход</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="well">
+        <div class="row">
+          <ul class="nav nav-tabs">
+            <li>
+              <a href="#">Нерассмотренные <span class="badge">3</span></a>
+            </li>
+            <li class="active">
+              <a href="#">Рассмотренные <span class="badge">150</span></a>
+            </li>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="navbar-form">
+                <select class="form-control">
+                  <option>Все категории</option>
+                  <option>Спортивные достижения</option>
+                  <option>Публикации</option>
+                  <option>Участие в конференциях</option>
+                </select>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="padding-top:5px">
+              <li class="navbar-form">
+                <div class="checkbox">
+                  <input type="checkbox" id="show-only-mine">
+                  <label for="show-only-mine">Отображать только заявки поданные мной</label>
+                </div>
+              </li>
+            </ul>
+          </ul>
+
+        </div>
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>Дата</th>
+            <th>Категория</th>
+            <th>Наименование</th>
+            <th>Преподаватель</th>
+            <th>Утвердил(а)</th>
+            <th>Подал(а)</th>
+            <th>Заметки</th>
+            <th width="60">Действия</th>
+          </tr>
+          <tr class="success">
+            <th>1233</th>
+            <th>01.02.2013</th>
+            <th>Руководство студентами в межвузовской олимпиаде</th>
+            <th>Победа в областной олимпиаде по математике</th>
+            <th>Прохоров Сергей Антонович</th>
+            <th>Ишков Д.С.</th>
+            <th>Левченко С.Н.</th>
+            <th><a class="btn btn-link" data-toggle="modal" data-target="#empty-notes-modal">0</a></th>
+            <th>
+              <div class="btn-group">
+                <a class="btn btn-warning"><i class="glyphicon glyphicon-font"></i></a>
+              </div>
+            </th>
+          </tr>
+          <tr class="danger">
+            <th>1232</th>
+            <th>01.01.2014</th>
+            <th>Публикации в журналах</th>
+            <th>Публикация в журнале "Мурзилка"</th>
+            <th>Востокин Сергей Владимирович</th>
+            <th>Еленев Д.В.</th>
+            <th>Муравьева Е.В.</th>
+            <th><a class="btn btn-link" data-toggle="modal" data-target="#notes-modal">2</a></th>
+            <th>
+              <div class="btn-group">
+                <a class="btn btn-warning"><i class="glyphicon glyphicon-font"></i></a>
+              </div>
+            </th>
+          </tr>
+          <tr class="success">
+            <th>1231</th>
+            <th>01.05.2014</th>
+            <th>Приглашение иностранного преподавателя</th>
+            <th>Ашот Каберханян Фываолдж</th>
+            <th>Иващенко Антон Владимирович</th>
+            <th>Ишков Д.С.</th>
+            <th>Муравьева Е.В.</th>
+            <th><a class="btn btn-link" data-toggle="modal" data-target="#empty-notes-modal">0</a></th>
+            <th>
+              <div class="btn-group">
+                <a class="btn btn-warning"><i class="glyphicon glyphicon-font"></i></a>
+              </div>
+            </th>
+          </tr>
+        </table>
+      </div>
+      <div class="row">
+          <div class="col-md-6" >
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearch">
+                      <i class="glyphicon glyphicon-search"></i>
+                      <span>Поиск<span class="text-muted pull-right">Отфильтровать результаты</span></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseSearch" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <form class="form">
+                      <div class="form-group">
+                        <label for="searchID">Id (#)</label>
+                          <input type="text" class="form-control" id="searchID" placeholder>
+                      </div>
+                      <div class="form-group">
+                        <label for="searchDate">Дата</label>
+                          <input type="text" class="form-control" id="searchDate" placeholder="дд.мм.гггг">
+                      </div>
+                      <div class="form-group">
+                        <label for="searchName">Наименование</label>
+                          <input type="text" class="form-control" id="searchName" placeholder>
+                      </div>
+                      <div class="form-group">
+                        <label for="searchFIO">Преподаватель</label>
+                          <input type="text" class="form-control" id="searchFIO" placeholder>
+                      </div>
+                      <div class="form-group">
+                        <label for="searchEnteredBy">Подал(а)</label>
+                          <input type="text" class="form-control" id="searchEnteredBy" placeholder>
+                      </div>
+                      <div class="form-group">
+                          <button type="submit" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-search"></i>
+                            <span>Искать</span>
+                          </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseCreate">
+                      <i class="glyphicon glyphicon-plus-sign"></i>
+                      <span>Ввод<span class="text-muted pull-right">Ввести новое достижение</span></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseCreate" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <form class="form">
+                      <div class="form-group">
+                        <label for="teachers">Преподаватель</label>
+                        <input type="text" class="form-control" id="teachers" placeholder="Начните вводить фамилию преподавателя">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Критерий</label>
+                        <select class="form-control">
+                          <option>Участие в олимпиадах</option>
+                          <option>Спортивные достижения</option>
+                          <option>Публикации</option>
+                          <option>Приглашение иностранцев</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Наименование</label>
+                        <textarea class="form-control" placeholder="Опишите достижение преподавателя" rows="3"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Дата достижения</label>
+                        <input type="text" class="form-control" placeholder="дд.мм.гггг"/> 
+                      </div>
+                      <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        <span>Отправить на проверку</span>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- accordion -->
+
+          </div>        
+        <ul class="pagination pull-right">
+          <li class="disabled">
+            <a href="#">&lt;&lt;</a>
+          </li>
+          <li class="active">
+            <a href="#">1</a>
+          </li>
+          <li>
+            <a href="#">2</a>
+          </li>
+          <li>
+            <a href="#">3</a>
+          </li>
+          <li>
+            <a href="#">4</a>
+          </li>
+          <li>
+            <a href="#">&gt;&gt;</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">СГАУ 2014</p>
+    </div>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Заметки для #1232 - Востокин Сергей Владимирович</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-1">#12334</div>
+              <div class="col-md-7">Мурзилка здесь не авторитет</div>
+              <div class="col-md-3">Ишков Д.С.</div>
+              <div class="col-md-1"><a class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></a></div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-1">#12337</div>
+              <div class="col-md-7">Так больше нигде не публикуют!</div>
+              <div class="col-md-3">Муравьева Е.В.</div>
+              <div class="col-md-1"><a class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></a></div>
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md-7">
+            <input type="text" class="form-control" placeholder="Текст заметки">
+          </div>
+          <div class="col-md-5">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="empty-notes-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Заметки для #1233 - Прохоров Сергей Антонович</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4 col-md-offset-4">
+                <h4>Заметок нет</h4>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md-7">
+            <input type="text" class="form-control" placeholder="Текст заметки">
+          </div>
+          <div class="col-md-5">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$( "#teachers" ).autocomplete({
+  source: [
+  "Байбородов Ю.И.",
+  "Барвинок В.А.",
+  "Богданович В.И.",
+  "Гречников Ф.В.",
+  "Головашкин Д.Л.",
+  "Ежов А.Н.",
+  "Коднир Д.Ш.",
+  "Козлов Д.И.",
+  "Кононенко В.В.",
+  "Крайнов В.И.",
+  "Кузнецов Н.Д.",
+  "Мордасов В.И.",
+  "Оводенко М.Б.",
+  "Павельев В.С.",
+  "Покровский И.Б.",
+  "Сойфер В.А.",
+  "Федотов Ю.В.",
+  "Фомин Г.Е.",
+  "Цидулко А.Г.",
+  "Еленев Д.В.",
+  "Черепок Г.В.",
+  "Шорин В.П.",
+  "Аксёнов Г.И.",
+  "Барвинок В.А.",
+  "Глущенков В.А.",
+  "Ермаков А.И.",
+  "Козлов Д.И.",
+  "Комаров А.Д.",
+  "Лысенко Д.Н.",
+  "Лукачёв В.П.",
+  "Моисеев В.К.",
+  "Паровай Ф.В.",
+  "Пономарёв Ю.К.",
+  "Сойфер В.А.",
+  "Тарасов Ю.Л.",
+  "Тройников А.А.",
+  "Шалавин В.В.",
+  "Шахматов Е.В.",
+  "Шорин В.П.",
+  "Байбородов Ю.И.",
+  "Барвинок В.А.",
+  "Безводин В.А.",
+  "Белоусов А.И.",
+  "Бирюк В.В.",
+  "Богданович В.И.",
+  "Бочкарёв С.К.",
+  "Васильев В.В.",
+  "Волков А.В.",
+  "Гимадиев А.Г.",
+  "Глущенков В.А.",
+  "Ермаков А.И.",
+  "Жданов А.И.",
+  "Журавлёв О.А.",
+  "Завершинский И.П.",
+  "Изжеуров Е.А.",
+  "Ишков С.А.",
+  "Казанский Н.Л.",
+  "Калакутский Л.И.",
+  "Карпеев С.В.",
+  "Карпухин В.Ф.",
+  "Кныш Ю.А.",
+  "Коган Е.Я.",
+  "Козий С.И.",
+  "Козий С.С.",
+  "Колесников В.А.",
+  "Котляр В.В.",
+  "Кравчук В.В.",
+  "Кузьмичёв В.С.",
+  "Лазарев Ю.Н.",
+  "Молевич Н.Е.",
+  "Мордасов В.И.",
+  "Пономарёв Ю.К.",
+  "Прохоров С.А.",
+  "Ревякин А.В.",
+  "Салмин В.В.",
+  "Самохвалов В.П.",
+  "Санчугов В.И.",
+  "Сергеев В.В.",
+  "Сойфер В.А.",
+  "Старинова О.Л.",
+  "Фурсов В.А.",
+  "Хонина С. Н.",
+  "Чегодаев Д.Е.",
+  "Чернов В.М.",
+  "Шахмистов В.М.",
+  "Шахов В.Г.",
+  "Шитарев И.Л.",
+  "Шорин В.П.",
+  "Юрин В.В.",
+  ],
+  minLength: 0
+});
+</script>
+</html>
