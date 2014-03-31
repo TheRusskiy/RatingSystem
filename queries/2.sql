@@ -1,3 +1,4 @@
+use diploma_development;
 insert into criteria (name, fetch_type, fetch_value, multiplier, calculation_type, year_limit)
   VALUES(
     "Conducting conferences",

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "session.js",
+  "sourceRoot": "",
+  "sources": [
+    "session.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,UAAA;CAAA,CACA,CAAqD,GAArD,CAAO,EAAP,QAAA;CACY,QAAV,EAAA,IAAA;CADF,EAAqD;CADrD"
+}

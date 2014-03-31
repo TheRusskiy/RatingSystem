@@ -33,3 +33,5 @@ out
 
 junk/
 src/prototypes/node_modules
+src/sources/verification/node_modules
+src/sources/verification/bower_components

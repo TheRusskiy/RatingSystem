@@ -1,3 +1,4 @@
+use diploma_development;
 DROP TABLE IF EXISTS criteria;
 CREATE TABLE criteria (
   id INT(17) NOT NULL auto_increment,
