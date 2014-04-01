@@ -59,7 +59,7 @@ module.exports = function (grunt) {
 //        },
         compiledCss: {
             files: [
-            './styles/{,*//*}*.css'
+            './styles/**/*.css'
           ],
           options: {
 //            debounceDelay: 2000,
