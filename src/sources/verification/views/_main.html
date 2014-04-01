@@ -80,7 +80,7 @@
                                         <th>Заметки</th>
                                         <th width="60">Действия</th>
                                     </tr>
-                                    <tr ng-repeat="record in records(criteria.id)">
+                                    <tr ng-repeat="record in records(criteria.id, criteria.currentPage)">
                                         <th>{{record.id}}</th>
                                         <th>{{record.date}}</th>
                                         <th>{{record.name}}</th>
@@ -97,6 +97,17 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <pagination total-items="recordCount(criteria.id)"
+                                            page="criteria.currentPage"
+                                            items-per-page="countPerPage"
+                                            next-text="След."
+                                            previous-text="Пред.">
+                                </pagination>
+                            </div>
+                        </div>
+
                     </div>
                 </tab>
             </tabset>

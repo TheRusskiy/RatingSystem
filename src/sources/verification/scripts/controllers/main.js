@@ -39,7 +39,9 @@
         return $modalInstance.dismiss('cancel');
       };
     };
-    return $scope.records = Record.index;
+    $scope.records = Record.index;
+    $scope.recordCount = Record.count;
+    return $scope.countPerPage = Record.countPerPage;
   });
 
 }).call(this);

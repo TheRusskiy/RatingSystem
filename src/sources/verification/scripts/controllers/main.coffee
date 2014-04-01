@@ -1,5 +1,8 @@
 "use strict"
 angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal, Record, Criteria) ->
+#  $scope.totalItems = 100
+#  $scope.currentPage = 2
+#  $scope.maxSize = 6
   $scope.criterias = Criteria.index()
   $scope.teachers = [
     {
@@ -31,4 +34,5 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     $scope.cancel = ()->
       $modalInstance.dismiss('cancel')
   $scope.records = Record.index
-
+  $scope.recordCount = Record.count
+  $scope.countPerPage = Record.countPerPage

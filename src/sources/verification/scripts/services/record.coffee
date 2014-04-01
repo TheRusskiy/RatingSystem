@@ -29,7 +29,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     }
     {
       id: 3
-      criteria_id: 2
+      criteria_id: 1
       date: "01.01.2014"
       name: "Публикация в журнале 'Мурзилка'"
       teacher:
@@ -54,11 +54,22 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       notes: []
     }
   ]
+  countPerPage = 2
   for r in records
     r.$remove = ()-> console.log("Removing record "+r.id.toString())
   return {
-      index: (criteria_id)->
-        records.filter (e)-> e.criteria_id == criteria_id
+      countPerPage: countPerPage
+      index: (criteria_id, pageNumber=1)->
+        pageNumber = pageNumber - 1 # start from 0
+        subset = records.filter (e)-> e.criteria_id == criteria_id
+        result = []
+        for r, i in subset
+          result.push(r) if i in [pageNumber*countPerPage..(pageNumber+1)*countPerPage]
+        result
+
+      count: (criteria_id)->
+        length = (records.filter (e)-> e.criteria_id == criteria_id).length
+        length
     }
 
 
