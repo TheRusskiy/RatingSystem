@@ -1,6 +1,6 @@
 "use strict"
 angular.module("verificationApp").factory "User", ($resource) ->
-  $resource "/sources/verification", {controller: "user"}
+  $resource "/sources/verification/index.php", {controller: "users"}
   ,
     #parameters default
     update:

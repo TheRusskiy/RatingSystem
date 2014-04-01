@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").factory "Auth", ($location, $rootScope, Session, User) ->
+angular.module("verificationApp").factory "Auth", ($location, $rootScope, Session, User, $window) ->
 
   ###
   Authenticate user
@@ -34,6 +34,8 @@ angular.module("verificationApp").factory "Auth", ($location, $rootScope, Sessio
     return Session.delete(
       ()->
         $rootScope.currentUser = null;
+        $location.url('/');
+        $window.location.reload(true);
         return cb();
       ,(err)->
         return cb(err);

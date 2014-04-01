@@ -83,7 +83,7 @@ function modify_url($url, $new_params){
 
 function redirect($url, $params = array()){
     $url = modify_url($url, $params);
-    header("Location: $url");
+    header("Location: $url", true, 302);
 }
 
 function render($path, $vars = array()){

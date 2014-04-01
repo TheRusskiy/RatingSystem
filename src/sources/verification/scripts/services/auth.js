@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").factory("Auth", function($location, $rootScope, Session, User) {
+  angular.module("verificationApp").factory("Auth", function($location, $rootScope, Session, User, $window) {
     return {
       /*
       Authenticate user
@@ -35,6 +35,8 @@
         cb = callback || angular.noop;
         return Session["delete"](function() {
           $rootScope.currentUser = null;
+          $location.url('/');
+          $window.location.reload(true);
           return cb();
         }, function(err) {
           return cb(err);

@@ -13,3 +13,5 @@ angular.module('verificationApp')
         console.log('Current user:'+err.data);
   #        $scope.errors.other = err.message;
       );
+    $rootScope.logout = ()->
+      Auth.logout()

@@ -1,8 +1,8 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("User", function($resource) {
-    return $resource("/sources/verification", {
-      controller: "user"
+    return $resource("/sources/verification/index.php", {
+      controller: "users"
     }, {
       update: {
         method: "PUT",

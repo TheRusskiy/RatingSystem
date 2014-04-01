@@ -2,7 +2,7 @@
   'use strict';
   angular.module('verificationApp').controller('AppCtrl', function($scope, $http, Auth, $rootScope) {
     if (!$rootScope.currentUser) {
-      return Auth.currentUser().$promise.then(function(user) {
+      Auth.currentUser().$promise.then(function(user) {
         console.log(user);
         if (user.id != null) {
           return $rootScope.currentUser = user;
@@ -13,6 +13,9 @@
         return console.log('Current user:' + err.data);
       });
     }
+    return $rootScope.logout = function() {
+      return Auth.logout();
+    };
   });
 
 }).call(this);
