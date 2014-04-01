@@ -4,7 +4,7 @@
     if (!$rootScope.currentUser) {
       return Auth.currentUser().$promise.then(function(user) {
         console.log(user);
-        if (user._id != null) {
+        if (user.id != null) {
           return $rootScope.currentUser = user;
         } else {
           return $rootScope.currentUser = null;

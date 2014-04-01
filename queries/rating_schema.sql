@@ -34,3 +34,10 @@ CREATE TABLE cached_rating (
   PRIMARY KEY(id),
   INDEX staff_dates (staff_id, date_from, date_to)
 );
+
+# DROP TABLE IF EXISTS verification_user_role;
+# CREATE TABLE verification_user_role (
+#   id INT(17) NOT NULL auto_increment,
+#   user_id INT(10) NOT NULL UNIQUE,
+#   permissions VARCHAR(100)
+# );

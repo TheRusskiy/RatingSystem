@@ -5,7 +5,7 @@ angular.module('verificationApp')
     unless $rootScope.currentUser
       Auth.currentUser().$promise.then( (user)->
         console.log user
-        if user._id?
+        if user.id?
           $rootScope.currentUser = user;
         else
           $rootScope.currentUser = null;

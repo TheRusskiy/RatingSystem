@@ -1,7 +1,7 @@
 "use strict"
 
 # Intercept 401s and 403s and redirect you to login
-angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute"]).config(($routeProvider, $locationProvider, $httpProvider) ->
+angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(($routeProvider, $locationProvider, $httpProvider) ->
   $routeProvider.when("/",
     templateUrl: "sources/verification/views/_main"
     controller: "MainCtrl"

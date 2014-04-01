@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute"]).config(function($routeProvider, $locationProvider, $httpProvider) {
+  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(function($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider.when("/", {
       templateUrl: "sources/verification/views/_main",
       controller: "MainCtrl"
