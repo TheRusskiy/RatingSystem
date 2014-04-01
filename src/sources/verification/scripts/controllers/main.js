@@ -1,14 +1,9 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").controller("MainCtrl", function($scope, $http, $modal, Record, Criteria) {
+  angular.module("verificationApp").controller("MainCtrl", function($scope, $http, $modal, Record, Criteria, Teacher) {
     var ModalInstanceCtrl;
     $scope.criterias = Criteria.index();
-    $scope.teachers = [
-      {
-        id: 1,
-        name: "Прохоров Сергей Антонович"
-      }
-    ];
+    $scope.teachers = Teacher.index();
     ModalInstanceCtrl = function($scope, $modalInstance, record, RecordNote) {
       $scope.record = record;
       $scope.notes = RecordNote.index(record.id);

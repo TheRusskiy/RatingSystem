@@ -23,7 +23,7 @@
         id: 2,
         criteria_id: 1,
         date: "01.02.2013",
-        name: "Победа в областной олимпиаде по математике",
+        name: "Победа в областной олимпиаде по физике",
         teacher: {
           id: 1,
           name: "Прохоров Сергей Антонович"
@@ -37,7 +37,7 @@
         id: 3,
         criteria_id: 1,
         date: "01.01.2014",
-        name: "Публикация в журнале 'Мурзилка'",
+        name: "Победа в областной олимпиаде по информатике",
         teacher: {
           id: 1,
           name: "Прохоров Сергей Антонович"
@@ -49,12 +49,26 @@
         notes: []
       }, {
         id: 4,
+        criteria_id: 2,
+        date: "01.01.2014",
+        name: "Публикация в журнале 'Мурзилка'",
+        teacher: {
+          id: 2,
+          name: "Востокин Сергей Владимирович"
+        },
+        user: {
+          id: 202,
+          name: "Ишков Д.С."
+        },
+        notes: []
+      }, {
+        id: 5,
         criteria_id: 3,
         date: "01.05.2014",
         name: "Ашот Каберханян Фываолдж",
         teacher: {
-          id: 1,
-          name: "Прохоров Сергей Антонович"
+          id: 3,
+          name: "Иващенко Антон Владимирович"
         },
         user: {
           id: 202,
@@ -86,7 +100,7 @@
           r = subset[i];
           if (__indexOf.call((function() {
             _results = [];
-            for (var _k = _ref = pageNumber * countPerPage, _ref1 = (pageNumber + 1) * countPerPage; _ref <= _ref1 ? _k <= _ref1 : _k >= _ref1; _ref <= _ref1 ? _k++ : _k--){ _results.push(_k); }
+            for (var _k = _ref = pageNumber * countPerPage, _ref1 = (pageNumber + 1) * countPerPage; _ref <= _ref1 ? _k < _ref1 : _k > _ref1; _ref <= _ref1 ? _k++ : _k--){ _results.push(_k); }
             return _results;
           }).apply(this), i) >= 0) {
             result.push(r);

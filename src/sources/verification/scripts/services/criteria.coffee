@@ -24,8 +24,6 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
             quis nostrud exercitation ullamco laboris nisi."
     }
   ]
-  for c in criterias
-    c.$remove = ()-> console.log("Removing criteria "+c.id.toString())
   return {
       index: ()->
         criterias

@@ -18,7 +18,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       id: 2
       criteria_id: 1
       date: "01.02.2013"
-      name: "Победа в областной олимпиаде по математике"
+      name: "Победа в областной олимпиаде по физике"
       teacher:
         id: 1
         name: "Прохоров Сергей Антонович"
@@ -31,7 +31,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       id: 3
       criteria_id: 1
       date: "01.01.2014"
-      name: "Публикация в журнале 'Мурзилка'"
+      name: "Победа в областной олимпиаде по информатике"
       teacher:
         id: 1
         name: "Прохоров Сергей Антонович"
@@ -42,12 +42,25 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     }
     {
       id: 4
+      criteria_id: 2
+      date: "01.01.2014"
+      name: "Публикация в журнале 'Мурзилка'"
+      teacher:
+        id: 2
+        name: "Востокин Сергей Владимирович"
+      user:
+        id: 202
+        name: "Ишков Д.С."
+      notes: []
+    }
+    {
+      id: 5
       criteria_id: 3
       date: "01.05.2014"
       name: "Ашот Каберханян Фываолдж"
       teacher:
-        id: 1
-        name: "Прохоров Сергей Антонович"
+        id: 3
+        name: "Иващенко Антон Владимирович"
       user:
         id: 202
         name: "Ишков Д.С."
@@ -64,7 +77,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
         subset = records.filter (e)-> e.criteria_id == criteria_id
         result = []
         for r, i in subset
-          result.push(r) if i in [pageNumber*countPerPage..(pageNumber+1)*countPerPage]
+          result.push(r) if i in [pageNumber*countPerPage...(pageNumber+1)*countPerPage]
         result
 
       count: (criteria_id)->

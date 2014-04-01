@@ -1,15 +1,7 @@
 "use strict"
-angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal, Record, Criteria) ->
-#  $scope.totalItems = 100
-#  $scope.currentPage = 2
-#  $scope.maxSize = 6
+angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal, Record, Criteria, Teacher) ->
   $scope.criterias = Criteria.index()
-  $scope.teachers = [
-    {
-      id: 1
-      name: "Прохоров Сергей Антонович"
-    }
-  ]
+  $scope.teachers = Teacher.index()
 
   ModalInstanceCtrl = ($scope, $modalInstance, record, RecordNote)->
     $scope.record = record
