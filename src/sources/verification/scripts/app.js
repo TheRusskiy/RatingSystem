@@ -4,10 +4,12 @@
     $routeProvider.when("/", {
       templateUrl: "sources/verification/views/_main",
       controller: "MainCtrl"
+    }).when("/guide", {
+      templateUrl: "sources/verification/views/_user_guide",
+      controller: "GuideCtrl"
     }).otherwise({
       redirectTo: "/"
     });
-    $locationProvider.html5Mode(true);
     $localeProvider.id = "ru-ru";
     return $httpProvider.interceptors.push([
       "$q", "$location", function($q, $location) {

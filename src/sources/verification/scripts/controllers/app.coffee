@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('verificationApp')
-  .controller 'AppCtrl', ($scope, $http, Auth, $rootScope)->
+  .controller 'AppCtrl', ($scope, $http, Auth, $rootScope, $location)->
     unless $rootScope.currentUser
       Auth.currentUser().$promise.then( (user)->
         console.log user
@@ -15,3 +15,4 @@ angular.module('verificationApp')
       );
     $rootScope.logout = ()->
       Auth.logout()
+    $scope.location = $location.path()

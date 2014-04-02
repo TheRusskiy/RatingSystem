@@ -5,8 +5,11 @@ angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngR
   $routeProvider.when("/",
     templateUrl: "sources/verification/views/_main"
     controller: "MainCtrl"
+  ).when("/guide",
+    templateUrl: "sources/verification/views/_user_guide"
+    controller: "GuideCtrl"
   ).otherwise redirectTo: "/"
-  $locationProvider.html5Mode true
+#  $locationProvider.html5Mode true
   $localeProvider.id="ru-ru"
   $httpProvider.interceptors.push ["$q", "$location", ($q, $location) ->
     responseError: (response) ->

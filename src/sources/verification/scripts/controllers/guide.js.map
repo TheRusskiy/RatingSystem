@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "guide.js",
+  "sourceRoot": "",
+  "sources": [
+    "guide.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,UAAA;CAAA,CACA,CAA0D,GAA1D,CAAO,EAAmD,CAA1D,CAAA,MAAA;CAA0D,UACxD;CADF,EAA0D;CAD1D"
+}
