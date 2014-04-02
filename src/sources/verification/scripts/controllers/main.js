@@ -45,18 +45,9 @@
       $event.stopPropagation();
       return form.datepickerOpened = true;
     };
-    $scope.addRecord = function(criteria, form) {
-      var record;
-      record = new Record(criteria.current_record);
-      record.save();
-      criteria.current_record = {
-        criteria_id: criteria.id
-      };
-      return form.$setPristine();
-    };
     $scope.saveRecord = function(criteria, form) {
       var record;
-      record = criteria.current_record;
+      record = new Record(criteria.current_record);
       return record.save();
     };
     $scope.editRecord = function(record, criteria) {
@@ -75,11 +66,23 @@
       }
       return _results;
     };
-    return $scope.newRecord = function(criteria) {
+    $scope.newRecord = function(criteria) {
       criteria.current_record = {
         criteria_id: criteria.id
       };
       return criteria.form.$setPristine();
+    };
+    return $scope.deleteRecord = function(criteria, form) {
+      var record;
+      if (!confirm("Вы уверены что хотите удалить эту запись?")) {
+        return;
+      }
+      record = new Record(criteria.current_record);
+      record["delete"]();
+      criteria.current_record = {
+        criteria_id: criteria.id
+      };
+      return form.$setPristine();
     };
   });
 

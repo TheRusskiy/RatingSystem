@@ -37,15 +37,11 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     $event.preventDefault();
     $event.stopPropagation();
     form.datepickerOpened = true
-  $scope.addRecord = (criteria, form)->
+  $scope.saveRecord = (criteria, form)->
     record = new Record(criteria.current_record)
     record.save()
-    criteria.current_record = {criteria_id: criteria.id}
-    form.$setPristine()
-
-  $scope.saveRecord = (criteria, form)->
-    record = criteria.current_record
-    record.save()
+#    criteria.current_record = {criteria_id: criteria.id}
+#    form.$setPristine()
 
   $scope.editRecord = (record, criteria)->
     criteria.current_record = record
@@ -53,8 +49,14 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
       if o.value == record.option.value
         record.option = o
         break
+
   $scope.newRecord = (criteria)->
     criteria.current_record = {criteria_id: criteria.id}
     criteria.form.$setPristine()
 
-
+  $scope.deleteRecord = (criteria, form)->
+    return unless confirm("Вы уверены что хотите удалить эту запись?")
+    record = new Record(criteria.current_record)
+    record.delete()
+    criteria.current_record = {criteria_id: criteria.id}
+    form.$setPristine()

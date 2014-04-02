@@ -79,13 +79,26 @@ angular.module("verificationApp").factory "Record", ($resource) ->
   curId=5
   generateId = ()-> curId+=1; curId
   countPerPage = 2
-  MyRecord = (attrs)->
-    for key, value of attrs
+  MyRecord = (source)->
+    @.source = source
+    for key, value of source
       @[key]=value
     @
   MyRecord.prototype.save = ()->
+    return if (@.id)
     @.id = generateId()
+    @.source.id = @.id
     records.push(@)
+    console.log("Saved")
+    console.log(records)
+  MyRecord.prototype.delete = ()->
+    position = null
+    for r, i in records
+      if r.id = @.id
+        position = i
+        break
+    records.splice(position, 1)
+    console.log("Deleted")
     console.log(records)
   MyRecord.countPerPage = countPerPage
   MyRecord.index = (criteria_id, pageNumber=1)->

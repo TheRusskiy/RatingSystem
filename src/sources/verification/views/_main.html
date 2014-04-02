@@ -210,20 +210,28 @@
                                                            ng-model="criteria.current_record.criteria_id"
                                                     />
                                                     <button type="submit"
+                                                            ng-if="!criteria.current_record.id"
                                                             ng-disabled="form.$invalid"
-                                                            ng-click="addRecord(criteria, form)"
+                                                            ng-click="saveRecord(criteria, form)"
                                                             class="btn btn-primary">
                                                         <i class="glyphicon glyphicon-plus-sign"></i>
-                                                        <span ng-if="!criteria.current_record.id">Добавить</span>
-                                                        <span ng-if="criteria.current_record.id">Сохранить</span>
+                                                        <span>Добавить</span>
+                                                    </button>
+                                                    <button type="submit"
+                                                            ng-if="criteria.current_record.id"
+                                                            ng-disabled="form.$invalid"
+                                                            ng-click="saveRecord(criteria, form)"
+                                                            class="btn btn-warning">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        <span>Сохранить</span>
                                                     </button>
                                                     <span ng-show="form.$invalid">
                                                         Укажите все поля
                                                     </span>
                                                     <button type="submit"
                                                             ng-if="criteria.current_record.id"
-                                                            ng-click="saveRecord(criteria, form)"
-                                                            class="btn btn-danger pull-right">
+                                                            ng-click="deleteRecord(criteria, form)"
+                                                            class="btn btn-danger">
                                                         <i class="glyphicon glyphicon-remove"></i>
                                                         <span>Удалить</span>
                                                     </button>

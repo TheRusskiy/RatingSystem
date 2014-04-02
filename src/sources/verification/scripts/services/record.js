@@ -95,17 +95,37 @@
       return curId;
     };
     countPerPage = 2;
-    MyRecord = function(attrs) {
+    MyRecord = function(source) {
       var key, value;
-      for (key in attrs) {
-        value = attrs[key];
+      this.source = source;
+      for (key in source) {
+        value = source[key];
         this[key] = value;
       }
       return this;
     };
     MyRecord.prototype.save = function() {
+      if (this.id) {
+        return;
+      }
       this.id = generateId();
+      this.source.id = this.id;
       records.push(this);
+      console.log("Saved");
+      return console.log(records);
+    };
+    MyRecord.prototype["delete"] = function() {
+      var i, position, r, _i, _len;
+      position = null;
+      for (i = _i = 0, _len = records.length; _i < _len; i = ++_i) {
+        r = records[i];
+        if (r.id = this.id) {
+          position = i;
+          break;
+        }
+      }
+      records.splice(position, 1);
+      console.log("Deleted");
       return console.log(records);
     };
     MyRecord.countPerPage = countPerPage;
