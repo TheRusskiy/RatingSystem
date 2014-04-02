@@ -75,24 +75,26 @@
                                         <th>#</th>
                                         <th>Дата</th>
                                         <th>Наименование</th>
+                                        <th ng-if="criteria.options">Вариант</th>
                                         <th>Преподаватель</th>
                                         <th>Утвердил(а)</th>
                                         <th>Заметки</th>
                                         <th width="60">Действия</th>
                                     </tr>
                                     <tr ng-repeat="record in records(criteria.id, criteria.currentPage)">
-                                        <th>{{record.id}}</th>
-                                        <th>{{record.date}}</th>
-                                        <th>{{record.name}}</th>
-                                        <th>{{record.teacher.name}}</th>
-                                        <th>{{record.user.name}}</th>
-                                        <th>
-                                            <a class="btn btn-link" ng-click="displayNotes(record)">{{record.notes.length}}</a></th>
-                                        <th>
+                                        <td>{{record.id}}</td>
+                                        <td>{{record.date}}</td>
+                                        <td>{{record.name}}</td>
+                                        <td ng-if="criteria.options">{{record.option.name}}</td>
+                                        <td>{{record.teacher.name}}</td>
+                                        <td>{{record.user.name}}</td>
+                                        <td>
+                                            <a class="btn btn-link" ng-click="displayNotes(record)">{{record.notes.length}}</a></td>
+                                        <td>
                                             <div class="btn-group">
                                                 <a class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
                                             </div>
-                                        </th>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -107,6 +109,71 @@
                                 </pagination>
                             </div>
                         </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-6" >
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseCreate">
+                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                    <span>Ввод<span class="text-muted pull-right">Ввести новое достижение</span></span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseCreate" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <form class="form">
+                                                    <div class="form-group">
+                                                        <p>{{customSelected}}</p>
+                                                        <label for="teachers">Преподаватель</label>
+                                                        <input id="teachers" type="text"
+                                                               ng-model="customSelected"
+                                                               placeholder="Начните вводить фамилию преподавателя"
+                                                               typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
+                                                               class="form-control"
+                                                               typeahead-editable="false">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Критерий</label>
+                                                        <select class="form-control">
+                                                            <option>Участие в олимпиадах</option>
+                                                            <option>Спортивные достижения</option>
+                                                            <option>Публикации</option>
+                                                            <option>Приглашение иностранцев</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Наименование</label>
+                                                        <textarea class="form-control" placeholder="Опишите достижение преподавателя" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Дата достижения</label>
+                                                        <input type="text" class="form-control" placeholder="дд.мм.гггг"/>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        <span>Отправить на проверку</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- accordion -->
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
 
                     </div>
                 </tab>

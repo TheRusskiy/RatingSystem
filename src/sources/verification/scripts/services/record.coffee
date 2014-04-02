@@ -6,6 +6,9 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       criteria_id: 1
       date: "01.02.2013"
       name: "Победа в областной олимпиаде по математике"
+      option:
+        value: 1
+        name: "1 место"
       teacher:
         id: 1
         name: "Прохоров Сергей Антонович"
@@ -19,6 +22,9 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       criteria_id: 1
       date: "01.02.2013"
       name: "Победа в областной олимпиаде по физике"
+      option:
+        value: 2
+        name: "2 место"
       teacher:
         id: 1
         name: "Прохоров Сергей Антонович"
@@ -32,6 +38,9 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       criteria_id: 1
       date: "01.01.2014"
       name: "Победа в областной олимпиаде по информатике"
+      option:
+        value: 3
+        name: "3 место"
       teacher:
         id: 1
         name: "Прохоров Сергей Антонович"
