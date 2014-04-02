@@ -89,7 +89,6 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     console.log(records)
   MyRecord.countPerPage = countPerPage
   MyRecord.index = (criteria_id, pageNumber=1)->
-    console.log('records')
     pageNumber = pageNumber - 1 # start from 0
     subset = records.filter (e)-> e.criteria_id == criteria_id
     result = []
@@ -98,7 +97,6 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     result
 
   MyRecord.count= (criteria_id)->
-    console.log('count')
     length = (records.filter (e)-> e.criteria_id == criteria_id).length
     length
   for r in records

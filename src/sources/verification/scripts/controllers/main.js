@@ -45,9 +45,41 @@
       $event.stopPropagation();
       return form.datepickerOpened = true;
     };
-    return $scope.addRecord = function(criteria, record) {
-      record = new Record(record);
+    $scope.addRecord = function(criteria, form) {
+      var record;
+      record = new Record(criteria.current_record);
+      record.save();
+      criteria.current_record = {
+        criteria_id: criteria.id
+      };
+      return form.$setPristine();
+    };
+    $scope.saveRecord = function(criteria, form) {
+      var record;
+      record = criteria.current_record;
       return record.save();
+    };
+    $scope.editRecord = function(record, criteria) {
+      var o, _i, _len, _ref, _results;
+      criteria.current_record = record;
+      _ref = criteria.options;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        o = _ref[_i];
+        if (o.value === record.option.value) {
+          record.option = o;
+          break;
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+    return $scope.newRecord = function(criteria) {
+      criteria.current_record = {
+        criteria_id: criteria.id
+      };
+      return criteria.form.$setPristine();
     };
   });
 

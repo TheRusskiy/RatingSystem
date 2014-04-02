@@ -114,7 +114,6 @@
       if (pageNumber == null) {
         pageNumber = 1;
       }
-      console.log('records');
       pageNumber = pageNumber - 1;
       subset = records.filter(function(e) {
         return e.criteria_id === criteria_id;
@@ -134,7 +133,6 @@
     };
     MyRecord.count = function(criteria_id) {
       var length;
-      console.log('count');
       length = (records.filter(function(e) {
         return e.criteria_id === criteria_id;
       })).length;

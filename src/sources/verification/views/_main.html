@@ -92,7 +92,7 @@
                                             <a class="btn btn-link" ng-click="displayNotes(record)">{{record.notes.length}}</a></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                <a class="btn btn-default" ng-click="editRecord(record, criteria)"><i class="glyphicon glyphicon-pencil"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -119,21 +119,32 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="">
-                                                    <i class="glyphicon glyphicon-plus-sign"></i>
-                                                    <span>Ввод<span class="text-muted pull-right">Ввести новое достижение</span></span>
-                                                </a>
+                                                    <span ng-if="!criteria.current_record.id">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        <span>Ввод</span>
+                                                    </span>
+                                                    <span ng-if="criteria.current_record.id">
+                                                        <i class="glyphicon glyphicon-pencil"></i>
+                                                        <span>
+                                                            Редактирование
+                                                            <a href="" class="pull-right" ng-click="newRecord(criteria)">
+                                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                Ввести новое достижение
+                                                            </a>
+                                                        </span>
+                                                    </span>
                                             </h4>
                                         </div>
                                         <div id="collapseCreate" class="panel-collapse collapse in">
                                             <div class="panel-body">
                                                 <form novalidate class="form" name="form">
-                                                    <p>{{new_record}}</p>
+                                                    <p>{{criteria.current_record}}</p>
+                                                    <div ng-show="false" ng-init="criteria.form=form"></div>
                                                     <div class="form-group">
                                                         <label for="teachers">Преподаватель</label>
                                                         <input id="teachers"
                                                                type="text"
-                                                               ng-model="new_record.teacher"
+                                                               ng-model="criteria.current_record.teacher"
                                                                name="teacher"
                                                                placeholder="Начните вводить фамилию преподавателя"
                                                                typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
@@ -146,7 +157,7 @@
                                                     </div>
                                                     <div ng-if="criteria.options" class="form-group">
                                                         <label>Вариант</label>
-                                                            <select ng-model="new_record.option"
+                                                            <select ng-model="criteria.current_record.option"
                                                                     name="option"
                                                                     class="form-control"
                                                                     required="true"
@@ -159,7 +170,7 @@
                                                         <label>Наименование</label>
                                                         <textarea class="form-control"
                                                                   name="name"
-                                                                  ng-model="new_record.name"
+                                                                  ng-model="criteria.current_record.name"
                                                                   placeholder="Опишите достижение преподавателя"
                                                                   required
                                                                   rows="3">
@@ -172,7 +183,7 @@
                                                                        name="date"
                                                                        class="form-control"
                                                                        datepicker-popup="dd MMMM yyyy"
-                                                                       ng-model="new_record.date"
+                                                                       ng-model="criteria.current_record.date"
                                                                        show-weeks="false"
                                                                        datepicker-options="dateOptions"
                                                                        datepicker-append-to-body="true"
@@ -195,19 +206,28 @@
                                                     </div>
                                                     <input type="hidden"
                                                            name="criteria_id"
-                                                           ng-init="new_record.criteria_id=criteria.id"
-                                                           ng-model="new_record.criteria_id"
+                                                           ng-init="criteria.current_record.criteria_id=criteria.id"
+                                                           ng-model="criteria.current_record.criteria_id"
                                                     />
                                                     <button type="submit"
                                                             ng-disabled="form.$invalid"
-                                                            ng-click="addRecord(criteria, new_record)"
+                                                            ng-click="addRecord(criteria, form)"
                                                             class="btn btn-primary">
                                                         <i class="glyphicon glyphicon-plus-sign"></i>
-                                                        <span>Добавить</span>
+                                                        <span ng-if="!criteria.current_record.id">Добавить</span>
+                                                        <span ng-if="criteria.current_record.id">Сохранить</span>
                                                     </button>
                                                     <span ng-show="form.$invalid">
                                                         Укажите все поля
                                                     </span>
+                                                    <button type="submit"
+                                                            ng-if="criteria.current_record.id"
+                                                            ng-click="saveRecord(criteria, form)"
+                                                            class="btn btn-danger pull-right">
+                                                        <i class="glyphicon glyphicon-remove"></i>
+                                                        <span>Удалить</span>
+                                                    </button>
+
                                                 </form>
                                             </div>
                                         </div>
