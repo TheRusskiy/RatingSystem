@@ -33,6 +33,7 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
   $scope.dateOptions = {
     'starting-day': 1
   };
-  $scope.openDatepicker = ($event)->
+  $scope.openDatepicker = ($event, form)->
     $event.preventDefault();
     $event.stopPropagation();
+    form.datepickerOpened = true
