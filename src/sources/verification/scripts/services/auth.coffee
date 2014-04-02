@@ -34,8 +34,8 @@ angular.module("verificationApp").factory "Auth", ($location, $rootScope, Sessio
     return Session.delete(
       ()->
         $rootScope.currentUser = null;
-        $location.url('/');
-        $window.location.reload(true);
+        new_path = $location.protocol()+"://"+$location.host()+":"+$location.port()
+        $window.location.href = new_path
         return cb();
       ,(err)->
         return cb(err);

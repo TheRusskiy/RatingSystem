@@ -34,9 +34,10 @@
         var cb;
         cb = callback || angular.noop;
         return Session["delete"](function() {
+          var new_path;
           $rootScope.currentUser = null;
-          $location.url('/');
-          $window.location.reload(true);
+          new_path = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+          $window.location.href = new_path;
           return cb();
         }, function(err) {
           return cb(err);
