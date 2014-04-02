@@ -119,7 +119,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseCreate">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="">
                                                     <i class="glyphicon glyphicon-plus-sign"></i>
                                                     <span>Ввод<span class="text-muted pull-right">Ввести новое достижение</span></span>
                                                 </a>
@@ -127,37 +127,74 @@
                                         </div>
                                         <div id="collapseCreate" class="panel-collapse collapse in">
                                             <div class="panel-body">
-                                                <form class="form">
+                                                <form novalidate class="form" name="form">
+                                                    <p>{{new_record}}</p>
                                                     <div class="form-group">
-                                                        <p>{{customSelected}}</p>
                                                         <label for="teachers">Преподаватель</label>
-                                                        <input id="teachers" type="text"
-                                                               ng-model="customSelected"
+                                                        <input id="teachers"
+                                                               type="text"
+                                                               ng-model="new_record.teacher"
+                                                               name="teacher"
                                                                placeholder="Начните вводить фамилию преподавателя"
                                                                typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
                                                                class="form-control"
+                                                               required
                                                                typeahead-editable="false">
+                                                        <div ng-show="form.teacher.$dirty && form.teacher.$invalid">
+                                                            Выберите преподавателя из списка.
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="criteria.options" class="form-group">
+                                                        <label>Вариант</label>
+                                                            <select ng-model="new_record.option"
+                                                                    name="option"
+                                                                    class="form-control"
+                                                                    required="true"
+                                                                    ng-required="true"
+                                                                    ng-options="value as value.name for value in criteria.options"
+                                                                    >
+                                                            </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="">Критерий</label>
-                                                        <select class="form-control">
-                                                            <option>Участие в олимпиадах</option>
-                                                            <option>Спортивные достижения</option>
-                                                            <option>Публикации</option>
-                                                            <option>Приглашение иностранцев</option>
-                                                        </select>
+                                                        <label>Наименование</label>
+                                                        <textarea class="form-control"
+                                                                  ng-model="new_record.name"
+                                                                  placeholder="Опишите достижение преподавателя"
+                                                                  required
+                                                                  rows="3">
+                                                        </textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="">Наименование</label>
-                                                        <textarea class="form-control" placeholder="Опишите достижение преподавателя" rows="3"></textarea>
+                                                        <label>Дата достижения
+                                                            <p class="input-group">
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       datepicker-popup="dd MMMM yyyy"
+                                                                       ng-model="new_record.date"
+                                                                       show-weeks="false"
+                                                                       datepicker-options="dateOptions"
+                                                                       datepicker-append-to-body="true"
+                                                                       ng-required="true"
+                                                                       clear-text="Очистить"
+                                                                       close-text="X"
+                                                                       current-text="Сегодня"
+                                                                       toggle-weeks-text="Недели"
+                                                                       show-button-bar="false"
+                                                                        />
+                                                              <span class="input-group-btn">
+                                                                <button class="btn btn-default"
+                                                                        ng-click="openDatePicker($event)">
+                                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                                </button>
+                                                              </span>
+                                                            </p>
+                                                        </label>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="">Дата достижения</label>
-                                                        <input type="text" class="form-control" placeholder="дд.мм.гггг"/>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit"
+                                                            ng-disabled="form.$invalid"
+                                                            class="btn btn-primary">
                                                         <i class="glyphicon glyphicon-plus-sign"></i>
-                                                        <span>Отправить на проверку</span>
+                                                        <span>Добавить</span>
                                                     </button>
                                                 </form>
                                             </div>

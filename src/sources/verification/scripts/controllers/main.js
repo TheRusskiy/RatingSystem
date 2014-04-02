@@ -36,7 +36,14 @@
     };
     $scope.records = Record.index;
     $scope.recordCount = Record.count;
-    return $scope.countPerPage = Record.countPerPage;
+    $scope.countPerPage = Record.countPerPage;
+    $scope.dateOptions = {
+      'starting-day': 1
+    };
+    return $scope.openDatepicker = function($event) {
+      $event.preventDefault();
+      return $event.stopPropagation();
+    };
   });
 
 }).call(this);

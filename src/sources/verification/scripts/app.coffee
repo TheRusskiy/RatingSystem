@@ -1,12 +1,13 @@
 "use strict"
 
 # Intercept 401s and 403s and redirect you to login
-angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(($routeProvider, $locationProvider, $httpProvider) ->
+angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(($routeProvider, $locationProvider, $httpProvider, $localeProvider) ->
   $routeProvider.when("/",
     templateUrl: "sources/verification/views/_main"
     controller: "MainCtrl"
   ).otherwise redirectTo: "/"
   $locationProvider.html5Mode true
+  $localeProvider.id="ru-ru"
   $httpProvider.interceptors.push ["$q", "$location", ($q, $location) ->
     responseError: (response) ->
       if response.status is 401 or response.status is 403

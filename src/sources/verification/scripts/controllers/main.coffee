@@ -28,3 +28,11 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
   $scope.records = Record.index
   $scope.recordCount = Record.count
   $scope.countPerPage = Record.countPerPage
+
+  # date
+  $scope.dateOptions = {
+    'starting-day': 1
+  };
+  $scope.openDatepicker = ($event)->
+    $event.preventDefault();
+    $event.stopPropagation();

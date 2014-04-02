@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(function($routeProvider, $locationProvider, $httpProvider) {
+  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(function($routeProvider, $locationProvider, $httpProvider, $localeProvider) {
     $routeProvider.when("/", {
       templateUrl: "sources/verification/views/_main",
       controller: "MainCtrl"
@@ -8,6 +8,7 @@
       redirectTo: "/"
     });
     $locationProvider.html5Mode(true);
+    $localeProvider.id = "ru-ru";
     return $httpProvider.interceptors.push([
       "$q", "$location", function($q, $location) {
         return {
