@@ -37,3 +37,6 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     $event.preventDefault();
     $event.stopPropagation();
     form.datepickerOpened = true
+  $scope.addRecord = (criteria, record)->
+    record = new Record(record)
+    record.save()

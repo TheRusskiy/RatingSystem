@@ -76,22 +76,34 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       notes: []
     }
   ]
+  curId=5
+  generateId = ()-> curId+=1; curId
   countPerPage = 2
+  MyRecord = (attrs)->
+    for key, value of attrs
+      @[key]=value
+    @
+  MyRecord.prototype.save = ()->
+    @.id = generateId()
+    records.push(@)
+    console.log(records)
+  MyRecord.countPerPage = countPerPage
+  MyRecord.index = (criteria_id, pageNumber=1)->
+    console.log('records')
+    pageNumber = pageNumber - 1 # start from 0
+    subset = records.filter (e)-> e.criteria_id == criteria_id
+    result = []
+    for r, i in subset
+      result.push(r) if i in [pageNumber*countPerPage...(pageNumber+1)*countPerPage]
+    result
+
+  MyRecord.count= (criteria_id)->
+    console.log('count')
+    length = (records.filter (e)-> e.criteria_id == criteria_id).length
+    length
   for r in records
     r.$remove = ()-> console.log("Removing record "+r.id.toString())
-  return {
-      countPerPage: countPerPage
-      index: (criteria_id, pageNumber=1)->
-        pageNumber = pageNumber - 1 # start from 0
-        subset = records.filter (e)-> e.criteria_id == criteria_id
-        result = []
-        for r, i in subset
-          result.push(r) if i in [pageNumber*countPerPage...(pageNumber+1)*countPerPage]
-        result
-
-      count: (criteria_id)->
-        length = (records.filter (e)-> e.criteria_id == criteria_id).length
-        length
-    }
+    r.prototype = MyRecord
+  return MyRecord
 
 

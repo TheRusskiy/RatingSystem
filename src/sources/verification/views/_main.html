@@ -193,8 +193,14 @@
                                                               </span>
                                                             </p>
                                                     </div>
+                                                    <input type="hidden"
+                                                           name="criteria_id"
+                                                           ng-init="new_record.criteria_id=criteria.id"
+                                                           ng-model="new_record.criteria_id"
+                                                    />
                                                     <button type="submit"
                                                             ng-disabled="form.$invalid"
+                                                            ng-click="addRecord(criteria, new_record)"
                                                             class="btn btn-primary">
                                                         <i class="glyphicon glyphicon-plus-sign"></i>
                                                         <span>Добавить</span>

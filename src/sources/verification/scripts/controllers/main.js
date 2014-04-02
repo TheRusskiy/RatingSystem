@@ -40,10 +40,14 @@
     $scope.dateOptions = {
       'starting-day': 1
     };
-    return $scope.openDatepicker = function($event, form) {
+    $scope.openDatepicker = function($event, form) {
       $event.preventDefault();
       $event.stopPropagation();
       return form.datepickerOpened = true;
+    };
+    return $scope.addRecord = function(criteria, record) {
+      record = new Record(record);
+      return record.save();
     };
   });
 
