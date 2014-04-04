@@ -116,6 +116,7 @@
                                                            type="text"
                                                            ng-model="criteria.current_record.teacher"
                                                            name="teacher"
+                                                           typeahead-min-length="3"
                                                            placeholder="Начните вводить фамилию преподавателя"
                                                            typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
                                                            class="form-control"
