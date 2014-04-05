@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__.'/../rating/criteria.php');
 class CriteriaDao {
     static function all($page=null, $count=null){
         $limiter = "";

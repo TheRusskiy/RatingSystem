@@ -15,7 +15,7 @@
     });
     return {
       index: function() {
-        console.log('index');
+        console.log('teacher index');
         if (this.teachersCache) {
           return this.teachersCache;
         }

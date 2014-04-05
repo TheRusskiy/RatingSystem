@@ -17,8 +17,10 @@ CREATE TABLE rating_records (
   id INT(17) NOT NULL auto_increment,
   staff_id INT(10) NOT NULL ,
   criteria_id INT(10) NOT NULL ,
+  user_id INT(10) NOT NULL ,
+  name VARCHAR(100) NOT NULL ,
   date DATE NOT NULL ,
-  value INT(10),
+  value INT(10) NOT NULL DEFAULT 1,
   PRIMARY KEY(id),
   INDEX staff_criteria (staff_id, criteria_id)
 );

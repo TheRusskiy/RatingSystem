@@ -1,5 +1,5 @@
 <?php
-
+// BE CAREFUL WITH MOVING THIS FILE, IT'S USED IN VERIFICATION
 class Criteria {
     public function __construct($map = array(
         'id'=>null,
@@ -67,6 +67,17 @@ class Criteria {
             return $this->result;
         } else {
             return '?';
+        }
+    }
+
+    public function option_for($value){
+        if ($this->fetch_type=='manual_options'){
+            $option = array();
+            $option["name"]=$this->options[intval($value)];
+            $option["value"]=$value;
+            return $option;
+        } else {
+            return null;
         }
     }
 

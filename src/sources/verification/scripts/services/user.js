@@ -4,16 +4,6 @@
     return $resource("/sources/verification/index.php", {
       controller: "users"
     }, {
-      update: {
-        method: "PUT",
-        params: {}
-      },
-      get: {
-        method: "GET",
-        params: {
-          id: "@id"
-        }
-      },
       current: {
         method: "GET",
         params: {
