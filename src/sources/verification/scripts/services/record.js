@@ -29,6 +29,12 @@
         params: {
           action: "update"
         }
+      },
+      delete_record: {
+        method: "DELETE",
+        params: {
+          action: "delete"
+        }
       }
     });
     recordsCache = {};
@@ -50,19 +56,31 @@
         });
       }
     };
-    Record.prototype["delete"] = function() {
-      var i, position, r, _i, _len;
-      position = null;
-      for (i = _i = 0, _len = Record.length; _i < _len; i = ++_i) {
-        r = Record[i];
-        if (r.id = this.id) {
-          position = i;
-          break;
+    Record["delete"] = function(record) {
+      var cachePage, i, key, position, r, _i, _len, _ref;
+      console.log("cache pages");
+      console.log(recordsCache[record.criteria_id]);
+      _ref = recordsCache[record.criteria_id];
+      for (key in _ref) {
+        cachePage = _ref[key];
+        console.log("cachePage");
+        console.log(cachePage);
+        position = null;
+        for (i = _i = 0, _len = cachePage.length; _i < _len; i = ++_i) {
+          r = cachePage[i];
+          if (r.id === record.id) {
+            position = i;
+            cachePage.splice(position, 1);
+            console.log("Deleted");
+            break;
+          }
         }
       }
-      Record.splice(position, 1);
-      console.log("Deleted");
-      return console.log(Record);
+      return Record.delete_record({
+        record_id: record.id
+      }, function(response) {
+        return console.log(response);
+      });
     };
     Record.countPerPage = countPerPage;
     Record.index = function(criteria_id, pageNumber) {

@@ -31,4 +31,12 @@ class RecordsController extends AppController{
         $record = RecordsDao::upsert_from_object($record, $this->current_user());
         return json_encode($record);
     }
+
+    function delete(){
+        $record_id = params("record_id");
+        $r = array();
+        $r["id"] = $record_id;
+        RecordsDao::delete(array($r));
+        return "";
+    }
 }

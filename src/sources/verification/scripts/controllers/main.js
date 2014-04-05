@@ -82,7 +82,7 @@
         return;
       }
       record = new Record(criteria.current_record);
-      record["delete"]();
+      Record["delete"](record);
       criteria.current_record = {
         criteria_id: criteria.id
       };

@@ -18,6 +18,10 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       method: "POST"
       params:
         action: "update"
+    delete_record:
+      method: "DELETE"
+      params:
+        action: "delete"
   recordsCache = {}
   recordsCountCache = {}
 
@@ -37,15 +41,22 @@ angular.module("verificationApp").factory "Record", ($resource) ->
         console.log(r)
         console.log(recordsCache[r.criteria_id][1])
 
-  Record.prototype.delete = ()->
-    position = null
-    for r, i in Record
-      if r.id = @.id
-        position = i
-        break
-    Record.splice(position, 1)
-    console.log("Deleted")
-    console.log(Record)
+  Record.delete = (record)->
+    console.log("cache pages")
+    console.log(recordsCache[record.criteria_id])
+    for key, cachePage of recordsCache[record.criteria_id]
+      console.log("cachePage")
+      console.log(cachePage)
+      position = null
+      for r, i in cachePage
+        if r.id is record.id
+          position = i
+          cachePage.splice(position, 1)
+          console.log("Deleted")
+          break
+    Record.delete_record {record_id: record.id}, (response)->
+      console.log(response)
+
   Record.countPerPage = countPerPage
   Record.index = (criteria_id, pageNumber=1)->
     console.log 'record index'

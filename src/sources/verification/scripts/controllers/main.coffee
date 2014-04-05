@@ -60,6 +60,6 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
   $scope.deleteRecord = (criteria, form)->
     return unless confirm("Вы уверены что хотите удалить эту запись?")
     record = new Record(criteria.current_record)
-    record.delete()
+    Record.delete(record)
     criteria.current_record = {criteria_id: criteria.id}
     form.$setPristine()
