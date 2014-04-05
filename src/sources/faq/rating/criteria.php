@@ -88,18 +88,18 @@ class Criteria {
         $obj["id"]=$this->id;
         $obj["title"]=$this->name;
         $obj["description"]=$this->description;
-        $options = array();
-        $i = 0;
         if ($this->fetch_type!='manual_options'){
             $obj["options"]=null;
         } else {
+            $options = array();
+            $i = 0;
             foreach($this->options as $option){
                 $options_obj=array();
                 $options_obj["value"]=$i++;
                 $options_obj["name"]=$option;
                 $options[]=$options_obj;
             }
-            $options = array_shift($options);
+            array_shift($options);
             $obj["options"]=$options;
         }
         return $obj;
