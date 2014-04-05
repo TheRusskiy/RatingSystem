@@ -1,11 +1,15 @@
 "use strict"
 angular.module("verificationApp").factory "Record", ($resource) ->
-  records = $resource "/sources/verification/index.php", {controller: "records"},
+  Record = $resource "/sources/verification/index.php", {controller: "records"},
     query:
       method: "GET"
       isArray:true
       params:
         action: "index"
+    save:
+      method: "POST"
+      params:
+        action: "create"
 #  return {
 #  index: ()->
 #    console.log 'index'
@@ -94,33 +98,45 @@ angular.module("verificationApp").factory "Record", ($resource) ->
   curId=5
   generateId = ()-> curId+=1; curId
   countPerPage = 2
-  MyRecord = (source)->
-    @.source = source
-    for key, value of source
-      @[key]=value
-    @
-  MyRecord.prototype.save = ()->
-    return if (@.id)
-    @.id = generateId()
-    @.source.id = @.id
-    records.push(@)
-    console.log("Saved")
-    console.log(records)
-  MyRecord.prototype.delete = ()->
+#  MyRecord = (source)->
+#    @source = new Record(source)
+#    @
+  Record.prototype.save = ()->
+    if @id # update
+      console.log("Updated:")
+      console.log(@)
+    else # create
+      @$save (r)->
+        recordsCache[r.criteria_id][1].push(r)
+        console.log("Created:")
+        console.log(r)
+        console.log(recordsCache[r.criteria_id][1])
+
+
+#    return if (@.id)
+#    @.id = generateId()
+#    @.source.id = @.id
+#    records.push(@)
+
+#    console.log(Record)
+  Record.prototype.delete = ()->
     position = null
-    for r, i in records
+    for r, i in Record
       if r.id = @.id
         position = i
         break
-    records.splice(position, 1)
+    Record.splice(position, 1)
     console.log("Deleted")
-    console.log(records)
-  MyRecord.countPerPage = countPerPage
-  MyRecord.index = (criteria_id, pageNumber=1)->
+    console.log(Record)
+  Record.countPerPage = countPerPage
+  recordsCache = {}
+  Record.index = (criteria_id, pageNumber=1)->
     console.log 'record index'
-    return @recordsCache if @recordsCache
-    @recordsCache = records.query(criteria: criteria_id)
-    return @recordsCache
+    unless recordsCache[criteria_id]?
+      recordsCache[criteria_id] = {}
+    return recordsCache[criteria_id][pageNumber] if recordsCache[criteria_id][pageNumber]
+    recordsCache[criteria_id][pageNumber] = Record.query(criteria: criteria_id)
+    return recordsCache[criteria_id][pageNumber]
 #    pageNumber = pageNumber - 1 # start from 0
 #    subset = records.filter (e)-> e.criteria_id == criteria_id
 #    result = []
@@ -128,13 +144,13 @@ angular.module("verificationApp").factory "Record", ($resource) ->
 #      result.push(r) if i in [pageNumber*countPerPage...(pageNumber+1)*countPerPage]
 #    result
 
-  MyRecord.count= (criteria_id)->
+  Record.count= (criteria_id)->
     4
 #    length = (records.filter (e)-> e.criteria_id == criteria_id).length
 #    length
 #  for r in records
 #    r.$remove = ()-> console.log("Removing record "+r.id.toString())
 #    r.prototype = MyRecord
-  return MyRecord
+  return Record
 
 

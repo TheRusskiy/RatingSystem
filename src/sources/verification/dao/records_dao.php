@@ -54,13 +54,30 @@ class RecordsDao {
         }
         return $rows;
     }
+
+    static function create_from_object($record, $user){
+        $row = array();
+        $row["staff_id"]=$record->teacher->id;
+        $row["criteria_id"]=$record->criteria_id;
+        $row["user_id"]=$user->id;
+        $row["name"]=$record->name;
+        $row["date"]=$record->date;
+        $row["value"]=$record->option->value;
+        $record->id=self::create(array($row));
+        $record->user->id = $user->id;
+        $record->user->name = $user->name;
+
+        $timestamp = strtotime($row['date']);
+        $record->date = date('Y-m-d', $timestamp);
+        return $record;
+    }
     static function create($records){
         if(sizeof($records)===0){return;}
         $values = "";
         foreach($records as $i => $r){
-            if (is_array($r['value'])){ // weird IE bug
-                $r['value'] = $r['value'][0];
-            }
+//            if (is_array($r['value'])){ // weird IE bug
+//                $r['value'] = $r['value'][0];
+//            }
             $values.="(";
             $values.="'".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
@@ -80,6 +97,7 @@ class RecordsDao {
         if(!$result){
             throw new Exception('SQL error: '.mysql_error());
         }
+        return mysql_insert_id();
     }
 
     static function delete($records){
