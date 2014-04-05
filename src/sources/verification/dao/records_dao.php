@@ -55,7 +55,7 @@ class RecordsDao {
         return $rows;
     }
 
-    static function create_from_object($record, $user){
+    static function upsert_from_object($record, $user){
         $row = array();
         $row["staff_id"]=$record->teacher->id;
         $row["criteria_id"]=$record->criteria_id;
@@ -63,7 +63,12 @@ class RecordsDao {
         $row["name"]=$record->name;
         $row["date"]=$record->date;
         $row["value"]=$record->option->value;
-        $record->id=self::create(array($row));
+        if (isset($record->id)&&$record->id!=null){ # update
+            $row["id"]=$record->id;
+            self::update(array($row));
+        } else { # create
+            $record->id=self::create(array($row));
+        }
         $record->user->id = $user->id;
         $record->user->name = $user->name;
 
@@ -75,9 +80,6 @@ class RecordsDao {
         if(sizeof($records)===0){return;}
         $values = "";
         foreach($records as $i => $r){
-//            if (is_array($r['value'])){ // weird IE bug
-//                $r['value'] = $r['value'][0];
-//            }
             $values.="(";
             $values.="'".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
@@ -117,9 +119,6 @@ class RecordsDao {
     static function update($records){
         if(sizeof($records)===0){return;}
         foreach($records as $r){
-            if (is_array($r['value'])){  // weird IE bug
-                $r['value'] = $r['value'][0];
-            }
             $id = mysql_real_escape_string($r['id']);
             $values="SET ";
             $values.="staff_id='".mysql_real_escape_string($r['staff_id'])."', ";

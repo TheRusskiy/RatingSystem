@@ -17,20 +17,30 @@
         params: {
           action: "create"
         }
+      },
+      update: {
+        method: "POST",
+        params: {
+          action: "update"
+        }
       }
     });
+    recordsCache = {};
     curId = 5;
     generateId = function() {
       curId += 1;
       return curId;
     };
     countPerPage = 2;
-    Record.prototype.save = function() {
-      if (this.id) {
-        console.log("Updated:");
-        return console.log(this);
+    Record.upsert = function(record) {
+      if (record.id) {
+        return Record.update({}, record, function(r) {
+          console.log("Updated:");
+          return console.log(r);
+        });
       } else {
-        return this.$save(function(r) {
+        return record.$save(function(r) {
+          console.log(recordsCache);
           recordsCache[r.criteria_id][1].push(r);
           console.log("Created:");
           console.log(r);
@@ -53,7 +63,6 @@
       return console.log(Record);
     };
     Record.countPerPage = countPerPage;
-    recordsCache = {};
     Record.index = function(criteria_id, pageNumber) {
       if (pageNumber == null) {
         pageNumber = 1;
@@ -68,6 +77,7 @@
       recordsCache[criteria_id][pageNumber] = Record.query({
         criteria: criteria_id
       });
+      console.log("writing to page " + pageNumber);
       return recordsCache[criteria_id][pageNumber];
     };
     Record.count = function(criteria_id) {

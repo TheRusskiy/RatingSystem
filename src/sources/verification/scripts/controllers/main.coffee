@@ -38,8 +38,10 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     $event.stopPropagation();
     form.datepickerOpened = true
   $scope.saveRecord = (criteria, form)->
+    console.log criteria.current_record
     record = new Record(criteria.current_record)
-    record.save()
+    Record.upsert(record)
+    null
 #    criteria.current_record = {criteria_id: criteria.id}
 #    form.$setPristine()
 

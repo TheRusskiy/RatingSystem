@@ -10,6 +10,11 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       method: "POST"
       params:
         action: "create"
+    update:
+      method: "POST"
+      params:
+        action: "update"
+  recordsCache = {}
 #  return {
 #  index: ()->
 #    console.log 'index'
@@ -101,12 +106,15 @@ angular.module("verificationApp").factory "Record", ($resource) ->
 #  MyRecord = (source)->
 #    @source = new Record(source)
 #    @
-  Record.prototype.save = ()->
-    if @id # update
-      console.log("Updated:")
-      console.log(@)
+  Record.upsert = (record)->
+    if record.id # update
+      Record.update {}, record, (r)->
+        console.log("Updated:")
+        console.log(r)
+
     else # create
-      @$save (r)->
+      record.$save (r)->
+        console.log recordsCache
         recordsCache[r.criteria_id][1].push(r)
         console.log("Created:")
         console.log(r)
@@ -129,13 +137,13 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     console.log("Deleted")
     console.log(Record)
   Record.countPerPage = countPerPage
-  recordsCache = {}
   Record.index = (criteria_id, pageNumber=1)->
     console.log 'record index'
     unless recordsCache[criteria_id]?
       recordsCache[criteria_id] = {}
     return recordsCache[criteria_id][pageNumber] if recordsCache[criteria_id][pageNumber]
     recordsCache[criteria_id][pageNumber] = Record.query(criteria: criteria_id)
+    console.log "writing to page #{pageNumber}"
     return recordsCache[criteria_id][pageNumber]
 #    pageNumber = pageNumber - 1 # start from 0
 #    subset = records.filter (e)-> e.criteria_id == criteria_id

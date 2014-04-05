@@ -47,8 +47,10 @@
     };
     $scope.saveRecord = function(criteria, form) {
       var record;
+      console.log(criteria.current_record);
       record = new Record(criteria.current_record);
-      return record.save();
+      Record.upsert(record);
+      return null;
     };
     $scope.editRecord = function(record, criteria) {
       var o, _i, _len, _ref, _results;

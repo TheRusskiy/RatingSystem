@@ -11,7 +11,14 @@ class RecordsController extends AppController{
 
     function create(){
         $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
-        $record = RecordsDao::create_from_object($record, $this->current_user());
+        $record = RecordsDao::upsert_from_object($record, $this->current_user());
+        return json_encode($record);
+    }
+
+    function update(){
+        $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+//        $record = json_decode(file_get_contents("php://input"), true);
+        $record = RecordsDao::upsert_from_object($record, $this->current_user());
         return json_encode($record);
     }
 }
