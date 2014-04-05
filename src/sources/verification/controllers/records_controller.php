@@ -5,8 +5,18 @@ require_once 'app_controller.php';
 class RecordsController extends AppController{
     function index(){
         $criteria = params("criteria");
-        $all = RecordsDao::all($criteria);
-        return json_encode($all) ;
+        $page = params("page");
+        $page_length = params("page_length");
+        $all = RecordsDao::all($criteria, $page, $page_length);
+        return json_encode($all);
+    }
+
+    function count(){
+        $criteria = params("criteria_id");
+        $count = RecordsDao::count($criteria);
+        $obj = array();
+        $obj["count"] = $count;
+        return json_encode($obj);
     }
 
     function create(){

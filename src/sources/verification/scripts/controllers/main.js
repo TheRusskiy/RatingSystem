@@ -35,7 +35,9 @@
       };
     };
     $scope.records = Record.index;
-    $scope.recordCount = Record.count;
+    $scope.recordCount = function(criteria_id) {
+      return Record.count(criteria_id);
+    };
     $scope.countPerPage = Record.countPerPage;
     $scope.dateOptions = {
       'starting-day': 1

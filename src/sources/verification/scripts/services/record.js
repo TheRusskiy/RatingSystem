@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("Record", function($resource) {
-    var Record, countPerPage, curId, generateId, recordsCache;
+    var Record, countPerPage, recordsCache, recordsCountCache;
     Record = $resource("/sources/verification/index.php", {
       controller: "records"
     }, {
@@ -10,6 +10,12 @@
         isArray: true,
         params: {
           action: "index"
+        }
+      },
+      record_count: {
+        method: "GET",
+        params: {
+          action: "count"
         }
       },
       save: {
@@ -26,12 +32,8 @@
       }
     });
     recordsCache = {};
-    curId = 5;
-    generateId = function() {
-      curId += 1;
-      return curId;
-    };
-    countPerPage = 2;
+    recordsCountCache = {};
+    countPerPage = 3;
     Record.upsert = function(record) {
       if (record.id) {
         return Record.update({}, record, function(r) {
@@ -75,13 +77,26 @@
         return recordsCache[criteria_id][pageNumber];
       }
       recordsCache[criteria_id][pageNumber] = Record.query({
-        criteria: criteria_id
+        criteria: criteria_id,
+        page: pageNumber,
+        page_length: countPerPage
       });
       console.log("writing to page " + pageNumber);
       return recordsCache[criteria_id][pageNumber];
     };
     Record.count = function(criteria_id) {
-      return 4;
+      if (recordsCountCache[criteria_id]) {
+        return recordsCountCache[criteria_id];
+      }
+      recordsCountCache[criteria_id] = 100;
+      Record.record_count({
+        criteria_id: criteria_id
+      }, function(result) {
+        console.log("count");
+        console.log(result);
+        return recordsCountCache[criteria_id] = result.count;
+      });
+      return recordsCountCache[criteria_id];
     };
     return Record;
   });

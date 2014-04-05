@@ -26,7 +26,8 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     $scope.cancel = ()->
       $modalInstance.dismiss('cancel')
   $scope.records = Record.index
-  $scope.recordCount = Record.count
+  $scope.recordCount = (criteria_id)->
+    Record.count(criteria_id)
   $scope.countPerPage = Record.countPerPage
 
   # date

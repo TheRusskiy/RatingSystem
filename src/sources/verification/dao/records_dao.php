@@ -18,8 +18,23 @@ class RecordsDao {
       notes: [1,2,3]
  */
 
-    static function all($criteria_id, $page = null, $per_page = null){
-        // todo pages
+    static function count($criteria_id, $page = null, $per_page = null){
+      $teachers_query = mysql_query("
+            SELECT COUNT(*) as length
+            FROM rating_records
+            WHERE criteria_id = $criteria_id
+            ");
+      $result = mysql_fetch_array($teachers_query);
+      return $result["length"];
+    }
+    static function all($criteria_id, $page = null, $page_length = null){
+        $limiter = "";
+        if ($page!==null) {
+            $page = intval($page)-1;
+            $from = $page * $page_length;
+            $limiter = "ORDER BY id
+                        LIMIT" . " $page_length OFFSET $from";
+        }
         $criteria = CriteriaDao::find($criteria_id);
         $teachers_query = mysql_query("
             SELECT r.id as id, r.criteria_id as criteria_id, r.name as name, r.date as date, r.staff_id as staff_id, r.value as value,
@@ -28,6 +43,8 @@ class RecordsDao {
             FROM rating_records r
             JOIN staff2 t ON r.staff_id = t.id
             JOIN user u ON r.user_id = u.id
+            WHERE r.criteria_id = $criteria_id
+            $limiter
             ");
         $rows = array();
         while ($row = mysql_fetch_array($teachers_query)){
