@@ -48,7 +48,7 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
   $scope.editRecord = (record, criteria)->
     criteria.current_record = record
     for o in criteria.options # set to existing option object
-      if o.value == record.option.value
+      if o.value.toString() == record.option.value.toString()
         record.option = o
         break
 

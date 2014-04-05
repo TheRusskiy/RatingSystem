@@ -8,12 +8,14 @@ class Criteria {
         'name'=>"",
         'year_limit'=>0,
         'multiplier'=>0,
-        'calculation_type'=>""
+        'calculation_type'=>"",
+        'description'=>""
     )){
         $this->id = $map["id"];
         $this->fetch_type = $map["fetch_type"];
         $this->fetch_value = $map["fetch_value"];
         $this->name = $map["name"];
+        $this->description = $map["description"];
         $this->year_limit = $map["year_limit"];
         $this->calculation_type = $map["calculation_type"];
         $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
@@ -79,6 +81,27 @@ class Criteria {
         } else {
             return null;
         }
+    }
+
+    public function properties_for_json(){
+        if ($this->fetch_type!='manual_options'){
+            return null;
+        }
+        $obj = array();
+        $obj["id"]=$this->id;
+        $obj["title"]=$this->name;
+        $obj["description"]=$this->description;
+        $options = array();
+        $i = 0;
+        foreach($this->options as $option){
+            $options_obj=array();
+            $options_obj["value"]=$i++;
+            $options_obj["name"]=$option;
+            $options[]=$options_obj;
+        }
+        $options = array_shift($options);
+        $obj["options"]=$options;
+        return $obj;
     }
 
     private function make_multiplier($value){

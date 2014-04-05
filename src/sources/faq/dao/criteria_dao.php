@@ -9,7 +9,7 @@ class CriteriaDao {
                         LIMIT" . " $count OFFSET $from";
         }
         $query = mysql_query("
-            SELECT id, name, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date
             FROM criteria
             $limiter
             ");
@@ -51,7 +51,8 @@ class CriteriaDao {
             year_limit = $criteria->year_limit,
             multiplier = '$multi',
             calculation_type = '$criteria->calculation_type',
-            creation_date = '$criteria->creation_date'
+            creation_date = '$criteria->creation_date',
+            description = '$criteria->description'
             WHERE id = $criteria->id
             ");
         if(!$query){
@@ -62,11 +63,12 @@ class CriteriaDao {
     static function insert($criteria){
         $multi = $criteria->multiplier_to_string();
         $query = mysql_query("
-            INSERT INTO criteria(fetch_type, fetch_value, name, year_limit, multiplier, calculation_type, creation_date)
+            INSERT INTO criteria(fetch_type, fetch_value, name, description, year_limit, multiplier, calculation_type, creation_date)
              VALUES
              ('$criteria->fetch_type',
              '$criteria->fetch_value',
              '$criteria->name',
+             '$criteria->description',
              $criteria->year_limit,
              '$multi',
              '$criteria->calculation_type',

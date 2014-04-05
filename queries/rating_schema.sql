@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS criteria;
 CREATE TABLE criteria (
   id INT(17) NOT NULL auto_increment,
   name VARCHAR(120) NOT NULL ,
+  description VARCHAR(2000) NOT NULL ,
   fetch_type VARCHAR(30) NOT NULL ,
   fetch_value VARCHAR(4000) NOT NULL,
   multiplier VARCHAR(30),

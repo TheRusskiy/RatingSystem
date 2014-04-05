@@ -59,7 +59,7 @@
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         o = _ref[_i];
-        if (o.value === record.option.value) {
+        if (o.value.toString() === record.option.value.toString()) {
           record.option = o;
           break;
         } else {
