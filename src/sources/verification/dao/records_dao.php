@@ -32,7 +32,7 @@ class RecordsDao {
         if ($page!==null) {
             $page = intval($page)-1;
             $from = $page * $page_length;
-            $limiter = "ORDER BY id
+            $limiter = "ORDER BY id desc
                         LIMIT" . " $page_length OFFSET $from";
         }
         $criteria = CriteriaDao::find($criteria_id);
@@ -79,7 +79,11 @@ class RecordsDao {
         $row["user_id"]=$user->id;
         $row["name"]=$record->name;
         $row["date"]=$record->date;
-        $row["value"]=$record->option->value;
+        if (isset($record->option)){
+            $row["value"]=$record->option->value;
+        } else {
+            $row["value"]=1;
+        }
         if (isset($record->id)&&$record->id!=null){ # update
             $row["id"]=$record->id;
             self::update(array($row));
