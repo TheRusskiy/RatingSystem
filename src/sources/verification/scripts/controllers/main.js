@@ -6,7 +6,7 @@
     $scope.displayNotes = function(record) {
       var modalInstance;
       return modalInstance = $modal.open({
-        templateUrl: 'notesModal.html',
+        templateUrl: 'sources/verification/views/_notes_modal',
         controller: "ModalInstanceCtrl",
         resolve: {
           record: function() {
