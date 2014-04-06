@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "allowed_criteria.js",
+  "sourceRoot": "",
+  "sources": [
+    "allowed_criteria.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,UAAA;CAAA,CACA,CAA6D,GAA7D,CAAO,EAAsD,QAA7D,CAAA;EACU,CAAR,CAAA,CAAA,IAAC,EAAD;CACE,OAAA,EAAA;CAAA,CAAA,CAAW,GAAX,EAAA;CAAA,CACuB,CAAA,CAAA,CAAvB,CAAA,CAAO,EAAiB;CACtB,CAA8C,EAAxB,IAAtB,GAAuC;CAAvC,GAAA,IAAQ,EAAR;UADqB;CAAvB,MAAuB;CAFzB,YAME;CAPyD,IAC3D;CADF,EAA6D;CAD7D"
+}

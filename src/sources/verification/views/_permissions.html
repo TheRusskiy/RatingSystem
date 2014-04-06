@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <tabset>
+      <tab ng-repeat="user in users" heading="{{user.name}}" active="name.active"
+           disabled="user.disabled">
+        <div class="criteria-tab-content">
+          <div class="row">
+            <div class="col-md-12">
+              <p>{{user}}</p>
+              <form novalidate name="form" class="form">
+                <h3>Доступные критерии:</h3>
+                <div class="checkbox" ng-repeat="criteria in criterias">
+                  <label>
+                    <input type="checkbox" ng-model="user.permissions[criteria.id]"> {{criteria.title}}
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label>Роль
+                    <select ng-model="user.role"
+                            name="role"
+                            class="form-control"
+                            required="true"
+                            ng-required="true"
+                            ng-options="value for value in ['admin', 'operator']"
+                            >
+                    </select>
+                  </label>
+                </div>
+                <button type="submit"
+                        ng-disabled="form.$invalid"
+                        ng-click="savePermissions(user, form)"
+                        class="btn btn-primary">
+                  <i class="glyphicon glyphicon-floppy-disk"></i>
+                  <span>Сохранить</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+</div>

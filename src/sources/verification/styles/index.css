@@ -34,6 +34,6 @@ body {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000328}}
-.form input.ng-invalid.ng-dirty {
+.form input.ng-invalid.ng-dirty, .form textarea.ng-invalid.ng-dirty {
   background-color: #FA787E;
 }

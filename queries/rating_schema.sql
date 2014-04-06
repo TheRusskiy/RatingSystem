@@ -48,6 +48,14 @@ CREATE TABLE rating_record_notes (
   PRIMARY KEY(id)
 );
 
+DROP TABLE IF EXISTS rating_user_permissions;
+CREATE TABLE rating_user_permissions (
+  id INT(17) NOT NULL,
+  permissions VARCHAR(1000) NOT NULL ,
+  role VARCHAR(1000) NOT NULL ,
+  PRIMARY KEY(id)
+);
+
 # DROP TABLE IF EXISTS verification_user_role;
 # CREATE TABLE verification_user_role (
 #   id INT(17) NOT NULL auto_increment,

@@ -20,7 +20,11 @@
     $rootScope.logout = function() {
       return Auth.logout();
     };
-    return $scope.location = $location.path();
+    $scope.location = $location.path();
+    return $scope.goto = function(path) {
+      $location.path(path);
+      return $scope.location = $location.path();
+    };
   });
 
 }).call(this);

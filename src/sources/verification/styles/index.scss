@@ -25,6 +25,6 @@ body {
   padding: 10px;
 }
 
-.form input.ng-invalid.ng-dirty {
+.form input.ng-invalid.ng-dirty, .form textarea.ng-invalid.ng-dirty {
   background-color: #FA787E;
 }

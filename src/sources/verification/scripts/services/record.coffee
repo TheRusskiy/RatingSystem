@@ -1,9 +1,5 @@
 "use strict"
 angular.module("verificationApp").factory "Record", ($resource) ->
-  console.log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1'
-  console.log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!2'
-  console.log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!3'
-  console.log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!4'
   Record = $resource "/sources/verification/index.php", {controller: "records"},
     query:
       method: "GET"

@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
     <tabset>
-      <tab ng-repeat="criteria in criterias" heading="{{criteria.title}}" active="criteria.active"
+      <tab ng-repeat="criteria in criterias | allowed_criteria:currentUser" heading="{{criteria.title}}" active="criteria.active"
            disabled="criteria.disabled">
         <div class="criteria-tab-content">
           <div class="row">
             <div class="col-md-12">
               {{criteria.description}}
-              <table class="table" style="">
+              <table class="table">
                 <tr>
                   <th>#</th>
                   <th>Дата</th>

@@ -7,6 +7,9 @@
     }).when("/guide", {
       templateUrl: "sources/verification/views/_user_guide",
       controller: "GuideCtrl"
+    }).when("/permissions", {
+      templateUrl: "sources/verification/views/_permissions",
+      controller: "PermissionsCtrl"
     }).otherwise({
       redirectTo: "/"
     });

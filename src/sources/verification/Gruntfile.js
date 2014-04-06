@@ -68,7 +68,7 @@ module.exports = function (grunt) {
 
         },
         compass: {
-          files: ['./styles/{,*/}*.{scss,sass}'],
+          files: ['./styles/**/*.{scss,sass}'],
           tasks: ['compass:server']
         },
         gruntfile: {
@@ -292,6 +292,7 @@ module.exports = function (grunt) {
     grunt.option('force', true);
     grunt.task.run([
         'coffee',
+        'compass:server',
         'concurrent:dev'
     ])
   });
