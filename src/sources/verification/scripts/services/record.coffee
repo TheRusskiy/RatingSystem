@@ -25,21 +25,23 @@ angular.module("verificationApp").factory "Record", ($resource) ->
   recordsCache = {}
   recordsCountCache = {}
 
-  countPerPage = 3
+  countPerPage = 5
 
   Record.upsert = (record)->
     if record.id # update
       Record.update {}, record, (r)->
         console.log("Updated:")
         console.log(r)
+        r
 
     else # create
-      record.$save (r)->
+      record.$save {}, (r)->
         console.log recordsCache
         recordsCache[r.criteria_id][1].unshift(r)
         console.log("Created:")
         console.log(r)
         console.log(recordsCache[r.criteria_id][1])
+        r
 
   Record.delete = (record)->
     console.log("cache pages")

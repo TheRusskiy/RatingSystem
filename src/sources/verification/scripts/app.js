@@ -3,7 +3,7 @@
   angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(function($routeProvider, $locationProvider, $httpProvider, $localeProvider) {
     $routeProvider.when("/", {
       templateUrl: "sources/verification/views/_main",
-      controller: "MainCtrl"
+      controller: "RecordsCtrl"
     }).when("/guide", {
       templateUrl: "sources/verification/views/_user_guide",
       controller: "GuideCtrl"

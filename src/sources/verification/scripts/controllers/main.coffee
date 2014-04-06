@@ -1,47 +1,25 @@
-"use strict"
-angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal, Record, Criteria, Teacher) ->
-  $scope.criterias = Criteria.index()
-  $scope.teachers = Teacher.index()
+'use strict';
 
-  $scope.displayNotes = (record)->
-    modalInstance = $modal.open({
-      templateUrl: 'sources/verification/views/_notes_modal',
-      controller: "ModalInstanceCtrl"
-      resolve:
-        record: ()-> record
-    })
-  $scope.records = Record.index
-  $scope.recordCount = (criteria_id)->
-    Record.count(criteria_id)
-  $scope.countPerPage = Record.countPerPage
-
-  # date
-  $scope.dateOptions = {
-    'starting-day': 1
-  };
-  $scope.openDatepicker = ($event, form)->
-    $event.preventDefault();
-    $event.stopPropagation();
-    form.datepickerOpened = true
-  $scope.saveRecord = (criteria, form)->
-    console.log criteria.current_record
-    record = new Record(criteria.current_record)
-    Record.upsert(record)
-
-  $scope.editRecord = (record, criteria)->
-    criteria.current_record = record
-    for o in criteria.options # set to existing option object
-      if o.value.toString() == record.option.value.toString()
-        record.option = o
-        break
-
-  $scope.newRecord = (criteria)->
-    criteria.current_record = {criteria_id: criteria.id}
-    criteria.form.$setPristine()
-
-  $scope.deleteRecord = (criteria, form)->
-    return unless confirm("Вы уверены что хотите удалить эту запись?")
-    record = new Record(criteria.current_record)
-    Record.delete(record)
-    criteria.current_record = {criteria_id: criteria.id}
-    form.$setPristine()
+angular.module('verificationApp')
+  .controller 'MainCtrl', ($scope, $http, Auth, $rootScope, $location, $window)->
+    unless $rootScope.currentUser
+      Auth.currentUser().$promise.then( (user)->
+        console.log user
+        if user.id?
+          $rootScope.currentUser = user;
+          $rootScope.is_admin = user.role=="admin"
+        else
+          $rootScope.currentUser = null;
+          alert('Пользователь в текущей сессии не найден, перенаправляем..')
+          new_path = $location.protocol()+"://"+$location.host()+":"+$location.port()
+          $window.location.href = new_path
+      ).catch( (err)->
+        console.log('Current user:'+err.data);
+  #        $scope.errors.other = err.message;
+      );
+    $rootScope.logout = ()->
+      Auth.logout()
+    $scope.location = $location.path()
+    $scope.goto = (path)->
+      $location.path(path)
+      $scope.location = $location.path()

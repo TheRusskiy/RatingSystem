@@ -39,20 +39,22 @@
     });
     recordsCache = {};
     recordsCountCache = {};
-    countPerPage = 3;
+    countPerPage = 5;
     Record.upsert = function(record) {
       if (record.id) {
         return Record.update({}, record, function(r) {
           console.log("Updated:");
-          return console.log(r);
+          console.log(r);
+          return r;
         });
       } else {
-        return record.$save(function(r) {
+        return record.$save({}, function(r) {
           console.log(recordsCache);
           recordsCache[r.criteria_id][1].unshift(r);
           console.log("Created:");
           console.log(r);
-          return console.log(recordsCache[r.criteria_id][1]);
+          console.log(recordsCache[r.criteria_id][1]);
+          return r;
         });
       }
     };

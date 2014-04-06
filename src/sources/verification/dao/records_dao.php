@@ -117,6 +117,7 @@ class RecordsDao {
 
         $timestamp = strtotime($row['date']);
         $record->date = date('Y-m-d', $timestamp);
+        $record->notes = array();
         return $record;
     }
     static function create($records){
