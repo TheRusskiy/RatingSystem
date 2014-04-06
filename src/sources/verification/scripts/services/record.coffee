@@ -25,7 +25,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
   recordsCache = {}
   recordsCountCache = {}
 
-  countPerPage = 5
+  countPerPage = 10
 
   Record.upsert = (record)->
     if record.id # update

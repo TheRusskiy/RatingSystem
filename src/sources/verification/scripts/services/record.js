@@ -39,7 +39,7 @@
     });
     recordsCache = {};
     recordsCountCache = {};
-    countPerPage = 5;
+    countPerPage = 10;
     Record.upsert = function(record) {
       if (record.id) {
         return Record.update({}, record, function(r) {
