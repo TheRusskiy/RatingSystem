@@ -6,7 +6,8 @@
         var new_path;
         console.log(user);
         if (user.id != null) {
-          return $rootScope.currentUser = user;
+          $rootScope.currentUser = user;
+          return $rootScope.is_admin = user.role === "admin";
         } else {
           $rootScope.currentUser = null;
           alert('Пользователь в текущей сессии не найден, перенаправляем..');

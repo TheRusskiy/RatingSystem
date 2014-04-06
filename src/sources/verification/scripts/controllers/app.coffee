@@ -7,6 +7,7 @@ angular.module('verificationApp')
         console.log user
         if user.id?
           $rootScope.currentUser = user;
+          $rootScope.is_admin = user.role=="admin"
         else
           $rootScope.currentUser = null;
           alert('Пользователь в текущей сессии не найден, перенаправляем..')
