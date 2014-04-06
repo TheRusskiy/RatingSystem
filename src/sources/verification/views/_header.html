@@ -1,4 +1,4 @@
-<div class="navbar navbar-default">
+<div class="navbar navbar-default" ng-controller="HeaderCtrl">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="{{location=='/' ? 'active' : ''}}">
-                    <a href="#/">Ввод достижений</a>
+                    <a href ng-click="goto('/')">Ввод достижений</a>
                 </li>
                 <li class="{{location=='/guide' ? 'active' : ''}}">
-                    <a href="#/guide">Руководство пользователя</a>
+                    <a href ng-click="goto('/guide')">Руководство пользователя</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
