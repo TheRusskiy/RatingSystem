@@ -49,7 +49,7 @@
       } else {
         return record.$save(function(r) {
           console.log(recordsCache);
-          recordsCache[r.criteria_id][1].push(r);
+          recordsCache[r.criteria_id][1].unshift(r);
           console.log("Created:");
           console.log(r);
           return console.log(recordsCache[r.criteria_id][1]);

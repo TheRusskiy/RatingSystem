@@ -27,9 +27,6 @@ angular.module("verificationApp").controller "MainCtrl", ($scope, $http, $modal,
     console.log criteria.current_record
     record = new Record(criteria.current_record)
     Record.upsert(record)
-    null
-#    criteria.current_record = {criteria_id: criteria.id}
-#    form.$setPristine()
 
   $scope.editRecord = (record, criteria)->
     criteria.current_record = record

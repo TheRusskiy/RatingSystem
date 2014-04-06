@@ -8,7 +8,8 @@
                 <div class="row">
                     <div class="col-md-1">#{{note.id}}</div>
                     <div class="col-md-7">{{note.text}}</div>
-                    <div class="col-md-3">{{note.user_name}}</div>
+                    <div class="col-md-3">{{note.user_name}}
+                        <span class="help-block">{{note.date}}</span></div>
                     <div class="col-md-1">
                         <a class="btn btn-danger btn-sm" ng-click="removeNote(note)" ng-show="note.user_id == currentUser.id"><i class="glyphicon glyphicon-remove"></i></a>
                     </div>
@@ -20,12 +21,14 @@
 </div>
 <div class="modal-footer">
     <div class="row">
-        <div class="col-md-7">
-            <input type="text" class="form-control" placeholder="Текст заметки">
-        </div>
-        <div class="col-md-5">
-            <button type="submit" class="btn btn-primary">Добавить</button>
-            <button type="button" class="btn btn-default" ng-click="close()">Закрыть</button>
-        </div>
+        <form novalidate class="form" name="form">
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="new_note.text" placeholder="Текст заметки" required>
+            </div>
+            <div class="col-md-5">
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" ng-click="addNote(form)">Добавить</button>
+                <button type="button" class="btn btn-default" ng-click="close()">Закрыть</button>
+            </div>
+        </form>
     </div>
 </div>

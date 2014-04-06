@@ -36,7 +36,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
     else # create
       record.$save (r)->
         console.log recordsCache
-        recordsCache[r.criteria_id][1].push(r)
+        recordsCache[r.criteria_id][1].unshift(r)
         console.log("Created:")
         console.log(r)
         console.log(recordsCache[r.criteria_id][1])

@@ -32,8 +32,7 @@
       var record;
       console.log(criteria.current_record);
       record = new Record(criteria.current_record);
-      Record.upsert(record);
-      return null;
+      return Record.upsert(record);
     };
     $scope.editRecord = function(record, criteria) {
       var o, _i, _len, _ref, _results;

@@ -38,6 +38,16 @@ CREATE TABLE cached_rating (
   INDEX staff_dates (staff_id, date_from, date_to)
 );
 
+DROP TABLE IF EXISTS rating_record_notes;
+CREATE TABLE rating_record_notes (
+  id INT(17) NOT NULL auto_increment,
+  record_id INT(10) NOT NULL,
+  user_id INT(10) NOT NULL,
+  date DATE NOT NULL,
+  text VARCHAR(500) NOT NULL ,
+  PRIMARY KEY(id)
+);
+
 # DROP TABLE IF EXISTS verification_user_role;
 # CREATE TABLE verification_user_role (
 #   id INT(17) NOT NULL auto_increment,

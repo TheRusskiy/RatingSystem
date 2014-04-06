@@ -4,12 +4,19 @@
     $scope.record = record;
     $scope.notes = RecordNote.index(record.id);
     record.notes = $scope.notes;
+    $scope.new_note = {};
     $scope.removeNote = function(note) {
-      var notes, position;
-      notes = $scope.notes;
-      position = notes.indexOf(note);
-      note.$remove();
-      return notes.splice(position, 1);
+      return RecordNote["delete"](note);
+    };
+    $scope.addNote = function(form) {
+      var note;
+      note = $scope.new_note;
+      note.record_id = record.id;
+      console.log(note);
+      note = new RecordNote(note);
+      RecordNote.insert(note);
+      $scope.new_note = {};
+      return form.$setPristine();
     };
     return $scope.close = function() {
       return $modalInstance.close();
