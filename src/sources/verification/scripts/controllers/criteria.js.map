@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "criteria.js",
+  "sourceRoot": "",
+  "sources": [
+    "criteria.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,UAAA;CAAA,CACA,CAA6D,GAA7D,CAAO,EAAsD,CAA7D,IAAA,GAAA;CAA6D,UAC3D;CADF,EAA6D;CAD7D"
+}

@@ -17,6 +17,9 @@
                 <li ng-if="is_admin" class="{{location=='/permissions' ? 'active' : ''}}">
                     <a href ng-click="goto('/permissions')">Разрешения</a>
                 </li>
+                <li ng-if="is_admin" class="{{location=='/criteria' ? 'active' : ''}}">
+                    <a href ng-click="goto('/criteria')">Критерии</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>

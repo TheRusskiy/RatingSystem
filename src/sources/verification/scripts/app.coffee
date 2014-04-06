@@ -11,6 +11,9 @@ angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngR
   ).when("/permissions",
     templateUrl: "sources/verification/views/_permissions"
     controller: "PermissionsCtrl"
+  ).when("/criteria",
+    templateUrl: "sources/verification/views/_criteria"
+    controller: "CriteriaCtrl"
   ).otherwise redirectTo: "/"
 #  $locationProvider.html5Mode true
   $localeProvider.id="ru-ru"
