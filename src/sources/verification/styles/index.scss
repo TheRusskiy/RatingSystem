@@ -28,3 +28,8 @@ body {
 .form input.ng-invalid.ng-dirty, .form textarea.ng-invalid.ng-dirty {
   background-color: #FA787E;
 }
+@media (min-width: 992px) {
+  .notes-modal .modal-dialog {
+    width: 900px;
+  }
+}

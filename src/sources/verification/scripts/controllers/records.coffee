@@ -7,6 +7,7 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     modalInstance = $modal.open({
       templateUrl: 'sources/verification/views/_notes_modal',
       controller: "ModalInstanceCtrl"
+#      windowClass: "notes-modal"
       resolve:
         record: ()-> record
     })

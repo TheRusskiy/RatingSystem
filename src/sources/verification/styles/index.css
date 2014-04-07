@@ -37,3 +37,10 @@ body {
 .form input.ng-invalid.ng-dirty, .form textarea.ng-invalid.ng-dirty {
   background-color: #FA787E;
 }
+
+@media (min-width: 992px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000332}}
+  .notes-modal .modal-dialog {
+    width: 900px;
+  }
+}
