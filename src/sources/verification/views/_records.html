@@ -6,7 +6,9 @@
         <div class="criteria-tab-content">
           <div class="row">
             <div class="col-md-12">
-              {{criteria.description}}
+              <p>
+                {{criteria.description}}
+              </p>
               <table class="table">
                 <tr>
                   <th>#</th>
@@ -160,7 +162,7 @@
                                 ng-disabled="form.$invalid"
                                 ng-click="saveRecord(criteria, form)"
                                 class="btn btn-warning">
-                          <i class="glyphicon glyphicon-plus-sign"></i>
+                          <i class="glyphicon glyphicon-floppy-disk"></i>
                           <span>Сохранить</span>
                         </button>
                         <span ng-show="form.$invalid">

@@ -1,34 +1,35 @@
 <div class="navbar navbar-default" ng-controller="HeaderCtrl">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-            <a href="#/" class="navbar-brand">СМК СГАУ</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="{{location=='/' ? 'active' : ''}}">
-                    <a href ng-click="goto('/')">Ввод достижений</a>
-                </li>
-                <li class="{{location=='/guide' ? 'active' : ''}}">
-                    <a href ng-click="goto('/guide')">Руководство пользователя</a>
-                </li>
-                <li ng-if="is_admin" class="{{location=='/permissions' ? 'active' : ''}}">
-                    <a href ng-click="goto('/permissions')">Разрешения</a>
-                </li>
-                <li ng-if="is_admin" class="{{location=='/criteria' ? 'active' : ''}}">
-                    <a href ng-click="goto('/criteria')">Критерии</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href>{{currentUser.name}}</a>
-                </li>
-                <li>
-                    <a href ng-click="logout()">Выход</a>
-                </li>
-            </ul>
-        </div>
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span
+              class="icon-bar"></span>
+      </button>
+      <a href="#/" class="navbar-brand">СМК СГАУ</a>
     </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="{{location=='/' ? 'active' : ''}}">
+          <a href ng-click="goto('/')">Ввод достижений</a>
+        </li>
+        <li ng-if="is_admin" class="{{location=='/permissions' ? 'active' : ''}}">
+          <a href ng-click="goto('/permissions')">Разрешения</a>
+        </li>
+        <li ng-if="is_admin" class="{{location=='/criteria' ? 'active' : ''}}">
+          <a href ng-click="goto('/criteria')">Критерии</a>
+        </li>
+        <li class="{{location=='/guide' ? 'active' : ''}}">
+          <a href ng-click="goto('/guide')">Руководство пользователя</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href>{{currentUser.name}}</a>
+        </li>
+        <li>
+          <a href ng-click="logout()">Выход</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
