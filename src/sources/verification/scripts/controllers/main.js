@@ -22,7 +22,7 @@
       return Auth.logout();
     };
     $scope.location = $location.path();
-    return $scope.goto = function(path) {
+    return $rootScope.goto = function(path) {
       console.log(path);
       $location.path(path);
       return $scope.location = $location.path();

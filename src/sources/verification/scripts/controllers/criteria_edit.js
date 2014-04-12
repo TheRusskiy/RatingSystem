@@ -25,7 +25,8 @@
       if (!confirm("Вы уверены? Удалённый показатель восстановлению не подлежит!")) {
         return;
       }
-      return null;
+      Criteria["delete"](c);
+      return $rootScope.goto('/criteria');
     };
   });
 

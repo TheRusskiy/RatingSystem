@@ -1,6 +1,6 @@
 "use strict"
 angular.module("verificationApp").factory "Criteria", ($resource) ->
-  criteria = $resource "/sources/verification/index.php", {controller: "criteria"},
+  Criteria = $resource "/sources/verification/index.php", {controller: "criteria"},
     query:
       method: "GET"
       isArray:true
@@ -22,48 +22,58 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
       method: "GET"
       params:
         action: "fetch_types"
+    delete_criteria:
+      method: "DELETE"
+      params:
+        action: "delete"
     calculation_types_index:
       method: "GET"
       params:
         action: "calculation_types"
   resetCache = ()->
-    criteria.criteriaCache = null
-    criteria.withRecordsCache = null
+    Criteria.criteriaCache = null
+    Criteria.withRecordsCache = null
 
-  criteria.index = ()->
+  Criteria.index = ()->
     console.log 'criteria index'
     return @criteriaCache if @criteriaCache
-    @criteriaCache = criteria.query()
+    @criteriaCache = Criteria.query()
     return @criteriaCache
-  criteria.with_records = ()->
+  Criteria.with_records = ()->
     console.log 'criteria with records'
     return @withRecordsCache if @withRecordsCache
-    @withRecordsCache = criteria.query()
+    @withRecordsCache = Criteria.query()
     return @withRecordsCache
-  criteria.fetch_types = ()->
+  Criteria.fetch_types = ()->
     console.log 'fetch types'
     return @fetchTypesCache if @fetchTypesCache
-    @fetchTypesCache = criteria.fetch_types_index()
+    @fetchTypesCache = Criteria.fetch_types_index()
     return @fetchTypesCache
-  criteria.calculation_types = ()->
+  Criteria.calculation_types = ()->
     console.log 'fetch types'
     return @calcTypesCache if @calcTypesCache
-    @calcTypesCache = criteria.calculation_types_index()
+    @calcTypesCache = Criteria.calculation_types_index()
     return @calcTypesCache
-  criteria.find = (id)->
+  Criteria.find = (id)->
     console.log 'find criteria '+id
-    return criteria.get(id: id)
-  criteria.upsert = (c)->
+    return Criteria.get(id: id)
+  Criteria.delete = (c)->
+    console.log "deleting criteria"
+    console.log c
+    Criteria.delete_criteria {criteria_id: c.id}, (response)->
+      console.log(response)
+      resetCache()
+  Criteria.upsert = (c)->
     if c.id # update
-      criteria.update {}, c, (new_c)->
+      Criteria.update {}, c, (new_c)->
         console.log("Updated:")
         console.log(new_c)
         resetCache()
         new_c
     else
-      criteria.$save {}, c, (new_c)->
+      Criteria.save {}, c, (new_c)->
         console.log("Updated:")
         console.log(new_c)
         resetCache()
         new_c
-  return criteria
+  return Criteria

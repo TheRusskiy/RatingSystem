@@ -20,4 +20,5 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
     null
   $scope.deleteCriteria = (c)->
     return unless confirm("Вы уверены? Удалённый показатель восстановлению не подлежит!")
-    null
+    Criteria.delete(c)
+    $rootScope.goto('/criteria')

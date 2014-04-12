@@ -29,10 +29,16 @@ class CriteriaController extends AppController
     }
 
     function create(){
-        $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
-        return json_encode($record);
-//        $record = RecordsDao::upsert_from_object($record, $this->current_user());
-//        return json_encode($record);
+        $criteria = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+        $criteria = new Criteria($criteria);
+        CriteriaDao::insert($criteria);
+        return json_encode($criteria->properties_for_json());
+    }
+
+    function delete(){
+        $criteria_id = params("criteria_id");
+        CriteriaDao::delete($criteria_id);
+        return "";
     }
 
     function update(){

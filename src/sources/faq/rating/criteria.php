@@ -15,7 +15,12 @@ class Criteria {
         if (is_a($map, 'stdClass')){
             $obj = $map;
             $map = array();
-            $map["id"]=$obj->id;
+            if (isset($obj->id)){
+                $map["id"]=$obj->id;
+            }
+            else {
+                $map["id"]=null;
+            }
             $map["fetch_type"]=$obj->fetch_type;
             $map["fetch_value"]=$obj->fetch_value;
             $map["name"]=$obj->name;

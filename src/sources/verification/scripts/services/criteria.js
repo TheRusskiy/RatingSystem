@@ -1,8 +1,8 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("Criteria", function($resource) {
-    var criteria, resetCache;
-    criteria = $resource("/sources/verification/index.php", {
+    var Criteria, resetCache;
+    Criteria = $resource("/sources/verification/index.php", {
       controller: "criteria"
     }, {
       query: {
@@ -36,6 +36,12 @@
           action: "fetch_types"
         }
       },
+      delete_criteria: {
+        method: "DELETE",
+        params: {
+          action: "delete"
+        }
+      },
       calculation_types_index: {
         method: "GET",
         params: {
@@ -44,57 +50,67 @@
       }
     });
     resetCache = function() {
-      criteria.criteriaCache = null;
-      return criteria.withRecordsCache = null;
+      Criteria.criteriaCache = null;
+      return Criteria.withRecordsCache = null;
     };
-    criteria.index = function() {
+    Criteria.index = function() {
       console.log('criteria index');
       if (this.criteriaCache) {
         return this.criteriaCache;
       }
-      this.criteriaCache = criteria.query();
+      this.criteriaCache = Criteria.query();
       return this.criteriaCache;
     };
-    criteria.with_records = function() {
+    Criteria.with_records = function() {
       console.log('criteria with records');
       if (this.withRecordsCache) {
         return this.withRecordsCache;
       }
-      this.withRecordsCache = criteria.query();
+      this.withRecordsCache = Criteria.query();
       return this.withRecordsCache;
     };
-    criteria.fetch_types = function() {
+    Criteria.fetch_types = function() {
       console.log('fetch types');
       if (this.fetchTypesCache) {
         return this.fetchTypesCache;
       }
-      this.fetchTypesCache = criteria.fetch_types_index();
+      this.fetchTypesCache = Criteria.fetch_types_index();
       return this.fetchTypesCache;
     };
-    criteria.calculation_types = function() {
+    Criteria.calculation_types = function() {
       console.log('fetch types');
       if (this.calcTypesCache) {
         return this.calcTypesCache;
       }
-      this.calcTypesCache = criteria.calculation_types_index();
+      this.calcTypesCache = Criteria.calculation_types_index();
       return this.calcTypesCache;
     };
-    criteria.find = function(id) {
+    Criteria.find = function(id) {
       console.log('find criteria ' + id);
-      return criteria.get({
+      return Criteria.get({
         id: id
       });
     };
-    criteria.upsert = function(c) {
+    Criteria["delete"] = function(c) {
+      console.log("deleting criteria");
+      console.log(c);
+      return Criteria.delete_criteria({
+        criteria_id: c.id
+      }, function(response) {
+        console.log(response);
+        return resetCache();
+      });
+    };
+    Criteria.upsert = function(c) {
       if (c.id) {
-        return criteria.update({}, c, function(new_c) {
+        return Criteria.update({}, c, function(new_c) {
           console.log("Updated:");
           console.log(new_c);
           resetCache();
           return new_c;
         });
       } else {
-        return criteria.$save({}, c, function(new_c) {
+        return Criteria.save({}, c, function(new_c) {
           console.log("Updated:");
           console.log(new_c);
           resetCache();
@@ -102,7 +118,7 @@
         });
       }
     };
-    return criteria;
+    return Criteria;
   });
 
 }).call(this);

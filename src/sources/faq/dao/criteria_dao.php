@@ -81,7 +81,14 @@ class CriteriaDao {
         return $criteria;
     }
 
-    static function delete($id){
+    static function delete($criteria){
+        $id = null;
+        if (is_a($criteria, 'Criteria')){
+            $id = $criteria->id;
+        } else {
+            $id = $criteria;
+        }
+        $id = mysql_real_escape_string($id);
         $query = mysql_query("
             DELETE FROM criteria
             WHERE id = $id
