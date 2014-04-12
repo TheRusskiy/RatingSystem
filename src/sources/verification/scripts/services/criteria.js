@@ -9,6 +9,13 @@
         method: "GET",
         isArray: true,
         params: {
+          action: "index"
+        }
+      },
+      with_records_query: {
+        method: "GET",
+        isArray: true,
+        params: {
           action: "with_records"
         }
       },
@@ -67,7 +74,7 @@
       if (this.withRecordsCache) {
         return this.withRecordsCache;
       }
-      this.withRecordsCache = Criteria.query();
+      this.withRecordsCache = Criteria.with_records_query();
       return this.withRecordsCache;
     };
     Criteria.fetch_types = function() {

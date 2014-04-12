@@ -15,7 +15,7 @@ class CriteriaController extends AppController
     }
     function with_records()
     {
-        $all = CriteriaDao::all();
+        $all = CriteriaDao::all_with_records();
         $all_json = array();
         foreach($all as $c){
             $all_json[]=$c->properties_for_json();

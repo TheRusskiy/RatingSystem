@@ -2,7 +2,7 @@
   "use strict";
   angular.module("verificationApp").controller("PermissionsCtrl", function(User, $scope, Criteria) {
     $scope.users = User.index();
-    $scope.criterias = Criteria.index();
+    $scope.criterias = Criteria.with_records();
     return $scope.savePermissions = function(user, form) {
       return User.update_permissions(user);
     };

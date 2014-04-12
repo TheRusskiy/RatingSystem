@@ -5,6 +5,11 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
       method: "GET"
       isArray:true
       params:
+        action: "index"
+    with_records_query:
+      method: "GET"
+      isArray:true
+      params:
         action: "with_records"
     get:
       method: "GET"
@@ -43,7 +48,7 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
   Criteria.with_records = ()->
     console.log 'criteria with records'
     return @withRecordsCache if @withRecordsCache
-    @withRecordsCache = Criteria.query()
+    @withRecordsCache = Criteria.with_records_query()
     return @withRecordsCache
   Criteria.fetch_types = ()->
     console.log 'fetch types'

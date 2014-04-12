@@ -19,6 +19,18 @@ class CriteriaDao {
         }
         return $result;
     }
+    static function all_with_records(){
+        $query = mysql_query("
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date
+            FROM criteria
+            WHERE fetch_type = 'manual' or fetch_type = 'manual_options'
+            ");
+        $result = array();
+        while ($row = mysql_fetch_array($query)){
+            $result[]= new Criteria($row);
+        }
+        return $result;
+    }
 
     static function count(){
         $count_query = mysql_query("
