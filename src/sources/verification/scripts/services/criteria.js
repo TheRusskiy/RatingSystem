@@ -50,6 +50,7 @@
       }
     });
     resetCache = function() {
+      console.log("reset criteria cache");
       Criteria.criteriaCache = null;
       return Criteria.withRecordsCache = null;
     };

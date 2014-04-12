@@ -1,18 +1,19 @@
 <div class="container">
-  <p>
-    {{criteria}}
-  </p>
-  <h2>{{criteria.id ? 'Редактирование' : 'Создание'}} показателя</h2>
   <div class="row">
-    <div class="col-md-8">
-      <a href ng-click="goto('/criteria')">Все показатели</a>
+    <div class="col-md-12">
+      <h2>
+        <a href ng-click="goto('/criteria')" class="btn btn-link">
+          <i class="glyphicon glyphicon-chevron-left"></i>
+          Все показатели
+        </a>
+        {{criteria.id ? 'Редактирование' : 'Создание'}} показателя</h2>
     </div>
   </div>
   <div>
     <form novalidate class="form form-horizontal" name="form">
       <div class="col-md-8">
-        <div class="form-group">
-          <label for="id">ID</label>
+        <div class="form-group" ng-show="criteria.id">
+          <label for="id">ID</label> c
           <input type="text"
                  id="id"
                  name="id"

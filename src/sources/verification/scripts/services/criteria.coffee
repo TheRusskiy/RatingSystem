@@ -31,6 +31,7 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
       params:
         action: "calculation_types"
   resetCache = ()->
+    console.log "reset criteria cache"
     Criteria.criteriaCache = null
     Criteria.withRecordsCache = null
 
