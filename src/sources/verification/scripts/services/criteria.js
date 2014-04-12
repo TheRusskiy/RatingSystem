@@ -9,7 +9,19 @@
         method: "GET",
         isArray: true,
         params: {
-          action: "index"
+          action: "with_records"
+        }
+      },
+      fetch_types: {
+        method: "GET",
+        params: {
+          action: "fetch_types"
+        }
+      },
+      calculation_types: {
+        method: "GET",
+        params: {
+          action: "calculation_types"
         }
       }
     });
@@ -21,6 +33,30 @@
         }
         this.criteriaCache = criteria.query();
         return this.criteriaCache;
+      },
+      with_records: function() {
+        console.log('criteria with records');
+        if (this.withRecordsCache) {
+          return this.withRecordsCache;
+        }
+        this.withRecordsCache = criteria.query();
+        return this.withRecordsCache;
+      },
+      fetch_types: function() {
+        console.log('fetch types');
+        if (this.fetchTypesCache) {
+          return this.fetchTypesCache;
+        }
+        this.fetchTypesCache = criteria.fetch_types();
+        return this.fetchTypesCache;
+      },
+      calculation_types: function() {
+        console.log('fetch types');
+        if (this.calcTypesCache) {
+          return this.calcTypesCache;
+        }
+        this.calcTypesCache = criteria.calculation_types();
+        return this.calcTypesCache;
       }
     };
   });

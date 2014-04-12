@@ -1,6 +1,6 @@
 "use strict"
 angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $modal, Record, Criteria, Teacher) ->
-  $scope.criterias = Criteria.index()
+  $scope.criterias = Criteria.with_records()
   $scope.teachers = Teacher.index()
 
   $scope.displayNotes = (record)->

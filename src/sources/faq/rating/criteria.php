@@ -27,12 +27,18 @@ class Criteria {
         $this->options = $this->make_options();
     }
 
-    public function fetch_types(){
+    public static function fetch_types_index(){
         return array('sql'=>"SQL запрос", 'php' => "PHP файл", 'manual' => "Вручную", 'manual_options' => "Вручную из вариантов");
     }
+    public function fetch_types(){
+        return self::fetch_types_index();
+    }
 
-    public function calculation_types(){
+    public static function calculation_types_index(){
         return array('sum'=>"Сумма", 'max' => "Максимум", 'exists' => "Существует");
+    }
+    public function calculation_types(){
+        return self::calculation_types_index();
     }
     public function calculation_type_to_string(){
         $types = $this->calculation_types();
@@ -88,6 +94,12 @@ class Criteria {
         $obj["id"]=$this->id;
         $obj["title"]=$this->name;
         $obj["description"]=$this->description;
+        $obj["fetch_type"]=$this->fetch_type;
+        $obj["fetch_value"]=$this->fetch_value;
+        $obj["calculation_type"]=$this->calculation_type;
+        $obj["year_limit"]=$this->year_limit;
+        $obj["multiplier"]=$this->multiplier_to_string();
+        $obj["creation_date"]=$this->creation_date;
         if ($this->fetch_type!='manual_options'){
             $obj["options"]=null;
         } else {

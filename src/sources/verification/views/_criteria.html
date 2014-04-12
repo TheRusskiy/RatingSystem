@@ -1,3 +1,34 @@
 <div class="container">
-  <h1>КРИТЕРИИ</h1>
+  <h2>Показатели</h2>
+
+  <div class="row">
+    <table class="table">
+      <tr>
+        <th>#</th>
+        <th>Название</th>
+        <th>Способ вычисления</th>
+        <th>Данные</th>
+        <th>Способ вычисления</th>
+        <th>Лимит в год</th>
+        <th>Множитель</th>
+        <th>Дата создания</th>
+        <th width="60">Действия</th>
+      </tr>
+      <tr ng-repeat="c in criteria">
+        <td>{{c.id}}</td>
+        <td>{{c.title}}</td>
+        <td>{{fetch_types[c.fetch_type]}}</td>
+        <td>{{c.fetch_value}}</td>
+        <td>{{calculation_types[c.calculation_type]}}</td>
+        <td>{{c.year_limit}}</td>
+        <td>{{c.multiplier}}</td>
+        <td>{{c.creation_date}}</td>
+        <td>
+          <div class="btn-group">
+            <a class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

@@ -2,7 +2,7 @@
   "use strict";
   angular.module("verificationApp").controller("RecordsCtrl", function($scope, $http, $modal, Record, Criteria, Teacher) {
     var restore_option;
-    $scope.criterias = Criteria.index();
+    $scope.criterias = Criteria.with_records();
     $scope.teachers = Teacher.index();
     $scope.displayNotes = function(record) {
       var modalInstance;
