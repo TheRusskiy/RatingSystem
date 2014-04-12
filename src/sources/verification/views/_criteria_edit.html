@@ -1,0 +1,152 @@
+<div class="container">
+  <p>
+    {{criteria}}
+  </p>
+  <h2>{{criteria.id ? 'Редактирование' : 'Создание'}} показателя</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <a href ng-click="goto('/criteria')">Все показатели</a>
+    </div>
+  </div>
+  <div>
+    <form novalidate class="form form-horizontal" name="form">
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="id">ID</label>
+          <input type="text"
+                 id="id"
+                 name="id"
+                 class="form-control"
+                 ng-model="criteria.id"
+                 ng-disabled="true"/>
+        </div>
+        <div class="form-group">
+          <label for="name">Название</label>
+          <input type="text"
+                 id="name" name="name"
+                 ng-model="criteria.name"
+                 class="form-control"
+                 required
+                 placeholder="Название показателя"
+                  />
+        </div>
+        <div class="form-group">
+          <label for="fetch_type">Способ вычисления</label>
+          <select type="text"
+                 id="fetch_type" name="fetch_type"
+                 ng-model="criteria.fetch_type"
+                 class="form-control"
+                 ng-required="true"
+                 ng-options="key as value for (key, value) in fetch_types"
+                  >
+          </select>
+        </div>
+        <div class="form-group" ng-show="criteria.fetch_type !== 'manual'">
+          <label for="fetch_value">Данные</label>
+          <textarea id="fetch_value"
+                 name="fetch_value"
+                 rows="{{criteria.fetch_type=='sql' ? '15' : '1'}}"
+                 class="form-control"
+                 ng-required="criteria.fetch_type !== 'manual'"
+                 ng-model="criteria.fetch_value">
+          </textarea>
+        </div>
+        <div class="form-group">
+          <label for="calculation_type">Метод оценки</label>
+          <select type="text"
+                  id="calculation_type" name="calculation_type"
+                  ng-model="criteria.calculation_type"
+                  class="form-control"
+                  ng-required="true"
+                  ng-options="key as value for (key, value) in calculation_types"
+                  >
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="title">Множитель</label>
+          <input type="text"
+                 id="multiplier" name="multiplier"
+                 ng-model="criteria.multiplier"
+                 class="form-control"
+                 required
+                 placeholder="Множитель"
+                  />
+        </div>
+        <div class="form-group">
+          <label for="year_limit">Лимит в год</label>
+          <input type="text"
+                 id="year_limit" name="year_limit"
+                 ng-model="criteria.year_limit"
+                 class="form-control"
+                 required
+                 placeholder="Максимум баллов в год"
+                  />
+        </div>
+        <div class="form-group">
+          <label>Дата введения показателя</label>
+
+          <p class="input-group">
+            <input type="text"
+                   name="creation_date"
+                   class="form-control"
+                   datepicker-popup="dd MMMM yyyy"
+                   ng-model="criteria.creation_date"
+                   show-weeks="false"
+                   datepicker-options="dateOptions"
+                   datepicker-append-to-body="true"
+                   ng-required="true"
+                   clear-text="Очистить"
+                   close-text="X"
+                   current-text="Сегодня"
+                   toggle-weeks-text="Недели"
+                   show-button-bar="false"
+                   is-open="form.datepickerOpened"
+                   placeholder="Выберите дату"
+                    />
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="openDatepicker($event, form)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="description">Описание</label>
+          <textarea id="description"
+                    name="description"
+                    rows="6"
+                    class="form-control"
+                    ng-model="criteria.description">
+          </textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit"
+                  ng-show="!criteria.id"
+                  class="btn btn-primary"
+                  ng-click="createCriteria(criteria)"
+                  ng-disabled="form.$invalid">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            <span>Создать</span>
+          </button>
+          <button type="submit"
+                  ng-show="criteria.id"
+                  class="btn btn-warning"
+                  ng-click="saveCriteria(criteria)"
+                  ng-disabled="form.$invalid">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            <span>Сохранить</span>
+          </button>
+          <button type="submit"
+                  ng-show="criteria.id"
+                  class="btn btn-danger"
+                  ng-click="deleteCriteria(criteria)"
+                  ng-disabled="form.$invalid">
+            <i class="glyphicon glyphicon-remove"></i>
+            <span>Удалить</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

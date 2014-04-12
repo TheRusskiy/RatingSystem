@@ -1,7 +1,7 @@
 "use strict"
 
 # Intercept 401s and 403s and redirect you to login
-angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(($routeProvider, $locationProvider, $httpProvider, $localeProvider) ->
+angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.utils"]).config(($routeProvider, $locationProvider, $httpProvider, $localeProvider) ->
   $routeProvider.when("/",
     templateUrl: "sources/verification/views/_records"
     controller: "RecordsCtrl"
@@ -14,6 +14,9 @@ angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngR
   ).when("/criteria",
     templateUrl: "sources/verification/views/_criteria"
     controller: "CriteriaCtrl"
+  ).when("/criteria/:id",
+    templateUrl: "sources/verification/views/_criteria_edit"
+    controller: "CriteriaEditCtrl"
   ).otherwise redirectTo: "/"
 #  $locationProvider.html5Mode true
   $localeProvider.id="ru-ru"

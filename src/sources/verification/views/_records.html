@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <tabset>
-      <tab ng-repeat="criteria in criterias | allowed_criteria:currentUser" heading="{{criteria.title}}" active="criteria.active"
+      <tab ng-repeat="criteria in criterias | allowed_criteria:currentUser" heading="{{criteria.name}}" active="criteria.active"
            disabled="criteria.disabled">
         <div class="criteria-tab-content">
           <div class="row">

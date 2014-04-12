@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap"]).config(function($routeProvider, $locationProvider, $httpProvider, $localeProvider) {
+  angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.utils"]).config(function($routeProvider, $locationProvider, $httpProvider, $localeProvider) {
     $routeProvider.when("/", {
       templateUrl: "sources/verification/views/_records",
       controller: "RecordsCtrl"
@@ -13,6 +13,9 @@
     }).when("/criteria", {
       templateUrl: "sources/verification/views/_criteria",
       controller: "CriteriaCtrl"
+    }).when("/criteria/:id", {
+      templateUrl: "sources/verification/views/_criteria_edit",
+      controller: "CriteriaEditCtrl"
     }).otherwise({
       redirectTo: "/"
     });

@@ -6,8 +6,7 @@ class CriteriaController extends AppController
 {
     function index()
     {
-        $criteria = params("criteria");
-        $all = CriteriaDao::all($criteria);
+        $all = CriteriaDao::all();
         $all_json = array();
         foreach($all as $c){
             $all_json[]=$c->properties_for_json();
@@ -16,14 +15,33 @@ class CriteriaController extends AppController
     }
     function with_records()
     {
-        $criteria = params("criteria");
-        $all = CriteriaDao::all($criteria);
+        $all = CriteriaDao::all();
         $all_json = array();
         foreach($all as $c){
             $all_json[]=$c->properties_for_json();
         }
         return json_encode($all_json);
     }
+    function show()
+    {
+        $c = CriteriaDao::find(params('id'));
+        return json_encode($c->properties_for_json());
+    }
+
+    function create(){
+        $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+        return json_encode($record);
+//        $record = RecordsDao::upsert_from_object($record, $this->current_user());
+//        return json_encode($record);
+    }
+
+    function update(){
+        $criteria = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+        $criteria = new Criteria($criteria);
+        CriteriaDao::update($criteria);
+        return json_encode($criteria->properties_for_json());
+    }
+
     function fetch_types()
     {
         $all = Criteria::fetch_types_index();

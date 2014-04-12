@@ -21,5 +21,6 @@ angular.module('verificationApp')
       Auth.logout()
     $scope.location = $location.path()
     $scope.goto = (path)->
+      console.log path
       $location.path(path)
       $scope.location = $location.path()

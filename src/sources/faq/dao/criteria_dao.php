@@ -77,6 +77,8 @@ class CriteriaDao {
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
         }
+        $criteria->id = mysql_insert_id();
+        return $criteria;
     }
 
     static function delete($id){

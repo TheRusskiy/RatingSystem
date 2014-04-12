@@ -10,7 +10,21 @@ class Criteria {
         'multiplier'=>0,
         'calculation_type'=>"",
         'description'=>""
-    )){
+    ))
+    {
+        if (is_a($map, 'stdClass')){
+            $obj = $map;
+            $map = array();
+            $map["id"]=$obj->id;
+            $map["fetch_type"]=$obj->fetch_type;
+            $map["fetch_value"]=$obj->fetch_value;
+            $map["name"]=$obj->name;
+            $map["year_limit"]=$obj->year_limit;
+            $map["multiplier"]=$obj->multiplier;
+            $map["calculation_type"]=$obj->calculation_type;
+            $map["description"]=$obj->description;
+            $map["creation_date"]=$obj->creation_date;
+        }
         $this->id = $map["id"];
         $this->fetch_type = $map["fetch_type"];
         $this->fetch_value = $map["fetch_value"];
@@ -92,7 +106,7 @@ class Criteria {
     public function properties_for_json(){
         $obj = array();
         $obj["id"]=$this->id;
-        $obj["title"]=$this->name;
+        $obj["name"]=$this->name;
         $obj["description"]=$this->description;
         $obj["fetch_type"]=$this->fetch_type;
         $obj["fetch_value"]=$this->fetch_value;

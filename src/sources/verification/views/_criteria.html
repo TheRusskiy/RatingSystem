@@ -1,6 +1,8 @@
 <div class="container">
   <h2>Показатели</h2>
-
+  <div class="row">
+    <a href ng-click="goto('/criteria/new')">Новый показатель</a>
+  </div>
   <div class="row">
     <table class="table">
       <tr>
@@ -8,15 +10,15 @@
         <th>Название</th>
         <th>Способ вычисления</th>
         <th>Данные</th>
-        <th>Способ вычисления</th>
+        <th>Метод оценки</th>
         <th>Лимит в год</th>
         <th>Множитель</th>
         <th>Дата создания</th>
         <th width="60">Действия</th>
       </tr>
-      <tr ng-repeat="c in criteria">
+      <tr ng-repeat="c in criteria | orderBy:'id'">
         <td>{{c.id}}</td>
-        <td>{{c.title}}</td>
+        <td>{{c.name}}</td>
         <td>{{fetch_types[c.fetch_type]}}</td>
         <td>{{c.fetch_value}}</td>
         <td>{{calculation_types[c.calculation_type]}}</td>
@@ -25,7 +27,7 @@
         <td>{{c.creation_date}}</td>
         <td>
           <div class="btn-group">
-            <a class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            <a href="" class="btn btn-default" ng-click="goto('/criteria/'+c.id)"><i class="glyphicon glyphicon-pencil"></i></a>
           </div>
         </td>
       </tr>
