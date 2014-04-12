@@ -20,6 +20,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_value" => $query,
             "name" => "name of criteria",
             "multiplier" => 10,
+            "description" => "",
             "year_limit" => 100,
             "calculation_type" => "sum"
         ));
@@ -41,6 +42,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
+            "description" => "",
             "multiplier" => 10,
             "year_limit" => 100,
             "calculation_type" => "max"
@@ -60,6 +62,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_value" => $query,
             "name" => "name of criteria",
             "multiplier" => 10,
+            "description" => "",
             "year_limit" => 100,
             "calculation_type" => "max"
         ));
@@ -88,6 +91,7 @@ EOF;
             "fetch_value" => $query,
             "name" => "name of criteria",
             "multiplier" => 10,
+            "description" => "",
             "year_limit" => 100,
             "calculation_type" => "sum"
         ));
@@ -117,6 +121,7 @@ EOF;
             "fetch_value" => $query,
             "name" => "name of criteria",
             "multiplier" => 10,
+            "description" => "",
             "year_limit" => 20,
             "calculation_type" => "sum"
         ));
@@ -137,6 +142,7 @@ EOF;
             "fetch_type" => "php",
             "fetch_value" => $file,
             "name" => "name of criteria",
+            "description" => "",
             "multiplier" => 10,
             "year_limit" => 200,
             "calculation_type" => "sum"
@@ -155,6 +161,7 @@ EOF;
                 "fetch_type" => "manual",
                 "fetch_value" => "", // doesn't matter
                 "name" => "name of criteria",
+                "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
                 "calculation_type" => "sum"
@@ -196,6 +203,7 @@ EOF;
                 "fetch_type" => "manual",
                 "fetch_value" => "", // doesn't matter
                 "name" => "name of criteria",
+                "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
                 "calculation_type" => "sum"
@@ -239,6 +247,7 @@ EOF;
                 "fetch_type" => "manual_options",
                 "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
+                "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
                 "calculation_type" => "sum"
@@ -272,6 +281,7 @@ EOF;
                 "fetch_type" => "manual_options",
                 "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
+                "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
                 "calculation_type" => "sum"

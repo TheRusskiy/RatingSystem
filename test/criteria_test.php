@@ -16,6 +16,7 @@ class TestCriteria extends PHPUnit_Framework_TestCase {
             "fetch_value" => $query,
             "name" => "name of criteria",
             "multiplier" => 10,
+            "description" => "",
             "year_limit" => 100,
             "calculation_type" => "sum"
         ));
