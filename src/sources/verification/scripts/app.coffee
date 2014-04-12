@@ -3,6 +3,9 @@
 # Intercept 401s and 403s and redirect you to login
 angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.utils"]).config(($routeProvider, $locationProvider, $httpProvider, $localeProvider) ->
   $routeProvider.when("/",
+    templateUrl: "sources/verification/views/_welcome"
+    controller: "GuideCtrl"
+  ).when("/records",
     templateUrl: "sources/verification/views/_records"
     controller: "RecordsCtrl"
   ).when("/guide",

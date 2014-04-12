@@ -2,6 +2,9 @@
   "use strict";
   angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.utils"]).config(function($routeProvider, $locationProvider, $httpProvider, $localeProvider) {
     $routeProvider.when("/", {
+      templateUrl: "sources/verification/views/_welcome",
+      controller: "GuideCtrl"
+    }).when("/records", {
       templateUrl: "sources/verification/views/_records",
       controller: "RecordsCtrl"
     }).when("/guide", {
