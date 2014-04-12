@@ -39,20 +39,20 @@ body {
 }
 
 @media (min-width: 992px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000335}}
   .notes-modal .modal-dialog {
     width: 900px;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000339}}
 #ssau-logo {
   width: 50px;
   height: 30px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000343}}
 .data-cell {
-  max-width: 400px;
+  max-width: 300px;
   max-height: 60px;
   overflow-x: visible;
   overflow-y: hidden;
