@@ -16,7 +16,19 @@
         }
       });
     };
-    $scope.records = Record.index;
+    $scope.records = function(criteria, page) {
+      if (criteria.search_mode) {
+        return [];
+      } else {
+        return Record.index(criteria.id, page);
+      }
+    };
+    $scope.searchRecords = function(criteria, record_template) {
+      return criteria.search_mode = true;
+    };
+    $scope.clearSearch = function(criteria) {
+      return criteria.search_mode = false;
+    };
     $scope.recordCount = function(criteria_id) {
       return Record.count(criteria_id);
     };
