@@ -56,8 +56,39 @@
     recordsSearchCountCache = {};
     countPerPage = 10;
     Record.upsert = function(record) {
+      var cachePage, i, key, position, r, _i, _j, _len, _len1, _ref, _ref1;
+      _ref = recordsCache[record.criteria_id];
+      for (key in _ref) {
+        cachePage = _ref[key];
+        position = null;
+        for (i = _i = 0, _len = cachePage.length; _i < _len; i = ++_i) {
+          r = cachePage[i];
+          if (r.id === record.id) {
+            position = i;
+            cachePage[position] = record;
+            console.log("replaced");
+            break;
+          }
+        }
+      }
+      if (recordsSearchCache[record.criteria_id]) {
+        _ref1 = recordsSearchCache[record.criteria_id];
+        for (key in _ref1) {
+          cachePage = _ref1[key];
+          position = null;
+          for (i = _j = 0, _len1 = cachePage.length; _j < _len1; i = ++_j) {
+            r = cachePage[i];
+            if (r.id === record.id) {
+              position = i;
+              cachePage[position] = record;
+              console.log("replaced");
+              break;
+            }
+          }
+        }
+      }
       if (record.id) {
-        return Record.update({}, record, function(r) {
+        return record.$update({}, function(r) {
           console.log("Updated:");
           console.log(r);
           return r;

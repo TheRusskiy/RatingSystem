@@ -39,8 +39,25 @@ angular.module("verificationApp").factory "Record", ($resource) ->
   countPerPage = 10
 
   Record.upsert = (record)->
+    for key, cachePage of recordsCache[record.criteria_id]
+      position = null
+      for r, i in cachePage
+        if r.id is record.id
+          position = i
+          cachePage[position]=record
+          console.log("replaced")
+          break
+    if recordsSearchCache[record.criteria_id]
+      for key, cachePage of recordsSearchCache[record.criteria_id]
+        position = null
+        for r, i in cachePage
+          if r.id is record.id
+            position = i
+            cachePage[position]=record
+            console.log("replaced")
+            break
     if record.id # update
-      Record.update {}, record, (r)->
+      record.$update {}, (r)->
         console.log("Updated:")
         console.log(r)
         r

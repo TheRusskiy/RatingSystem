@@ -96,7 +96,7 @@
                                  placeholder="Начните вводить фамилию преподавателя"
                                  typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
                                  class="form-control"
-                                 required
+                                 ng-required="true"
                                  typeahead-editable="false">
 
                           <div ng-show="form.teacher.$dirty && form.teacher.$invalid">
@@ -108,7 +108,6 @@
                           <select ng-model="criteria.current_record.option"
                                   name="option"
                                   class="form-control"
-                                  required="true"
                                   ng-required="true"
                                   ng-options="value as value.name for value in criteria.options"
                                   >
@@ -120,7 +119,7 @@
                                     name="name"
                                     ng-model="criteria.current_record.name"
                                     placeholder="Опишите достижение преподавателя"
-                                    required
+                                    ng-required="true"
                                     rows="3">
                           </textarea>
                         </div>
@@ -168,7 +167,7 @@
                         </button>
                         <button type="submit"
                                 ng-if="criteria.current_record.id"
-                                ng-disabled="form.$invalid"
+                                ng-disabled="form.$invalid || !recordEdited(criteria)"
                                 ng-click="saveRecord(criteria, form)"
                                 class="btn btn-warning">
                           <i class="glyphicon glyphicon-floppy-disk"></i>
@@ -206,7 +205,7 @@
                   </div>
                   <div class="panel-collapse collapse in">
                     <div class="panel-body">
-                      <form novalidate class="form" name="form">
+                      <form novalidate class="form" name="search_form">
                         <div class="form-group">
                           <label for="teachers">Преподаватель</label>
                           <input type="text"
@@ -253,12 +252,12 @@
                                    current-text="Сегодня"
                                    toggle-weeks-text="Недели"
                                    show-button-bar="false"
-                                   is-open="form.datepickerFromOpened"
+                                   is-open="search_form.datepickerFromOpened"
                                    placeholder="С даты...."
                                     />
                                       <span class="input-group-btn">
                                         <button class="btn btn-default"
-                                                ng-click="openDatepicker($event, form, 'datepickerFromOpened')">
+                                                ng-click="openDatepicker($event, search_form, 'datepickerFromOpened')">
                                           <i class="glyphicon glyphicon-calendar"></i>
                                         </button>
                                       </span>
@@ -280,12 +279,12 @@
                                    current-text="Сегодня"
                                    toggle-weeks-text="Недели"
                                    show-button-bar="false"
-                                   is-open="form.datepickerToOpened"
+                                   is-open="search_form.datepickerToOpened"
                                    placeholder="По дату...."
                                     />
                                       <span class="input-group-btn">
                                         <button class="btn btn-default"
-                                                ng-click="openDatepicker($event, form, 'datepickerToOpened')">
+                                                ng-click="openDatepicker($event, search_form, 'datepickerToOpened')">
                                           <i class="glyphicon glyphicon-calendar"></i>
                                         </button>
                                       </span>
@@ -302,7 +301,7 @@
                           <i class="glyphicon glyphicon-search"></i>
                           <span>Поиск</span>
                         </button>
-                        <span ng-show="form.$invalid">
+                        <span ng-show="search_form.$invalid">
                             Форма поиска некорректна
                         </span>
                       </form>
