@@ -55,7 +55,7 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
       unless correctCount
         $scope.fetchValueErrors.push("Число элементов во множителе и данных не совпадает")
       unless !!formatMatches
-        $scope.fetchValueErrors.push("Некорректный формат данных. Данные должны следовать формату (.+\\|)*.+")
+        $scope.fetchValueErrors.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'")
       unless no_empty_elements
         $scope.fetchValueErrors.push("Не должно быть пустых элементов")
       correctCount && !!formatMatches && no_empty_elements

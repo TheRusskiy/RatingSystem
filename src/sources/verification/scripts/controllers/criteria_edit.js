@@ -70,7 +70,7 @@
           $scope.fetchValueErrors.push("Число элементов во множителе и данных не совпадает");
         }
         if (!formatMatches) {
-          $scope.fetchValueErrors.push("Некорректный формат данных. Данные должны следовать формату (.+\\|)*.+");
+          $scope.fetchValueErrors.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'");
         }
         if (!no_empty_elements) {
           $scope.fetchValueErrors.push("Не должно быть пустых элементов");
