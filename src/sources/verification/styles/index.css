@@ -60,6 +60,13 @@ body {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000351}}
 button.clear-search {
-  margin-top: 20px;
   margin-bottom: 20px;
+  display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000355}}
+.record-count {
+  display: inline-block;
+  padding-bottom: 20px;
+  vertical-align: middle;
 }

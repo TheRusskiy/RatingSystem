@@ -12,15 +12,26 @@ class RecordsController extends AppController{
     }
 
     function search(){
-        $search = params("search");
-        $search = json_decode($search);
-        $all = RecordsDao::all($search->criteria_id, null, null, $search);
+        $criteria = params("criteria");
+        $page = params("page");
+        $page_length = params("page_length");
+        $search = json_decode(params("search"));
+        $all = RecordsDao::all($criteria, $page, $page_length, $search);
         return json_encode($all);
     }
 
     function count(){
         $criteria = params("criteria_id");
         $count = RecordsDao::count($criteria);
+        $obj = array();
+        $obj["count"] = $count;
+        return json_encode($obj);
+    }
+
+    function search_count(){
+        $criteria = params("criteria_id");
+        $search = json_decode(params("search"));
+        $count = RecordsDao::count($criteria, $search);
         $obj = array();
         $obj["count"] = $count;
         return json_encode($obj);

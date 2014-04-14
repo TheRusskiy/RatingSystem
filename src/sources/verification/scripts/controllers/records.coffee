@@ -13,19 +13,22 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     })
   $scope.records = (criteria, page)->
     if criteria.search_mode
-      Record.search(criteria.id)
+      Record.search(criteria.id, criteria.search_record, page)
     else
       Record.index(criteria.id, page)
 
-  $scope.searchRecords = (criteria, record_template)->
-    Record.newSearch(criteria.id, record_template)
+  $scope.searchRecords = (criteria)->
+    Record.newSearch(criteria.id)
     criteria.search_mode = true
 
   $scope.clearSearch = (criteria)->
     criteria.search_mode = false
 
-  $scope.recordCount = (criteria_id)->
-    Record.count(criteria_id)
+  $scope.recordCount = (criteria)->
+    if criteria.search_mode
+      Record.searchCount(criteria.id, criteria.search_record)
+    else
+      Record.count(criteria.id)
   $scope.countPerPage = Record.countPerPage
 
   # date

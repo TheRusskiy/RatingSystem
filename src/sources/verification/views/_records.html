@@ -41,8 +41,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <pagination ng-show="!criteria.search_mode"
-                          total-items="recordCount(criteria.id)"
+              <pagination total-items="recordCount(criteria)"
                           page="criteria.currentPage"
                           items-per-page="countPerPage"
                           next-text="След."
@@ -55,7 +54,9 @@
                   <i class="glyphicon glyphicon-remove"></i>
                   <span>Очистить поиск</span>
                 </button>
-                <span>Найдено {{records(criteria, criteria.currentPage).length}} записей</span>
+                <div class="record-count">
+                  <span>Найдено <b>{{recordCount(criteria)}}</b> записей</span>
+                </div>
               </div>
             </div>
           </div>
@@ -206,9 +207,6 @@
                   <div class="panel-collapse collapse in">
                     <div class="panel-body">
                       <form novalidate class="form" name="form">
-                        <p>
-                          {{criteria.search_record}}
-                        </p>
                         <div class="form-group">
                           <label for="teachers">Преподаватель</label>
                           <input type="text"
@@ -299,7 +297,7 @@
                                ng-model="criteria.search_record.criteria_id"
                                 />
                         <button type="submit"
-                                ng-click="searchRecords(criteria, criteria.search_record)"
+                                ng-click="searchRecords(criteria)"
                                 class="btn btn-primary">
                           <i class="glyphicon glyphicon-search"></i>
                           <span>Поиск</span>

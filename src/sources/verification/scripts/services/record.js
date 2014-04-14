@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("Record", function($resource) {
-    var Record, countPerPage, recordsCache, recordsCountCache, recordsSearchCache;
+    var Record, countPerPage, recordsCache, recordsCountCache, recordsSearchCache, recordsSearchCountCache;
     Record = $resource("/sources/verification/index.php", {
       controller: "records"
     }, {
@@ -23,6 +23,12 @@
         method: "GET",
         params: {
           action: "count"
+        }
+      },
+      record_search_count: {
+        method: "GET",
+        params: {
+          action: "search_count"
         }
       },
       save: {
@@ -47,6 +53,7 @@
     recordsCache = {};
     recordsSearchCache = {};
     recordsCountCache = {};
+    recordsSearchCountCache = {};
     countPerPage = 10;
     Record.upsert = function(record) {
       if (record.id) {
@@ -67,7 +74,7 @@
       }
     };
     Record["delete"] = function(record) {
-      var cachePage, i, key, position, r, _i, _len, _ref;
+      var cachePage, i, key, position, r, _i, _j, _len, _len1, _ref, _ref1;
       console.log("cache pages");
       console.log(recordsCache[record.criteria_id]);
       _ref = recordsCache[record.criteria_id];
@@ -83,6 +90,24 @@
             cachePage.splice(position, 1);
             console.log("Deleted");
             break;
+          }
+        }
+      }
+      if (recordsSearchCache[record.criteria_id]) {
+        _ref1 = recordsSearchCache[record.criteria_id];
+        for (key in _ref1) {
+          cachePage = _ref1[key];
+          console.log("cachePage");
+          console.log(cachePage);
+          position = null;
+          for (i = _j = 0, _len1 = cachePage.length; _j < _len1; i = ++_j) {
+            r = cachePage[i];
+            if (r.id === record.id) {
+              position = i;
+              cachePage.splice(position, 1);
+              console.log("Deleted");
+              break;
+            }
           }
         }
       }
@@ -126,13 +151,44 @@
       });
       return recordsCountCache[criteria_id];
     };
-    Record.search = function(criteria_id) {
-      return recordsSearchCache[criteria_id];
+    Record.searchCount = function(criteria_id, record_template) {
+      if (recordsSearchCountCache[criteria_id]) {
+        return recordsSearchCountCache[criteria_id];
+      }
+      recordsSearchCountCache[criteria_id] = 100;
+      Record.record_search_count({
+        criteria_id: criteria_id,
+        search: record_template
+      }, function(result) {
+        console.log("search count");
+        console.log(result);
+        return recordsSearchCountCache[criteria_id] = result.count;
+      });
+      return recordsSearchCountCache[criteria_id];
     };
-    Record.newSearch = function(criteria_id, record_template) {
-      return recordsSearchCache[criteria_id] = Record.search_query({
+    Record.search = function(criteria_id, record_template, pageNumber) {
+      if (pageNumber == null) {
+        pageNumber = 1;
+      }
+      console.log('record search');
+      if (recordsSearchCache[criteria_id] == null) {
+        recordsSearchCache[criteria_id] = {};
+      }
+      if (recordsSearchCache[criteria_id][pageNumber]) {
+        return recordsSearchCache[criteria_id][pageNumber];
+      }
+      recordsSearchCache[criteria_id][pageNumber] = Record.search_query({
+        criteria: criteria_id,
+        page: pageNumber,
+        page_length: countPerPage,
         search: record_template
       });
+      console.log("writing to search page " + pageNumber);
+      return recordsSearchCache[criteria_id][pageNumber];
+    };
+    Record.newSearch = function(criteria_id) {
+      recordsSearchCache[criteria_id] = {};
+      return recordsSearchCountCache[criteria_id] = null;
     };
     return Record;
   });

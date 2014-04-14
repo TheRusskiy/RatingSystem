@@ -18,20 +18,24 @@
     };
     $scope.records = function(criteria, page) {
       if (criteria.search_mode) {
-        return Record.search(criteria.id);
+        return Record.search(criteria.id, criteria.search_record, page);
       } else {
         return Record.index(criteria.id, page);
       }
     };
-    $scope.searchRecords = function(criteria, record_template) {
-      Record.newSearch(criteria.id, record_template);
+    $scope.searchRecords = function(criteria) {
+      Record.newSearch(criteria.id);
       return criteria.search_mode = true;
     };
     $scope.clearSearch = function(criteria) {
       return criteria.search_mode = false;
     };
-    $scope.recordCount = function(criteria_id) {
-      return Record.count(criteria_id);
+    $scope.recordCount = function(criteria) {
+      if (criteria.search_mode) {
+        return Record.searchCount(criteria.id, criteria.search_record);
+      } else {
+        return Record.count(criteria.id);
+      }
     };
     $scope.countPerPage = Record.countPerPage;
     $scope.dateOptions = {

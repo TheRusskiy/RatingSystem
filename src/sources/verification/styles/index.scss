@@ -49,6 +49,11 @@ body {
 //  white-space: nowrap;
 }
 button.clear-search {
-  margin-top: 20px;
   margin-bottom: 20px;
+  display: inline-block;
+}
+.record-count {
+  display: inline-block;
+  padding-bottom: 20px;
+  vertical-align: middle;
 }

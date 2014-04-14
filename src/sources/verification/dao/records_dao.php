@@ -18,11 +18,13 @@ class RecordsDao {
       notes: [1,2,3]
  */
 
-    static function count($criteria_id, $page = null, $per_page = null){
+    static function count($criteria_id, $search = null){
+      $searchString = self::make_search_query($search);
       $teachers_query = mysql_query("
             SELECT COUNT(*) as length
             FROM rating_records r
             WHERE r.criteria_id = $criteria_id
+            $searchString
             ");
       $result = mysql_fetch_array($teachers_query);
       return $result["length"];
@@ -35,29 +37,7 @@ class RecordsDao {
             $limiter = "ORDER BY id desc
                         LIMIT" . " $page_length OFFSET $from";
         }
-        $searchString = "";
-        if ($search!==null) {
-            if (isset($search->teacher) && $search->teacher!= ""){
-                $teacher_id = mysql_real_escape_string($search->teacher->id);
-                $searchString.=" AND r.staff_id = $teacher_id ";
-            }
-            if (isset($search->name)){
-                $name = mysql_real_escape_string($search->name);
-                $searchString.=" AND r.name LIKE '$name' ";
-            }
-            if (isset($search->option)){
-                $option_value = mysql_real_escape_string($search->option->value);
-                $searchString.=" AND r.value = $option_value ";
-            }
-            if (isset($search->date_from)){
-                $from = mysql_real_escape_string($search->date_from);
-                $searchString.=" AND r.date >= '$from' ";
-            }
-            if (isset($search->date_to)){
-                $to = mysql_real_escape_string($search->date_to);
-                $searchString.=" AND r.date >= '$to' ";
-            }
-        }
+        $searchString = self::make_search_query($search);
         $criteria = CriteriaDao::find($criteria_id);
         $records_query = "
             SELECT r.id as id, r.criteria_id as criteria_id, r.name as name, r.date as date, r.staff_id as staff_id, r.value as value,
@@ -95,25 +75,27 @@ class RecordsDao {
             $rows[]= $record;
         }
         $string_ids = implode(", ", $ids);
-        $notes_count_query = "
+        if (count($ids)!=0) {
+            $notes_count_query = "
             SELECT r.id as id, n.id as note_id
             FROM rating_records r
             JOIN rating_record_notes n ON r.id = n.record_id
             WHERE r.id IN ($string_ids)
         ";
-        $notes_count_query = mysql_query($notes_count_query);
-        $id_notes_map = array();
-        while ($row = mysql_fetch_array($notes_count_query)){
-            if (!isset($id_notes_map[$row["id"]])){
-                $id_notes_map[$row["id"]] = array();
+            $notes_count_query = mysql_query($notes_count_query);
+            $id_notes_map = array();
+            while ($row = mysql_fetch_array($notes_count_query)) {
+                if (!isset($id_notes_map[$row["id"]])) {
+                    $id_notes_map[$row["id"]] = array();
+                }
+                array_push($id_notes_map[$row["id"]], $row["note_id"]);
             }
-            array_push($id_notes_map[$row["id"]], $row["note_id"]);
-        }
-        foreach($rows as $key=>$r){
-            if (!isset($id_notes_map[$r["id"]])){
-                $id_notes_map[$r["id"]] = array();
+            foreach ($rows as $key => $r) {
+                if (!isset($id_notes_map[$r["id"]])) {
+                    $id_notes_map[$r["id"]] = array();
+                }
+                $rows[$key]["notes"] = $id_notes_map[$r["id"]];
             }
-            $rows[$key]["notes"]=$id_notes_map[$r["id"]];
         }
         return $rows;
     }
@@ -212,6 +194,35 @@ class RecordsDao {
                 throw new Exception('SQL error: '.mysql_error());
             }
         }
+    }
+
+    private static function make_search_query($search)
+    {
+        $searchString = "";
+        if ($search !== null) {
+            if (isset($search->teacher) && $search->teacher != "") {
+                $teacher_id = mysql_real_escape_string($search->teacher->id);
+                $searchString .= " AND r.staff_id = $teacher_id ";
+            }
+            if (isset($search->name)) {
+                $name = mysql_real_escape_string($search->name);
+                $searchString .= " AND r.name LIKE '%$name%' ";
+            }
+            if (isset($search->option)) {
+                $option_value = mysql_real_escape_string($search->option->value);
+                $searchString .= " AND r.value = $option_value ";
+            }
+            if (isset($search->date_from)) {
+                $from = mysql_real_escape_string($search->date_from);
+                $searchString .= " AND r.date >= '$from' ";
+            }
+            if (isset($search->date_to)) {
+                $to = mysql_real_escape_string($search->date_to);
+                $searchString .= " AND r.date >= '$to' ";
+                return $searchString;
+            }
+        }
+        return $searchString;
     }
 
 }
