@@ -18,7 +18,7 @@
                   <th>Преподаватель</th>
                   <th>Утвердил(а)</th>
                   <th>Заметки</th>
-                  <th width="60">Действия</th>
+                  <th width="60"></th>
                 </tr>
                 <tr ng-repeat="record in records(criteria, criteria.currentPage)">
                   <td>{{record.id}}</td>
@@ -233,7 +233,7 @@
                                     name="name"
                                     ng-model="criteria.search_record.name"
                                     placeholder="Фраза в описании"
-                                    rows="3">
+                                    rows="1">
                           </textarea>
                         </div>
                         <div class="form-group">
