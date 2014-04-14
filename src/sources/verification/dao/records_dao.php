@@ -218,7 +218,7 @@ class RecordsDao {
             }
             if (isset($search->date_to)) {
                 $to = mysql_real_escape_string($search->date_to);
-                $searchString .= " AND r.date >= '$to' ";
+                $searchString .= " AND r.date <= '$to' ";
                 return $searchString;
             }
         }
