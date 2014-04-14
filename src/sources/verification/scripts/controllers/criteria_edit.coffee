@@ -38,7 +38,7 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
   isInt = (n)->
     return parseFloat(n) is parseInt(n, 10) and not isNaN(n)
   $scope.fetchValueErrors = []
-  $scope.validateFetchValue = ($value)->
+  $scope.validateFetchValue = ($value = "")->
     $scope.fetchValueErrors = []
     if $scope.criteria.fetch_type == 'manual_options'
       value = $value
@@ -61,7 +61,7 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
       correctCount && !!formatMatches && no_empty_elements
     else
       true
-  $scope.validateMultiplierValue = ($value)->
+  $scope.validateMultiplierValue = ($value = "")->
     $value = $value.toString()
     values = $value.split('|')
     valid = true

@@ -50,6 +50,9 @@
     $scope.fetchValueErrors = [];
     $scope.validateFetchValue = function($value) {
       var correctCount, formatMatches, multi, multis, no_empty_elements, oldLength, value, values;
+      if ($value == null) {
+        $value = "";
+      }
       $scope.fetchValueErrors = [];
       if ($scope.criteria.fetch_type === 'manual_options') {
         value = $value;
@@ -79,6 +82,9 @@
     };
     return $scope.validateMultiplierValue = function($value) {
       var v, valid, values, _i, _len;
+      if ($value == null) {
+        $value = "";
+      }
       $value = $value.toString();
       values = $value.split('|');
       valid = true;
