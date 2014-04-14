@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("Record", function($resource) {
-    var Record, countPerPage, recordsCache, recordsCountCache;
+    var Record, countPerPage, recordsCache, recordsCountCache, recordsSearchCache;
     Record = $resource("/sources/verification/index.php", {
       controller: "records"
     }, {
@@ -10,6 +10,13 @@
         isArray: true,
         params: {
           action: "index"
+        }
+      },
+      search_query: {
+        method: "GET",
+        isArray: true,
+        params: {
+          action: "search"
         }
       },
       record_count: {
@@ -38,6 +45,7 @@
       }
     });
     recordsCache = {};
+    recordsSearchCache = {};
     recordsCountCache = {};
     countPerPage = 10;
     Record.upsert = function(record) {
@@ -117,6 +125,14 @@
         return recordsCountCache[criteria_id] = result.count;
       });
       return recordsCountCache[criteria_id];
+    };
+    Record.search = function(criteria_id) {
+      return recordsSearchCache[criteria_id];
+    };
+    Record.newSearch = function(criteria_id, record_template) {
+      return recordsSearchCache[criteria_id] = Record.search_query({
+        search: record_template
+      });
     };
     return Record;
   });

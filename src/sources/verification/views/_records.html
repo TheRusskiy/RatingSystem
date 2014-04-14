@@ -48,13 +48,15 @@
                           next-text="След."
                           previous-text="Пред.">
               </pagination>
-              <button type="submit"
-                      ng-show="criteria.search_mode"
-                      ng-click="clearSearch(criteria)"
-                      class="btn btn-primary clear-search">
-                <i class="glyphicon glyphicon-remove"></i>
-                <span>Очистить поиск</span>
-              </button>
+              <div ng-show="criteria.search_mode">
+                <button type="submit"
+                        ng-click="clearSearch(criteria)"
+                        class="btn btn-primary clear-search">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  <span>Очистить поиск</span>
+                </button>
+                <span>Найдено {{records(criteria, criteria.currentPage).length}} записей</span>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -225,6 +227,7 @@
                                   class="form-control"
                                   ng-options="value as value.name for value in criteria.options"
                                   >
+                            <option value=""></option>
                           </select>
                         </div>
                         <div class="form-group">

@@ -11,6 +11,13 @@ class RecordsController extends AppController{
         return json_encode($all);
     }
 
+    function search(){
+        $search = params("search");
+        $search = json_decode($search);
+        $all = RecordsDao::all($search->criteria_id, null, null, $search);
+        return json_encode($all);
+    }
+
     function count(){
         $criteria = params("criteria_id");
         $count = RecordsDao::count($criteria);

@@ -6,6 +6,11 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       isArray:true
       params:
         action: "index"
+    search_query:
+      method: "GET"
+      isArray:true
+      params:
+        action: "search"
     record_count:
       method: "GET"
       params:
@@ -23,6 +28,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       params:
         action: "delete"
   recordsCache = {}
+  recordsSearchCache = {}
   recordsCountCache = {}
 
   countPerPage = 10
@@ -81,6 +87,15 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       console.log result
       recordsCountCache[criteria_id] = result.count
     return recordsCountCache[criteria_id]
+
+  Record.search = (criteria_id)->
+    recordsSearchCache[criteria_id]
+
+  Record.newSearch = (criteria_id, record_template)->
+    recordsSearchCache[criteria_id] = Record.search_query(
+      search: record_template
+    )
+
   return Record
 
 

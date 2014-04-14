@@ -21,19 +21,42 @@ class RecordsDao {
     static function count($criteria_id, $page = null, $per_page = null){
       $teachers_query = mysql_query("
             SELECT COUNT(*) as length
-            FROM rating_records
-            WHERE criteria_id = $criteria_id
+            FROM rating_records r
+            WHERE r.criteria_id = $criteria_id
             ");
       $result = mysql_fetch_array($teachers_query);
       return $result["length"];
     }
-    static function all($criteria_id, $page = null, $page_length = null){
+    static function all($criteria_id, $page = null, $page_length = null, $search = null){
         $limiter = "";
         if ($page!==null) {
             $page = intval($page)-1;
             $from = $page * $page_length;
             $limiter = "ORDER BY id desc
                         LIMIT" . " $page_length OFFSET $from";
+        }
+        $searchString = "";
+        if ($search!==null) {
+            if (isset($search->teacher) && $search->teacher!= ""){
+                $teacher_id = mysql_real_escape_string($search->teacher->id);
+                $searchString.=" AND r.staff_id = $teacher_id ";
+            }
+            if (isset($search->name)){
+                $name = mysql_real_escape_string($search->name);
+                $searchString.=" AND r.name LIKE '$name' ";
+            }
+            if (isset($search->option)){
+                $option_value = mysql_real_escape_string($search->option->value);
+                $searchString.=" AND r.value = $option_value ";
+            }
+            if (isset($search->date_from)){
+                $from = mysql_real_escape_string($search->date_from);
+                $searchString.=" AND r.date >= '$from' ";
+            }
+            if (isset($search->date_to)){
+                $to = mysql_real_escape_string($search->date_to);
+                $searchString.=" AND r.date >= '$to' ";
+            }
         }
         $criteria = CriteriaDao::find($criteria_id);
         $records_query = "
@@ -44,6 +67,7 @@ class RecordsDao {
             JOIN staff2 t ON r.staff_id = t.id
             JOIN user u ON r.user_id = u.id
             WHERE r.criteria_id = $criteria_id
+            $searchString
             $limiter
             ";
         $records_query = mysql_query($records_query);

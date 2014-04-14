@@ -13,11 +13,12 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     })
   $scope.records = (criteria, page)->
     if criteria.search_mode
-      []
+      Record.search(criteria.id)
     else
       Record.index(criteria.id, page)
 
   $scope.searchRecords = (criteria, record_template)->
+    Record.newSearch(criteria.id, record_template)
     criteria.search_mode = true
 
   $scope.clearSearch = (criteria)->

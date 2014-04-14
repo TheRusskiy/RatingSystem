@@ -18,12 +18,13 @@
     };
     $scope.records = function(criteria, page) {
       if (criteria.search_mode) {
-        return [];
+        return Record.search(criteria.id);
       } else {
         return Record.index(criteria.id, page);
       }
     };
     $scope.searchRecords = function(criteria, record_template) {
+      Record.newSearch(criteria.id, record_template);
       return criteria.search_mode = true;
     };
     $scope.clearSearch = function(criteria) {
