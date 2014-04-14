@@ -24,10 +24,13 @@
     $scope.dateOptions = {
       'starting-day': 1
     };
-    $scope.openDatepicker = function($event, form) {
+    $scope.openDatepicker = function($event, form, datepickerOpenedVar) {
+      if (datepickerOpenedVar == null) {
+        datepickerOpenedVar = 'datepickerOpened';
+      }
       $event.preventDefault();
       $event.stopPropagation();
-      return form.datepickerOpened = true;
+      return form[datepickerOpenedVar] = true;
     };
     restore_option = function(criteria) {
       var o, record, _i, _len, _ref, _results;

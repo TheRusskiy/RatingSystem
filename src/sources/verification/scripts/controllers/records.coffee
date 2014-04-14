@@ -20,10 +20,10 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
   $scope.dateOptions = {
     'starting-day': 1
   };
-  $scope.openDatepicker = ($event, form)->
+  $scope.openDatepicker = ($event, form, datepickerOpenedVar = 'datepickerOpened')->
     $event.preventDefault();
     $event.stopPropagation();
-    form.datepickerOpened = true
+    form[datepickerOpenedVar] = true
 
   restore_option = (criteria)->
     record = criteria.current_record

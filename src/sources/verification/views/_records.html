@@ -184,6 +184,127 @@
               <!-- accordion -->
 
             </div>
+            <div class="col-md-6">
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <span>
+                          <i class="glyphicon glyphicon-search"></i>
+                          <span>Поиск</span>
+                      </span>
+                    </h4>
+                  </div>
+                  <div class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <form novalidate class="form" name="form">
+                        <p>
+                          {{criteria.search_record}}
+                        </p>
+                        <div class="form-group">
+                          <label for="teachers">Преподаватель</label>
+                          <input type="text"
+                                 ng-model="criteria.search_record.teacher"
+                                 name="teacher"
+                                 typeahead-min-length="3"
+                                 placeholder="Начните вводить фамилию преподавателя"
+                                 typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
+                                 class="form-control"
+                                 typeahead-editable="false">
+                        </div>
+                        <div ng-if="criteria.options" class="form-group">
+                          <label>Вариант</label>
+                          <select ng-model="criteria.search_record.option"
+                                  name="option"
+                                  class="form-control"
+                                  ng-options="value as value.name for value in criteria.options"
+                                  >
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Описание</label>
+                          <textarea class="form-control"
+                                    name="name"
+                                    ng-model="criteria.search_record.name"
+                                    placeholder="Опишите достижение преподавателя"
+                                    rows="3">
+                          </textarea>
+                        </div>
+                        <div class="form-group">
+                          <label>Достижения начиная с</label>
+                          <p class="input-group">
+                            <input type="text"
+                                   name="date"
+                                   class="form-control"
+                                   datepicker-popup="dd MMMM yyyy"
+                                   ng-model="criteria.search_record.date_from"
+                                   show-weeks="false"
+                                   datepicker-options="dateOptions"
+                                   datepicker-append-to-body="true"
+                                   clear-text="Очистить"
+                                   close-text="X"
+                                   current-text="Сегодня"
+                                   toggle-weeks-text="Недели"
+                                   show-button-bar="false"
+                                   is-open="form.datepickerFromOpened"
+                                   placeholder="С даты...."
+                                    />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, form, 'datepickerFromOpened')">
+                                          <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                          </p>
+                        </div>
+                        <div class="form-group">
+                          <label>Достижения по</label>
+                          <p class="input-group">
+                            <input type="text"
+                                   name="date"
+                                   class="form-control"
+                                   datepicker-popup="dd MMMM yyyy"
+                                   ng-model="criteria.search_record.date_to"
+                                   show-weeks="false"
+                                   datepicker-options="dateOptions"
+                                   datepicker-append-to-body="true"
+                                   clear-text="Очистить"
+                                   close-text="X"
+                                   current-text="Сегодня"
+                                   toggle-weeks-text="Недели"
+                                   show-button-bar="false"
+                                   is-open="form.datepickerToOpened"
+                                   placeholder="По дату...."
+                                    />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, form, 'datepickerToOpened')">
+                                          <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                          </p>
+                        </div>
+                        <input type="hidden"
+                               name="criteria_id"
+                               ng-init="criteria.search_record.criteria_id=criteria.id"
+                               ng-model="criteria.search_record.criteria_id"
+                                />
+                        <button type="submit"
+                                class="btn btn-primary">
+                          <i class="glyphicon glyphicon-search"></i>
+                          <span>Поиск</span>
+                        </button>
+                        <span ng-show="form.$invalid">
+                            Форма поиска некорректна
+                        </span>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- accordion -->
+
+            </div>
           </div>
 
 
