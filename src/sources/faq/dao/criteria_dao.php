@@ -9,7 +9,7 @@ class CriteriaDao {
                         LIMIT" . " $count OFFSET $from";
         }
         $query = mysql_query("
-            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date, external_records
             FROM criteria
             $limiter
             ");
@@ -21,7 +21,7 @@ class CriteriaDao {
     }
     static function all_with_records(){
         $query = mysql_query("
-            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, creation_date, external_records
             FROM criteria
             WHERE fetch_type = 'manual' or fetch_type = 'manual_options'
             ");

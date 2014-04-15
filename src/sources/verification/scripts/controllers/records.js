@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").controller("RecordsCtrl", function($scope, $http, $modal, Record, Criteria, Teacher) {
+  angular.module("verificationApp").controller("RecordsCtrl", function($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord) {
     var restore_option;
     $scope.criterias = Criteria.with_records();
     $scope.teachers = Teacher.index();
@@ -112,7 +112,7 @@
       });
       return criteria.form.$setPristine();
     };
-    return $scope.deleteRecord = function(criteria, form) {
+    $scope.deleteRecord = function(criteria, form) {
       var record;
       if (!confirm("Вы уверены что хотите удалить эту запись?")) {
         return;
@@ -123,6 +123,9 @@
         criteria_id: criteria.id
       };
       return form.$setPristine();
+    };
+    return $scope.externalRecords = function(criteria_id) {
+      return ExternalRecord.index(criteria_id);
     };
   });
 

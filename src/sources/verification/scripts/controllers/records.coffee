@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $modal, Record, Criteria, Teacher) ->
+angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord) ->
   $scope.criterias = Criteria.with_records()
   $scope.teachers = Teacher.index()
 
@@ -89,3 +89,5 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     Record.delete(record)
     criteria.current_record = {criteria_id: criteria.id}
     form.$setPristine()
+  $scope.externalRecords = (criteria_id)->
+    ExternalRecord.index(criteria_id)

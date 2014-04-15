@@ -16,7 +16,7 @@
                   <th>Описание</th>
                   <th ng-if="criteria.options">Вариант</th>
                   <th>Преподаватель</th>
-                  <th>Утвердил(а)</th>
+                  <th>Рассмотрел(а)</th>
                   <th>Заметки</th>
                   <th width="60"></th>
                 </tr>
@@ -31,8 +31,7 @@
                     <a class="btn btn-link" ng-click="displayNotes(record)">{{record.notes.length}}</a></td>
                   <td>
                     <div class="btn-group">
-                      <a class="btn btn-default" ng-click="editRecord(record, criteria)"><i
-                              class="glyphicon glyphicon-pencil"></i></a>
+                      <a class="btn btn-default" ng-click="editRecord(record, criteria)"><i class="glyphicon glyphicon-pencil"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -310,12 +309,41 @@
                 </div>
               </div>
               <!-- accordion -->
-
             </div>
           </div>
-
-
-        </div>
+          <div class="row" ng-if="criteria.external_records">
+            <div class="col-md-12">
+              <table class="table">
+                <tr>
+                  <th>#</th>
+                  <th>Описание</th>
+                  <th>Преподаватель</th>
+                  <th>Дата достижения</th>
+                  <th>Заметки</th>
+                  <th>Создал</th>
+                  <th>Рассмотрел(а)</th>
+                  <th width="140"></th>
+                </tr>
+                <tr ng-repeat="e in externalRecords(criteria.id)">
+                  <td>{{e.id}}</td>
+                  <td>{{e.description}}</td>
+                  <td>{{e.teacher.name}}</td>
+                  <td>{{e.date}}</td>
+                  <td>{{e.notes.length}}</td>
+                  <td>{{e.created_by.name}}</td>
+                  <td>{{e.reviewed_by.name}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <a class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i></a>
+                      <a class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+                    <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>  <!-- div.criteria-tab-content -->
       </tab>
     </tabset>
   </div>
