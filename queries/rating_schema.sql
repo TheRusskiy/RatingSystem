@@ -10,6 +10,7 @@ CREATE TABLE criteria (
   calculation_type VARCHAR(30) NOT NULL ,
   year_limit INT(10),
   creation_date DATE,
+  external_records TINYINT(1) DEFAULT 0,
   PRIMARY KEY(id)
 );
 

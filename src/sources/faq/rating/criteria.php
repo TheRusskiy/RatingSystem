@@ -9,7 +9,8 @@ class Criteria {
         'year_limit'=>0,
         'multiplier'=>0,
         'calculation_type'=>"",
-        'description'=>""
+        'description'=>"",
+        'external_records'=>0
     ))
     {
         if (is_a($map, 'stdClass')){
@@ -29,8 +30,14 @@ class Criteria {
             $map["calculation_type"]=$obj->calculation_type;
             $map["description"]=$obj->description;
             $map["creation_date"]=$obj->creation_date;
+            $map["external_records"]=$obj->external_records;
         }
         $this->id = $map["id"];
+        if (!isset($map["external_records"]) || empty($map["external_records"])){
+            $this->external_records = false;
+        } else {
+            $this->external_records = true;
+        }
         $this->fetch_type = $map["fetch_type"];
         $this->fetch_value = $map["fetch_value"];
         $this->name = $map["name"];
@@ -78,6 +85,14 @@ class Criteria {
         }
     }
 
+    public function external_records_int(){
+        if ($this->external_records){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public function value_to_string(){
         $m = $this->value;
         if(is_int($m)){
@@ -119,6 +134,7 @@ class Criteria {
         $obj["year_limit"]=$this->year_limit;
         $obj["multiplier"]=$this->multiplier_to_string();
         $obj["creation_date"]=$this->creation_date;
+        $obj["external_records"]=$this->external_records;
         if ($this->fetch_type!='manual_options'){
             $obj["options"]=null;
         } else {

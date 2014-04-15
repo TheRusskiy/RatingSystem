@@ -84,6 +84,18 @@
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
+                <label for="external_records">Содержит внешние записи</label>
+                <br/>
+                <input type="checkbox"
+                        id="external_records" name="external_records"
+                        ng-model="criteria.external_records"
+                        />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
                 <label for="calculation_type">Метод оценки</label>
                 <select type="text"
                         id="calculation_type" name="calculation_type"

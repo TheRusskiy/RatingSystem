@@ -54,6 +54,7 @@ class CriteriaDao {
 
     static function update($criteria){
         $multi = $criteria->multiplier_to_string();
+        $external_records = $criteria->external_records_int();
         $query = mysql_query("
             UPDATE criteria
             SET
@@ -64,6 +65,7 @@ class CriteriaDao {
             multiplier = '$multi',
             calculation_type = '$criteria->calculation_type',
             creation_date = '$criteria->creation_date',
+            external_records = $external_records,
             description = '$criteria->description'
             WHERE id = $criteria->id
             ");
@@ -74,8 +76,9 @@ class CriteriaDao {
 
     static function insert($criteria){
         $multi = $criteria->multiplier_to_string();
+        $external_records = $criteria->external_records_int();
         $query = mysql_query("
-            INSERT INTO criteria(fetch_type, fetch_value, name, description, year_limit, multiplier, calculation_type, creation_date)
+            INSERT INTO criteria(fetch_type, fetch_value, name, description, year_limit, multiplier, calculation_type, creation_date, external_records)
              VALUES
              ('$criteria->fetch_type',
              '$criteria->fetch_value',
@@ -84,7 +87,8 @@ class CriteriaDao {
              $criteria->year_limit,
              '$multi',
              '$criteria->calculation_type',
-             '$criteria->creation_date')
+             '$criteria->creation_date',
+             $criteria->external_records)
             ");
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());

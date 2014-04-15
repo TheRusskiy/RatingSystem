@@ -13,6 +13,7 @@
         <th>Название</th>
         <th>Способ вычисления</th>
         <th>Данные</th>
+        <th>Внешние записи</th>
         <th>Метод оценки</th>
         <th>Лимит в год</th>
         <th>Множитель</th>
@@ -28,6 +29,7 @@
             title="{{c.fetch_type=='sql' ? c.fetch_value : null}}">
           <div class="data-cell">{{c.fetch_value}}</div>
         </td>
+        <td>{{c.external_records ? 'да' : 'нет'}}</td>
         <td>{{calculation_types[c.calculation_type]}}</td>
         <td>{{c.year_limit}}</td>
         <td>{{c.multiplier}}</td>
