@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("ExternalRecord", function($resource) {
-    var External, externalCache, records;
+    var External, externalCache;
     External = $resource("/sources/verification/index.php", {
       controller: "external_records"
     }, {
@@ -37,66 +37,6 @@
         }
       }
     });
-    records = [
-      {
-        id: 1,
-        criteria_id: 1,
-        description: 'Some description',
-        date: '2014-04-02',
-        notes: [],
-        teacher: {
-          id: 1,
-          name: 'Some Name'
-        },
-        status: 'new',
-        created_by: {
-          id: 1,
-          name: "some dude"
-        },
-        reviewed_by: {
-          id: 1,
-          name: "verification"
-        }
-      }, {
-        id: 2,
-        criteria_id: 1,
-        description: 'Some description sadsdasda    sdasdasda dassda',
-        date: '2014-04-03',
-        notes: [4, 5],
-        teacher: {
-          id: 2,
-          name: 'Some other name'
-        },
-        status: 'new',
-        created_by: {
-          id: 1,
-          name: "some dude"
-        },
-        reviewed_by: {
-          id: 1,
-          name: "verification"
-        }
-      }, {
-        id: 3,
-        criteria_id: 1,
-        description: 'Some description adssdasda',
-        date: '2014-04-04',
-        notes: [1, 2, 3],
-        teacher: {
-          id: 1,
-          name: 'Yet another name'
-        },
-        status: 'new',
-        created_by: {
-          id: 1,
-          name: "some dude"
-        },
-        reviewed_by: {
-          id: 1,
-          name: "verification"
-        }
-      }
-    ];
     externalCache = {};
     External.index = function(criteria_id) {
       console.log('external records index');
@@ -123,16 +63,40 @@
       });
     };
     External.approve = function(record) {
+      if (!confirm("Вы уверены?")) {
+        return;
+      }
       return External.record_approve(record, {}, function(r) {
+        var i, rec, _i, _len, _ref;
         console.log("approved:");
         console.log(r);
+        _ref = externalCache[record.criteria_id];
+        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+          rec = _ref[i];
+          if (rec.id.toString() === record.id.toString()) {
+            externalCache[record.criteria_id].splice(i, 1);
+            break;
+          }
+        }
         return r;
       });
     };
     External.reject = function(record) {
+      if (!confirm("Вы уверены?")) {
+        return;
+      }
       return External.record_reject(record, {}, function(r) {
+        var i, rec, _i, _len, _ref;
         console.log("rejected:");
         console.log(r);
+        _ref = externalCache[record.criteria_id];
+        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+          rec = _ref[i];
+          if (rec.id.toString() === record.id.toString()) {
+            externalCache[record.criteria_id].splice(i, 1);
+            break;
+          }
+        }
         return r;
       });
     };

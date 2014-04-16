@@ -129,20 +129,27 @@
     };
     $scope.createExternalRecord = function(record) {
       record = new ExternalRecord(record);
-      ExternalRecord.create(record);
-      return ExternalRecord.clearCache();
+      return ExternalRecord.create(record);
     };
     $scope.deleteExternalRecord = function(record) {
-      ExternalRecord["delete"](record);
-      return ExternalRecord.clearCache();
+      return ExternalRecord["delete"](record);
     };
     $scope.approveExternalRecord = function(record) {
       record = new ExternalRecord(record);
       return ExternalRecord.approve(record);
     };
-    return $scope.rejectExternalRecord = function(record) {
+    $scope.rejectExternalRecord = function(record) {
       record = new ExternalRecord(record);
       return ExternalRecord.reject(record);
+    };
+    return $scope.newRecordByTemplate = function(criteria, template) {
+      criteria.current_record = new Record({
+        criteria_id: criteria.id,
+        name: template.description,
+        teacher: template.teacher,
+        date: template.date
+      });
+      return criteria.form.$setPristine();
     };
   });
 

@@ -334,9 +334,15 @@
                   <td>{{e.reviewed_by.name}}</td>
                   <td>
                     <div class="btn-group">
-                      <a class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i></a>
-                      <a class="btn btn-success" ng-click="approveExternalRecord(e)"><i class="glyphicon glyphicon-ok"></i></a>
-                    <a class="btn btn-danger" ng-click="rejectExternalRecord(e)"><i class="glyphicon glyphicon-remove"></i></a>
+                      <a class="btn btn-default" ng-click="newRecordByTemplate(criteria, e)">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                      </a>
+                      <a class="btn btn-success" ng-click="approveExternalRecord(e)">
+                        <i class="glyphicon glyphicon-ok"></i>
+                      </a>
+                      <a class="btn btn-danger" ng-click="rejectExternalRecord(e)">
+                        <i class="glyphicon glyphicon-remove"></i>
+                      </a>
                     </div>
                   </td>
                 </tr>

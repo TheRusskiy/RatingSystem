@@ -19,21 +19,24 @@ class ExternalRecordsDao {
         name: "verification"
  */
 
-    static function approve($record_id){
-        $result = mysql_query("
+    static function approve($record_id, $user){
+        $q = "
             UPDATE rating_external_records
-            SET status='approved'
+            SET status='approved',
+            reviewed_by = '$user->id'
             WHERE id = $record_id
-            ");
+            ";
+        $result = mysql_query($q);
         if(!$result){
             throw new Exception('SQL error: '.mysql_error());
         }
     }
 
-    static function reject($record_id){
+    static function reject($record_id, $user){
         $result = mysql_query("
             UPDATE rating_external_records
-            SET status='rejected'
+            SET status='rejected',
+            reviewed_by = '$user->id'
             WHERE id = $record_id
             ");
         if(!$result){
@@ -50,7 +53,7 @@ class ExternalRecordsDao {
             creator.id as creator_id, creator.name as creator_name
             FROM rating_external_records r
             JOIN staff2 t ON r.staff_id = t.id
-            JOIN user reviewer ON r.created_by = reviewer.id
+            LEFT JOIN user reviewer ON r.reviewed_by = reviewer.id
             JOIN user creator ON r.created_by = creator.id
             WHERE r.criteria_id = $criteria_id
             ";
@@ -113,7 +116,7 @@ class ExternalRecordsDao {
         $row["staff_id"]=$record->teacher->id;
         $row["criteria_id"]=$record->criteria_id;
         $row["created_by"]=$user->id;
-        $row["reviewed_by"]=$user->id;
+//        $row["reviewed_by"]=$user->id;
         $row["description"]=$record->description;
         $row["date"]=$record->date;
         $row["status"]=$record->status;
@@ -126,8 +129,8 @@ class ExternalRecordsDao {
         $record->created_by->id = $user->id;
         $record->created_by->name = $user->name;
 
-        $record->reviewed_by->id = $user->id;
-        $record->reviewed_by->name = $user->name;
+//        $record->reviewed_by->id = $user->id;
+//        $record->reviewed_by->name = $user->name;
 
         $timestamp = strtotime($row['date']);
         $record->date = date('Y-m-d', $timestamp);
@@ -142,7 +145,7 @@ class ExternalRecordsDao {
             $values.="'".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
             $values.="'".mysql_real_escape_string($r['created_by'])."', ";
-            $values.="'".mysql_real_escape_string($r['reviewed_by'])."', ";
+//            $values.="'".mysql_real_escape_string($r['reviewed_by'])."', ";
             $values.="'".mysql_real_escape_string($r['description'])."', ";
             $values.="'".mysql_real_escape_string($r['date'])."', ";
             $values.="'".mysql_real_escape_string($r['status'])."'";
@@ -152,7 +155,7 @@ class ExternalRecordsDao {
             }
         }
         $result = mysql_query("
-            INSERT INTO rating_external_records(staff_id, criteria_id, created_by, reviewed_by, description, date, status)"."
+            INSERT INTO rating_external_records(staff_id, criteria_id, created_by, description, date, status)"."
             VALUES $values
             ");
         if(!$result){
@@ -169,7 +172,7 @@ class ExternalRecordsDao {
             $values.="staff_id='".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="criteria_id='".mysql_real_escape_string($r['criteria_id'])."', ";
             $values.="created_by='".mysql_real_escape_string($r['created_by'])."', ";
-            $values.="reviewed_by='".mysql_real_escape_string($r['reviewed_by'])."', ";
+//            $values.="reviewed_by='".mysql_real_escape_string($r['reviewed_by'])."', ";
             $values.="description='".mysql_real_escape_string($r['description'])."', ";
             $values.="date='".mysql_real_escape_string($r['date'])."', ";
             $values.="status='".mysql_real_escape_string($r['status'])."'";

@@ -95,11 +95,9 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
   $scope.createExternalRecord = (record)->
     record = new ExternalRecord(record)
     ExternalRecord.create(record)
-    ExternalRecord.clearCache()
 
   $scope.deleteExternalRecord = (record)->
     ExternalRecord.delete(record)
-    ExternalRecord.clearCache()
 
   $scope.approveExternalRecord = (record)->
     record = new ExternalRecord(record)
@@ -108,3 +106,12 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
   $scope.rejectExternalRecord = (record)->
     record = new ExternalRecord(record)
     ExternalRecord.reject(record)
+
+  $scope.newRecordByTemplate = (criteria, template)->
+    criteria.current_record = new Record({
+      criteria_id: criteria.id
+      name: template.description
+      teacher: template.teacher
+      date: template.date
+    })
+    criteria.form.$setPristine()

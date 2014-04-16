@@ -23,9 +23,9 @@ class ExternalRecordsController extends AppController{
     }
 
     function approve(){
-        ExternalRecordsDao::approve(params("id"));
+        ExternalRecordsDao::approve(params("id"), $this->current_user());
     }
     function reject(){
-        ExternalRecordsDao::reject(params("id"));
+        ExternalRecordsDao::reject(params("id"), $this->current_user());
     }
 }
