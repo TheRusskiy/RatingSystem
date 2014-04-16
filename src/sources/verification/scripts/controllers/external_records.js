@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").controller("ExternalRecordsCtrl", function($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord) {
+  angular.module("verificationApp").controller("ExternalRecordsCtrl", function($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord, RecordNote, ExternalRecordNote) {
     $scope.criterias = Criteria.with_records();
     $scope.teachers = Teacher.index();
     $scope.displayNotes = function(record) {
@@ -11,6 +11,24 @@
         resolve: {
           record: function() {
             return record;
+          },
+          Note: function() {
+            return RecordNote;
+          }
+        }
+      });
+    };
+    $scope.displayExternalNotes = function(record) {
+      var modalInstance;
+      return modalInstance = $modal.open({
+        templateUrl: 'sources/verification/views/_notes_modal',
+        controller: "ModalInstanceCtrl",
+        resolve: {
+          record: function() {
+            return record;
+          },
+          Note: function() {
+            return ExternalRecordNote;
           }
         }
       });

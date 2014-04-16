@@ -30,7 +30,11 @@
                   <td>{{e.description}}</td>
                   <td>{{e.teacher.name}}</td>
                   <td>{{e.date}}</td>
-                  <td>{{e.notes.length}}</td>
+                  <td>
+                    <a class="btn btn-link" ng-click="displayExternalNotes(e)">
+                      {{e.notes.length}}
+                    </a>
+                  </td>
                   <td>{{e.created_by.name}}</td>
                   <td>{{e.reviewed_by.name}}</td>
                   <td>

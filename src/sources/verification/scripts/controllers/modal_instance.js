@@ -1,20 +1,20 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").controller("ModalInstanceCtrl", function($scope, $modalInstance, record, RecordNote) {
+  angular.module("verificationApp").controller("ModalInstanceCtrl", function($scope, $modalInstance, record, Note) {
     $scope.record = record;
-    $scope.notes = RecordNote.index(record.id);
+    $scope.notes = Note.index(record.id);
     record.notes = $scope.notes;
     $scope.new_note = {};
     $scope.removeNote = function(note) {
-      return RecordNote["delete"](note);
+      return Note["delete"](note);
     };
     $scope.addNote = function(form) {
       var note;
       note = $scope.new_note;
       note.record_id = record.id;
       console.log(note);
-      note = new RecordNote(note);
-      RecordNote.insert(note);
+      note = new Note(note);
+      Note.insert(note);
       $scope.new_note = {};
       return form.$setPristine();
     };

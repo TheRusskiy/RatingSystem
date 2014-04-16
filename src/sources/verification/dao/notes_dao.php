@@ -1,11 +1,16 @@
 <?php
 require_once(__DIR__."/../../faq/dao/criteria_dao.php");
 class NotesDao {
-    static function all_notes($record_id){
+    static function all_external_notes($record_id){
+        return self::all_notes($record_id, true);
+    }
+
+    static function all_notes($record_id, $external=true){
+        $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
         $notes_query = mysql_query("
             SELECT n.id as id, n.record_id as record_id, n.date as date, n.text as text,
             u.id as user_id, u.name as user_name
-            FROM rating_record_notes n
+            FROM $notes_table n
             JOIN user u ON n.user_id = u.id
             WHERE n.record_id = $record_id
             ");
@@ -23,7 +28,8 @@ class NotesDao {
         return $rows;
     }
 
-    static function create_notes($notes){
+    static function create_notes($notes, $external=false){
+        $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
         if(sizeof($notes)===0){return;}
         $values = "";
         foreach($notes as $i => $r){
@@ -38,7 +44,7 @@ class NotesDao {
             }
         }
         $result = mysql_query("
-            INSERT INTO rating_record_notes(record_id, date, text, user_id)"."
+            INSERT INTO $notes_table(record_id, date, text, user_id)"."
             VALUES $values
             ");
         if(!$result){
@@ -46,7 +52,10 @@ class NotesDao {
         }
         return mysql_insert_id();
     }
-    static function insert_note_from_object($note, $user){
+    static function insert_external_note_from_object($note, $user){
+        return self::insert_note_from_object($note, $user, true);
+    }
+    static function insert_note_from_object($note, $user, $external=false){
         $note->date = date('Y-m-d');
         $note->user_id = $user->id;
         $note->user_name = $user->name;
@@ -55,16 +64,21 @@ class NotesDao {
         $row["date"]=$note->date;
         $row["text"]=$note->text;
         $row["user_id"]=$user->id;
-        $note->id=self::create_notes(array($row));
+        $note->id=self::create_notes(array($row), $external);
         return $note;
     }
 
-    static function delete_notes($notes){
+    static function delete_external_notes($notes){
+        self::delete_notes($notes, true);
+    }
+
+    static function delete_notes($notes, $external=false){
+        $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
         if(sizeof($notes)===0){return;}
         foreach($notes as $r){
             $id = mysql_real_escape_string($r['id']);
             $result = mysql_query("
-            DELETE FROM rating_record_notes
+            DELETE FROM $notes_table
             WHERE id = $id
             ");
             if(!$result){

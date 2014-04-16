@@ -1,18 +1,18 @@
 "use strict"
-angular.module("verificationApp").controller "ModalInstanceCtrl", ($scope, $modalInstance, record, RecordNote)->
+angular.module("verificationApp").controller "ModalInstanceCtrl", ($scope, $modalInstance, record, Note)->
     $scope.record = record
-    $scope.notes = RecordNote.index(record.id)
+    $scope.notes = Note.index(record.id)
     record.notes = $scope.notes
     $scope.new_note = {}
     $scope.removeNote = (note)->
-      RecordNote.delete(note)
+      Note.delete(note)
 
     $scope.addNote = (form)->
       note = $scope.new_note
       note.record_id = record.id
       console.log note
-      note = new RecordNote(note)
-      RecordNote.insert(note)
+      note = new Note(note)
+      Note.insert(note)
       $scope.new_note = {}
       form.$setPristine()
     $scope.close = ()->

@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord) ->
+angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $modal, Record, Criteria, Teacher, ExternalRecord, RecordNote, ExternalRecordNote) ->
   $scope.criterias = Criteria.with_records()
   $scope.teachers = Teacher.index()
 
@@ -7,9 +7,17 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     modalInstance = $modal.open({
       templateUrl: 'sources/verification/views/_notes_modal',
       controller: "ModalInstanceCtrl"
-#      windowClass: "notes-modal"
       resolve:
         record: ()-> record
+        Note: ()-> RecordNote
+    })
+  $scope.displayExternalNotes = (record)->
+    modalInstance = $modal.open({
+      templateUrl: 'sources/verification/views/_notes_modal',
+      controller: "ModalInstanceCtrl"
+      resolve:
+        record: ()-> record
+        Note: ()-> ExternalRecordNote
     })
   $scope.records = (criteria, page)->
     if criteria.search_mode
