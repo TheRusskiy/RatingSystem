@@ -40,3 +40,8 @@ angular.module("verificationApp").controller "ExternalRecordsCtrl", ($scope, $ht
 
   $scope.deleteExternalRecord = (record)->
     ExternalRecord.delete(record)
+
+  $scope.statusToClass = (status)->
+    return "success" if status == 'approved'
+    return "danger" if status == 'rejected'
+    return "" if status == 'new'

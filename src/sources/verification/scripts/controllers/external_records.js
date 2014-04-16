@@ -51,8 +51,19 @@
       record = new ExternalRecord(record);
       return ExternalRecord.create(record);
     };
-    return $scope.deleteExternalRecord = function(record) {
+    $scope.deleteExternalRecord = function(record) {
       return ExternalRecord["delete"](record);
+    };
+    return $scope.statusToClass = function(status) {
+      if (status === 'approved') {
+        return "success";
+      }
+      if (status === 'rejected') {
+        return "danger";
+      }
+      if (status === 'new') {
+        return "";
+      }
     };
   });
 

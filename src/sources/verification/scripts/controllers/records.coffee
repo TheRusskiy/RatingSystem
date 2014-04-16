@@ -92,13 +92,6 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
   $scope.externalRecords = (criteria_id)->
     ExternalRecord.index(criteria_id)
 
-  $scope.createExternalRecord = (record)->
-    record = new ExternalRecord(record)
-    ExternalRecord.create(record)
-
-  $scope.deleteExternalRecord = (record)->
-    ExternalRecord.delete(record)
-
   $scope.approveExternalRecord = (record)->
     record = new ExternalRecord(record)
     ExternalRecord.approve(record)

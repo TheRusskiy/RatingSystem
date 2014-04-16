@@ -24,7 +24,8 @@
                   <th>Рассмотрел(а)</th>
                   <th width="80"></th>
                 </tr>
-                <tr ng-repeat="e in externalRecords(criteria.id)">
+                <tr ng-repeat="e in externalRecords(criteria.id)"
+                    ng-class="statusToClass(e.status)">
                   <td>{{e.id}} {{e.status}}</td>
                   <td>{{e.description}}</td>
                   <td>{{e.teacher.name}}</td>
@@ -44,10 +45,7 @@
             </div>
           </div>
 
-
-
-          <!-- TODO remove in production -->
-          <div class="row" ng-if="criteria.external_records || is_admin">
+          <div class="row" ng-if="criteria.external_records">
             <div class="col-md-6 col-md-offset-1 well">
               <form novalidate class="form" name="external_form">
                 <div class="form-group">
