@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").factory("ExternalRecord", function($resource) {
-    var External, externalCache;
+    var External, allExternalCache, externalCache;
     External = $resource("/sources/verification/index.php", {
       controller: "external_records"
     }, {
@@ -10,6 +10,13 @@
         isArray: true,
         params: {
           action: "index"
+        }
+      },
+      all_records: {
+        method: "GET",
+        isArray: true,
+        params: {
+          action: "all"
         }
       },
       record_approve: {
@@ -38,6 +45,7 @@
       }
     });
     externalCache = {};
+    allExternalCache = {};
     External.index = function(criteria_id) {
       console.log('external records index');
       if (externalCache[criteria_id]) {
@@ -48,10 +56,21 @@
       });
       return externalCache[criteria_id];
     };
+    External.all = function(criteria_id) {
+      console.log('external records index');
+      if (allExternalCache[criteria_id]) {
+        return allExternalCache[criteria_id];
+      }
+      allExternalCache[criteria_id] = External.all_records({
+        criteria: criteria_id
+      });
+      return allExternalCache[criteria_id];
+    };
     External.create = function(record) {
       return record.$save({}, function(r) {
         console.log("External created:");
         console.log(record);
+        allExternalCache[record.criteria_id] = null;
         return r;
       });
     };
@@ -59,11 +78,24 @@
       return External.delete_record({
         record_id: record.id
       }, function(response) {
-        return console.log(response);
+        var i, rec, _i, _len, _ref, _results;
+        console.log(response);
+        _ref = allExternalCache[record.criteria_id];
+        _results = [];
+        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+          rec = _ref[i];
+          if (rec.id.toString() === record.id.toString()) {
+            allExternalCache[record.criteria_id].splice(i, 1);
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
       });
     };
     External.approve = function(record) {
-      if (!confirm("Вы уверены?")) {
+      if (!confirm("Вы уверены, что хотите подтвердить запись?")) {
         return;
       }
       return External.record_approve(record, {}, function(r) {
@@ -82,7 +114,7 @@
       });
     };
     External.reject = function(record) {
-      if (!confirm("Вы уверены?")) {
+      if (!confirm("Вы уверены, что хотите отклонить запись?")) {
         return;
       }
       return External.record_reject(record, {}, function(r) {

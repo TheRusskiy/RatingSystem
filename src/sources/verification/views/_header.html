@@ -18,6 +18,9 @@
         <li ng-if="is_admin" class="{{location=='/permissions' ? 'active' : ''}}">
           <a href ng-click="goto('/permissions')">Разрешения</a>
         </li>
+        <li ng-if="is_admin" class="{{location=='/external_records' ? 'active' : ''}}">
+          <a href ng-click="goto('/external_records')">Внешние записи</a>
+        </li>
         <li ng-if="is_admin" class="{{location=='/criteria' ? 'active' : ''}}">
           <a href ng-click="goto('/criteria')">Показатели</a>
         </li>

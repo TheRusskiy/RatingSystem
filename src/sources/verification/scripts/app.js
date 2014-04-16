@@ -19,6 +19,9 @@
     }).when("/criteria/:id", {
       templateUrl: "sources/verification/views/_criteria_edit",
       controller: "CriteriaEditCtrl"
+    }).when("/external_records", {
+      templateUrl: "sources/verification/views/_external_records",
+      controller: "ExternalRecordsCtrl"
     }).otherwise({
       redirectTo: "/"
     });

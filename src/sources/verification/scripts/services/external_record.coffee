@@ -6,6 +6,11 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
       isArray:true
       params:
         action: "index"
+    all_records:
+      method: "GET"
+      isArray:true
+      params:
+        action: "all"
     record_approve:
       method: "GET"
       params:
@@ -24,6 +29,7 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
         action: "delete"
 
   externalCache = {}
+  allExternalCache = {}
   External.index = (criteria_id)->
     console.log 'external records index'
     return externalCache[criteria_id] if externalCache[criteria_id]
@@ -31,19 +37,31 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
       criteria: criteria_id
     )
     return externalCache[criteria_id]
+  External.all = (criteria_id)->
+    console.log 'external records index'
+    return allExternalCache[criteria_id] if allExternalCache[criteria_id]
+    allExternalCache[criteria_id] = External.all_records(
+      criteria: criteria_id
+    )
+    return allExternalCache[criteria_id]
 
   External.create = (record)->
     record.$save {}, (r)->
       console.log "External created:"
       console.log record
+      allExternalCache[record.criteria_id] = null
       r
 
   External.delete = (record)->
     External.delete_record {record_id: record.id}, (response)->
       console.log(response)
+      for rec, i in allExternalCache[record.criteria_id]
+        if rec.id.toString() == record.id.toString()
+          allExternalCache[record.criteria_id].splice(i, 1)
+          break
 
   External.approve = (record)->
-    return unless confirm("Вы уверены?")
+    return unless confirm("Вы уверены, что хотите подтвердить запись?")
     External.record_approve record, {}, (r)->
       console.log "approved:"
       console.log r
@@ -54,7 +72,7 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
       r
 
   External.reject = (record)->
-    return unless confirm("Вы уверены?")
+    return unless confirm("Вы уверены, что хотите отклонить запись?")
     External.record_reject record, {}, (r)->
       console.log "rejected:"
       console.log r

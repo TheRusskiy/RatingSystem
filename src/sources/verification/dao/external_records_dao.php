@@ -44,8 +44,15 @@ class ExternalRecordsDao {
         }
     }
 
-    static function all($criteria_id){
+    static function all_new($criteria_id){
+        return self::all($criteria_id, true);
+    }
+    static function all($criteria_id, $only_new = false){
         $criteria = CriteriaDao::find($criteria_id);
+        $conditions = "";
+        if ($only_new){
+            $conditions = " AND r.status='new'";
+        }
         $records_query = "
             SELECT r.id as id, r.criteria_id as criteria_id, r.description as description, r.date as date, r.staff_id as staff_id, r.status as status,
             t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
@@ -56,6 +63,7 @@ class ExternalRecordsDao {
             LEFT JOIN user reviewer ON r.reviewed_by = reviewer.id
             JOIN user creator ON r.created_by = creator.id
             WHERE r.criteria_id = $criteria_id
+            $conditions
             ";
         $records_query = mysql_query($records_query);
         $rows = array();

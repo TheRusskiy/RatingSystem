@@ -4,6 +4,11 @@ require_once 'app_controller.php';
 class ExternalRecordsController extends AppController{
     function index(){
         $criteria = params("criteria");
+        $all = ExternalRecordsDao::all_new($criteria);
+        return json_encode($all);
+    }
+    function all(){
+        $criteria = params("criteria");
         $all = ExternalRecordsDao::all($criteria);
         return json_encode($all);
     }
