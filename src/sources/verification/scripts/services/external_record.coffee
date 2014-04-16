@@ -6,6 +6,14 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
       isArray:true
       params:
         action: "index"
+    record_approve:
+      method: "GET"
+      params:
+        action: "approve"
+    record_reject:
+      method: "GET"
+      params:
+        action: "reject"
     save:
       method: "POST"
       params:
@@ -86,5 +94,19 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
     External.delete_record {record_id: record.id}, (response)->
       console.log(response)
 
+  External.approve = (record)->
+    External.record_approve record, {}, (r)->
+      console.log "approved:"
+      console.log r
+      r
+
+  External.reject = (record)->
+    External.record_reject record, {}, (r)->
+      console.log "rejected:"
+      console.log r
+      r
+
+  External.clearCache = ()->
+    externalCache = {}
 
   return External

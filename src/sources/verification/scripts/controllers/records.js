@@ -129,10 +129,20 @@
     };
     $scope.createExternalRecord = function(record) {
       record = new ExternalRecord(record);
-      return ExternalRecord.create(record);
+      ExternalRecord.create(record);
+      return ExternalRecord.clearCache();
     };
-    return $scope.deleteExternalRecord = function(record) {
-      return ExternalRecord["delete"](record);
+    $scope.deleteExternalRecord = function(record) {
+      ExternalRecord["delete"](record);
+      return ExternalRecord.clearCache();
+    };
+    $scope.approveExternalRecord = function(record) {
+      record = new ExternalRecord(record);
+      return ExternalRecord.approve(record);
+    };
+    return $scope.rejectExternalRecord = function(record) {
+      record = new ExternalRecord(record);
+      return ExternalRecord.reject(record);
     };
   });
 

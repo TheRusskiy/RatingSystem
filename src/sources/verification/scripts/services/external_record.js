@@ -12,6 +12,18 @@
           action: "index"
         }
       },
+      record_approve: {
+        method: "GET",
+        params: {
+          action: "approve"
+        }
+      },
+      record_reject: {
+        method: "GET",
+        params: {
+          action: "reject"
+        }
+      },
       save: {
         method: "POST",
         params: {
@@ -109,6 +121,23 @@
       }, function(response) {
         return console.log(response);
       });
+    };
+    External.approve = function(record) {
+      return External.record_approve(record, {}, function(r) {
+        console.log("approved:");
+        console.log(r);
+        return r;
+      });
+    };
+    External.reject = function(record) {
+      return External.record_reject(record, {}, function(r) {
+        console.log("rejected:");
+        console.log(r);
+        return r;
+      });
+    };
+    External.clearCache = function() {
+      return externalCache = {};
     };
     return External;
   });

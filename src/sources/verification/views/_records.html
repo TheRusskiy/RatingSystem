@@ -325,7 +325,7 @@
                   <th width="140"></th>
                 </tr>
                 <tr ng-repeat="e in externalRecords(criteria.id)">
-                  <td>{{e.id}}</td>
+                  <td>{{e.id}} {{e.status}}</td>
                   <td>{{e.description}}</td>
                   <td>{{e.teacher.name}}</td>
                   <td>{{e.date}}</td>
@@ -335,8 +335,8 @@
                   <td>
                     <div class="btn-group">
                       <a class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i></a>
-                      <a class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-                    <a class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                      <a class="btn btn-success" ng-click="approveExternalRecord(e)"><i class="glyphicon glyphicon-ok"></i></a>
+                    <a class="btn btn-danger" ng-click="rejectExternalRecord(e)"><i class="glyphicon glyphicon-remove"></i></a>
                     </div>
                   </td>
                 </tr>

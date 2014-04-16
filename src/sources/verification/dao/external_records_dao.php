@@ -19,6 +19,28 @@ class ExternalRecordsDao {
         name: "verification"
  */
 
+    static function approve($record_id){
+        $result = mysql_query("
+            UPDATE rating_external_records
+            SET status='approved'
+            WHERE id = $record_id
+            ");
+        if(!$result){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+    }
+
+    static function reject($record_id){
+        $result = mysql_query("
+            UPDATE rating_external_records
+            SET status='rejected'
+            WHERE id = $record_id
+            ");
+        if(!$result){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+    }
+
     static function all($criteria_id){
         $criteria = CriteriaDao::find($criteria_id);
         $records_query = "

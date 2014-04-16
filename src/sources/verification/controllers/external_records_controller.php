@@ -21,4 +21,11 @@ class ExternalRecordsController extends AppController{
         ExternalRecordsDao::delete(array($r));
         return "";
     }
+
+    function approve(){
+        ExternalRecordsDao::approve(params("id"));
+    }
+    function reject(){
+        ExternalRecordsDao::reject(params("id"));
+    }
 }
