@@ -39,6 +39,7 @@ angular.module("verificationApp").controller "ExternalRecordsCtrl", ($scope, $ht
     ExternalRecord.create(record)
 
   $scope.deleteExternalRecord = (record)->
+    return unless confirm("Вы уверены, что хотите удалить эту запись?")
     ExternalRecord.delete(record)
 
   $scope.statusToClass = (status)->

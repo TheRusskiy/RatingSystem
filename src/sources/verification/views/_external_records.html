@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <tabset>
-      <tab ng-repeat="criteria in criterias | allowed_criteria:currentUser" heading="{{criteria.name}}" active="criteria.active"
+      <tab ng-repeat="criteria in criterias | allowed_criteria:currentUser | filter:{external_records:true}" heading="{{criteria.name}}" active="criteria.active"
            disabled="criteria.disabled">
         <div class="criteria-tab-content">
           <div class="row">
@@ -11,7 +11,7 @@
               </p>
             </div>
           </div>
-          <div class="row" ng-if="criteria.external_records">
+          <div class="row">
             <div class="col-md-12">
               <table class="table">
                 <tr>
@@ -46,99 +46,110 @@
           </div>
 
           <div class="row" ng-if="criteria.external_records">
-            <div class="col-md-6 col-md-offset-1 well">
-              <form novalidate class="form" name="external_form">
-                <div class="form-group">
-                  <label>Преподаватель</label>
-                  <input type="text"
-                         ng-model="criteria.current_external_record.teacher"
-                         name="teacher"
-                         typeahead-min-length="3"
-                         placeholder="Начните вводить фамилию преподавателя"
-                         typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
-                         class="form-control"
-                         ng-required="true"
-                         typeahead-editable="false">
-
-                  <div ng-show="external_form.teacher.$dirty && external_form.teacher.$invalid">
-                    Выберите преподавателя из списка.
+            <div class="col-md-6">
+              <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <span>
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        <span>Создание внешней записи</span>
+                    </span>
+                    </h4>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label>Описание</label>
-                  <textarea class="form-control"
-                            name="description"
-                            ng-model="criteria.current_external_record.description"
-                            placeholder="Опишите достижение преподавателя"
-                            ng-required="true"
-                            rows="3">
-                  </textarea>
-                </div>
-                <div class="form-group">
-                  <label>Статус</label>
-                  <p>{{criteria.current_external_record}}</p>
-                  <select ng-model="criteria.current_external_record.status"
-                          ng-init="criteria.current_external_record.status = criteria.current_external_record.status || 'new'"
-                          name="status"
-                          ng-required="true"
-                          class="form-control"
-                          ng-options="value for value in ['new','approved','rejected']"
-                          >
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Дата достижения</label>
+                  <div id="collapseCreate" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <form novalidate class="form" name="external_form">
+                        <div class="form-group">
+                          <label>Преподаватель</label>
+                          <input type="text"
+                                 ng-model="criteria.current_external_record.teacher"
+                                 name="teacher"
+                                 typeahead-min-length="3"
+                                 placeholder="Начните вводить фамилию преподавателя"
+                                 typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
+                                 class="form-control"
+                                 ng-required="true"
+                                 typeahead-editable="false">
 
-                  <p class="input-group">
-                    <input type="text"
-                           name="date"
-                           class="form-control"
-                           datepicker-popup="dd MMMM yyyy"
-                           ng-model="criteria.current_external_record.date"
-                           show-weeks="false"
-                           datepicker-options="dateOptions"
-                           datepicker-append-to-body="true"
-                           ng-required="true"
-                           clear-text="Очистить"
-                           close-text="X"
-                           current-text="Сегодня"
-                           toggle-weeks-text="Недели"
-                           show-button-bar="false"
-                           is-open="external_form.datepickerOpened"
-                           placeholder="Выберите дату"
-                            />
+                          <div ng-show="external_form.teacher.$dirty && external_form.teacher.$invalid">
+                            Выберите преподавателя из списка.
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Описание</label>
+                          <textarea class="form-control"
+                                    name="description"
+                                    ng-model="criteria.current_external_record.description"
+                                    placeholder="Опишите достижение преподавателя"
+                                    ng-required="true"
+                                    rows="3">
+                          </textarea>
+                        </div>
+                        <div class="form-group">
+                          <label>Статус</label>
+                          <select ng-model="criteria.current_external_record.status"
+                                  ng-init="criteria.current_external_record.status = criteria.current_external_record.status || 'new'"
+                                  name="status"
+                                  ng-required="true"
+                                  class="form-control"
+                                  ng-options="value for value in ['new','approved','rejected']"
+                                  >
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Дата достижения</label>
+
+                          <p class="input-group">
+                            <input type="text"
+                                   name="date"
+                                   class="form-control"
+                                   datepicker-popup="dd MMMM yyyy"
+                                   ng-model="criteria.current_external_record.date"
+                                   show-weeks="false"
+                                   datepicker-options="dateOptions"
+                                   datepicker-append-to-body="true"
+                                   ng-required="true"
+                                   clear-text="Очистить"
+                                   close-text="X"
+                                   current-text="Сегодня"
+                                   toggle-weeks-text="Недели"
+                                   show-button-bar="false"
+                                   is-open="external_form.datepickerOpened"
+                                   placeholder="Выберите дату"
+                                    />
                                       <span class="input-group-btn">
                                         <button class="btn btn-default"
                                                 ng-click="openDatepicker($event, external_form)">
                                           <i class="glyphicon glyphicon-calendar"></i>
                                         </button>
                                       </span>
-                  </p>
-                </div>
-                <input type="hidden"
-                       name="criteria_id"
-                       ng-init="criteria.current_external_record.criteria_id=criteria.id"
-                       ng-model="criteria.current_record.criteria_id"
-                        />
-                <button type="submit"
-                        ng-disabled="external_form.$invalid"
-                        ng-click="createExternalRecord(criteria.current_external_record)"
-                        class="btn btn-primary">
-                  <i class="glyphicon glyphicon-plus-sign"></i>
-                  <span>Добавить</span>
-                </button>
+                          </p>
+                        </div>
+                        <input type="hidden"
+                               name="criteria_id"
+                               ng-init="criteria.current_external_record.criteria_id=criteria.id"
+                               ng-model="criteria.current_record.criteria_id"
+                                />
+                        <button type="submit"
+                                ng-disabled="external_form.$invalid"
+                                ng-click="createExternalRecord(criteria.current_external_record)"
+                                class="btn btn-primary">
+                          <i class="glyphicon glyphicon-plus-sign"></i>
+                          <span>Добавить</span>
+                        </button>
 
-              </form>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- accordion -->
             </div>
           </div>
-
-
 
         </div>  <!-- div.criteria-tab-content -->
       </tab>
     </tabset>
-
-
 
   </div>
 </div>

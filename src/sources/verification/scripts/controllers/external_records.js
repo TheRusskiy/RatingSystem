@@ -52,6 +52,9 @@
       return ExternalRecord.create(record);
     };
     $scope.deleteExternalRecord = function(record) {
+      if (!confirm("Вы уверены, что хотите удалить эту запись?")) {
+        return;
+      }
       return ExternalRecord["delete"](record);
     };
     return $scope.statusToClass = function(status) {
