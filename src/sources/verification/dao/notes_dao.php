@@ -5,7 +5,7 @@ class NotesDao {
         return self::all_notes($record_id, true);
     }
 
-    static function all_notes($record_id, $external=true){
+    static function all_notes($record_id, $external=false){
         $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
         $notes_query = mysql_query("
             SELECT n.id as id, n.record_id as record_id, n.date as date, n.text as text,
