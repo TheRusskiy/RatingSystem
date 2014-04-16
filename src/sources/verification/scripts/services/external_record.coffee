@@ -1,11 +1,19 @@
 "use strict"
 angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
-  External = $resource "/sources/verification/index.php", {controller: "external_record"},
+  External = $resource "/sources/verification/index.php", {controller: "external_records"},
     query:
       method: "GET"
       isArray:true
       params:
         action: "index"
+    save:
+      method: "POST"
+      params:
+        action: "create"
+    delete_record:
+      method: "DELETE"
+      params:
+        action: "delete"
   records = [
     {
       id: 1
@@ -63,7 +71,20 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
   External.index = (criteria_id)->
     console.log 'external records index'
     return externalCache[criteria_id] if externalCache[criteria_id]
-    externalCache[criteria_id] = records # todo replace
+    externalCache[criteria_id] = External.query(
+      criteria: criteria_id
+    )
     return externalCache[criteria_id]
+
+  External.create = (record)->
+    record.$save {}, (r)->
+      console.log "External created:"
+      console.log record
+      r
+
+  External.delete = (record)->
+    External.delete_record {record_id: record.id}, (response)->
+      console.log(response)
+
 
   return External

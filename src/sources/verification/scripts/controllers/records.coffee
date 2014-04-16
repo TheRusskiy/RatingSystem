@@ -91,3 +91,10 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     form.$setPristine()
   $scope.externalRecords = (criteria_id)->
     ExternalRecord.index(criteria_id)
+
+  $scope.createExternalRecord = (record)->
+    record = new ExternalRecord(record)
+    ExternalRecord.create(record)
+
+  $scope.deleteExternalRecord = (record)->
+    ExternalRecord.delete(record)

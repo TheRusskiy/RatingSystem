@@ -22,7 +22,7 @@ class ExternalRecordsDao {
     static function all($criteria_id){
         $criteria = CriteriaDao::find($criteria_id);
         $records_query = "
-            SELECT r.id as id, r.criteria_id as criteria_id, r.description as description, r.date as date, r.staff_id as staff_id, r.status as status
+            SELECT r.id as id, r.criteria_id as criteria_id, r.description as description, r.date as date, r.staff_id as staff_id, r.status as status,
             t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
             reviewer.id as reviewer_id, reviewer.name as reviewer_name,
             creator.id as creator_id, creator.name as creator_name

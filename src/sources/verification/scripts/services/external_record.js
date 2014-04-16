@@ -3,13 +3,25 @@
   angular.module("verificationApp").factory("ExternalRecord", function($resource) {
     var External, externalCache, records;
     External = $resource("/sources/verification/index.php", {
-      controller: "external_record"
+      controller: "external_records"
     }, {
       query: {
         method: "GET",
         isArray: true,
         params: {
           action: "index"
+        }
+      },
+      save: {
+        method: "POST",
+        params: {
+          action: "create"
+        }
+      },
+      delete_record: {
+        method: "DELETE",
+        params: {
+          action: "delete"
         }
       }
     });
@@ -79,8 +91,24 @@
       if (externalCache[criteria_id]) {
         return externalCache[criteria_id];
       }
-      externalCache[criteria_id] = records;
+      externalCache[criteria_id] = External.query({
+        criteria: criteria_id
+      });
       return externalCache[criteria_id];
+    };
+    External.create = function(record) {
+      return record.$save({}, function(r) {
+        console.log("External created:");
+        console.log(record);
+        return r;
+      });
+    };
+    External["delete"] = function(record) {
+      return External.delete_record({
+        record_id: record.id
+      }, function(response) {
+        return console.log(response);
+      });
     };
     return External;
   });

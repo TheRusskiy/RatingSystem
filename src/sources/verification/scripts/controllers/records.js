@@ -124,8 +124,15 @@
       };
       return form.$setPristine();
     };
-    return $scope.externalRecords = function(criteria_id) {
+    $scope.externalRecords = function(criteria_id) {
       return ExternalRecord.index(criteria_id);
+    };
+    $scope.createExternalRecord = function(record) {
+      record = new ExternalRecord(record);
+      return ExternalRecord.create(record);
+    };
+    return $scope.deleteExternalRecord = function(record) {
+      return ExternalRecord["delete"](record);
     };
   });
 

@@ -343,6 +343,97 @@
               </table>
             </div>
           </div>
+
+
+
+          <!-- TODO remove in production -->
+          <div class="row" ng-if="criteria.external_records || is_admin">
+            <div class="col-md-6 col-md-offset-1 well">
+              <form novalidate class="form" name="external_form">
+                <div class="form-group">
+                  <label>Преподаватель</label>
+                  <input type="text"
+                         ng-model="criteria.current_external_record.teacher"
+                         name="teacher"
+                         typeahead-min-length="3"
+                         placeholder="Начните вводить фамилию преподавателя"
+                         typeahead="teacher as teacher.name for teacher in teachers | filter:{name:$viewValue}"
+                         class="form-control"
+                         ng-required="true"
+                         typeahead-editable="false">
+
+                  <div ng-show="external_form.teacher.$dirty && external_form.teacher.$invalid">
+                    Выберите преподавателя из списка.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Описание</label>
+                  <textarea class="form-control"
+                            name="description"
+                            ng-model="criteria.current_external_record.description"
+                            placeholder="Опишите достижение преподавателя"
+                            ng-required="true"
+                            rows="3">
+                  </textarea>
+                </div>
+                <div class="form-group">
+                  <label>Статус</label>
+                  <input type="text" class="form-control"
+                            name="status"
+                            ng-model="criteria.current_external_record.status"
+                            ng-init="criteria.current_external_record.status='new'"
+                            placeholder="new/reviewed"
+                            ng-required="true"
+                            rows="3"/>
+                </div>
+                <div class="form-group">
+                  <label>Дата достижения</label>
+
+                  <p class="input-group">
+                    <input type="text"
+                           name="date"
+                           class="form-control"
+                           datepicker-popup="dd MMMM yyyy"
+                           ng-model="criteria.current_external_record.date"
+                           show-weeks="false"
+                           datepicker-options="dateOptions"
+                           datepicker-append-to-body="true"
+                           ng-required="true"
+                           clear-text="Очистить"
+                           close-text="X"
+                           current-text="Сегодня"
+                           toggle-weeks-text="Недели"
+                           show-button-bar="false"
+                           is-open="external_form.datepickerOpened"
+                           placeholder="Выберите дату"
+                            />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, external_form)">
+                                          <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                  </p>
+                </div>
+                <input type="hidden"
+                       name="criteria_id"
+                       ng-init="criteria.current_external_record.criteria_id=criteria.id"
+                       ng-model="criteria.current_record.criteria_id"
+                        />
+                <button type="submit"
+                        ng-disabled="external_form.$invalid"
+                        ng-click="createExternalRecord(criteria.current_external_record)"
+                        class="btn btn-primary">
+                  <i class="glyphicon glyphicon-plus-sign"></i>
+                  <span>Добавить</span>
+                </button>
+
+              </form>
+            </div>
+          </div>
+
+
+
         </div>  <!-- div.criteria-tab-content -->
       </tab>
     </tabset>
