@@ -47,10 +47,9 @@ angular.module("verificationApp").factory "ExternalRecord", ($resource) ->
       description: 'Some description adssdasda'
       date: '2014-04-04'
       notes: [1,2,3]
-      teacher:{
+      teacher:
         id: 1
         name: 'Yet another name'
-      }
       status: 'new'
       created_by:
         id: 1

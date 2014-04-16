@@ -2,53 +2,35 @@
 require_once(__DIR__."/../../faq/dao/criteria_dao.php");
 class ExternalRecordsDao {
 /*
-      id: 1
+      id: 2
       criteria_id: 1
-      date: "01.02.2013"
-      name: "Победа в областной олимпиаде по математике"
-      option:
-        value: 1
-        name: "1 место"
+      description: 'Победа в олимпиаде'
+      date: '2014-04-03'
+      notes: [4,5]
       teacher:
+        id: 2
+        name: 'Some other name'
+      status: 'new'
+      created_by:
         id: 1
-        name: "Прохоров Сергей Антонович"
-      user:
-        id: 202
-        name: "Ишков Д.С."
-      notes: [1,2,3]
+        name: "some dude"
+      reviewed_by:
+        id: 1
+        name: "verification"
  */
 
-    static function count($criteria_id, $search = null){
-      $searchString = self::make_search_query($search);
-      $teachers_query = mysql_query("
-            SELECT COUNT(*) as length
-            FROM rating_records r
-            WHERE r.criteria_id = $criteria_id
-            $searchString
-            ");
-      $result = mysql_fetch_array($teachers_query);
-      return $result["length"];
-    }
-    static function all($criteria_id, $page = null, $page_length = null, $search = null){
-        $limiter = "";
-        if ($page!==null) {
-            $page = intval($page)-1;
-            $from = $page * $page_length;
-            $limiter = "ORDER BY id desc
-                        LIMIT" . " $page_length OFFSET $from";
-        }
-        $searchString = self::make_search_query($search);
+    static function all($criteria_id){
         $criteria = CriteriaDao::find($criteria_id);
         $records_query = "
-            SELECT r.id as id, r.criteria_id as criteria_id, r.name as name, r.date as date, r.staff_id as staff_id, r.value as value,
+            SELECT r.id as id, r.criteria_id as criteria_id, r.description as description, r.date as date, r.staff_id as staff_id, r.status as status
             t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
-            u.id as user_id, u.name as user_name
-            FROM rating_records r
+            reviewer.id as reviewer_id, reviewer.name as reviewer_name,
+            creator.id as creator_id, creator.name as creator_name
+            FROM rating_external_records r
             JOIN staff2 t ON r.staff_id = t.id
-            JOIN user u ON r.user_id = u.id
+            JOIN user reviewer ON r.created_by = reviewer.id
+            JOIN user creator ON r.created_by = creator.id
             WHERE r.criteria_id = $criteria_id
-            $searchString
-            $limiter
             ";
         $records_query = mysql_query($records_query);
         $rows = array();
@@ -58,28 +40,32 @@ class ExternalRecordsDao {
             $record["id"]=$row["id"];
             array_push($ids, $row["id"]);
             $record["criteria_id"]=$row["criteria_id"];
-            $record["name"]=$row["name"];
+            $record["description"]=$row["description"];
+            $record["status"]=$row["status"];
             $record["date"]=$row["date"];
             // teacher
             $teacher = array();
             $teacher["name"]=$row["teacher_name"]." ".$row["teacher_surname"]." ".$row["teacher_secondname"];
             $teacher["id"]=$row["staff_id"];
             $record["teacher"]=$teacher;
-            // option
-            $record["option"]=$criteria->option_for($row["value"]);
-            // user
-            $user = array();
-            $user["name"]=$row["user_name"];
-            $user["id"]=$row["user_id"];
-            $record["user"]=$user;
+            // reviewer (reviewed_by)
+            $reviewer = array();
+            $reviewer["name"]=$row["reviewer_name"];
+            $reviewer["id"]=$row["reviewer_id"];
+            $record["reviewed_by"]=$reviewer;
+            // creator (created_by)
+            $creator = array();
+            $creator["name"]=$row["creator_name"];
+            $creator["id"]=$row["creator_id"];
+            $record["created_by"]=$creator;
             $rows[]= $record;
         }
         $string_ids = implode(", ", $ids);
         if (count($ids)!=0) {
             $notes_count_query = "
             SELECT r.id as id, n.id as note_id
-            FROM rating_records r
-            JOIN rating_record_notes n ON r.id = n.record_id
+            FROM rating_external_records r
+            JOIN rating_record_external_notes n ON r.id = n.record_id
             WHERE r.id IN ($string_ids)
         ";
             $notes_count_query = mysql_query($notes_count_query);
@@ -104,22 +90,22 @@ class ExternalRecordsDao {
         $row = array();
         $row["staff_id"]=$record->teacher->id;
         $row["criteria_id"]=$record->criteria_id;
-        $row["user_id"]=$user->id;
-        $row["name"]=$record->name;
+        $row["created_by"]=$user->id;
+        $row["reviewed_by"]=$user->id;
+        $row["description"]=$record->description;
         $row["date"]=$record->date;
-        if (isset($record->option)){
-            $row["value"]=$record->option->value;
-        } else {
-            $row["value"]=1;
-        }
+        $row["status"]=$record->status;
         if (isset($record->id)&&$record->id!=null){ # update
             $row["id"]=$record->id;
             self::update(array($row));
         } else { # create
             $record->id=self::create(array($row));
         }
-        $record->user->id = $user->id;
-        $record->user->name = $user->name;
+        $record->created_by->id = $user->id;
+        $record->created_by->name = $user->name;
+
+        $record->reviewed_by->id = $user->id;
+        $record->reviewed_by->name = $user->name;
 
         $timestamp = strtotime($row['date']);
         $record->date = date('Y-m-d', $timestamp);
@@ -133,45 +119,24 @@ class ExternalRecordsDao {
             $values.="(";
             $values.="'".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
-            $values.="'".mysql_real_escape_string($r['user_id'])."', ";
-            $values.="'".mysql_real_escape_string($r['name'])."', ";
+            $values.="'".mysql_real_escape_string($r['created_by'])."', ";
+            $values.="'".mysql_real_escape_string($r['reviewed_by'])."', ";
+            $values.="'".mysql_real_escape_string($r['description'])."', ";
             $values.="'".mysql_real_escape_string($r['date'])."', ";
-            $values.="'".mysql_real_escape_string($r['value'])."'";
+            $values.="'".mysql_real_escape_string($r['status'])."'";
             $values.=")";
             if($i!==sizeof($records)-1){
                 $values.=",";
             }
         }
         $result = mysql_query("
-            INSERT INTO rating_records(staff_id, criteria_id, user_id, name, date, value)"."
+            INSERT INTO rating_external_records(staff_id, criteria_id, created_by, reviewed_by, description, date, status)"."
             VALUES $values
             ");
         if(!$result){
             throw new Exception('SQL error: '.mysql_error());
         }
         return mysql_insert_id();
-    }
-
-    static function delete($records){
-        if(sizeof($records)===0){return;}
-        foreach($records as $r){
-            $id = mysql_real_escape_string($r['id']);
-            $result = mysql_query("
-                DELETE FROM rating_records
-                WHERE id = $id
-            ");
-            if(!$result){
-                throw new Exception('SQL error: '.mysql_error());
-            }
-            // delete dependent notes
-            $result = mysql_query("
-                DELETE FROM rating_record_notes
-                WHERE record_id = $id
-            ");
-            if(!$result){
-                throw new Exception('SQL error: '.mysql_error());
-            }
-        }
     }
 
     static function update($records){
@@ -181,12 +146,13 @@ class ExternalRecordsDao {
             $values="SET ";
             $values.="staff_id='".mysql_real_escape_string($r['staff_id'])."', ";
             $values.="criteria_id='".mysql_real_escape_string($r['criteria_id'])."', ";
-            $values.="user_id='".mysql_real_escape_string($r['user_id'])."', ";
-            $values.="name='".mysql_real_escape_string($r['name'])."', ";
+            $values.="created_by='".mysql_real_escape_string($r['created_by'])."', ";
+            $values.="reviewed_by='".mysql_real_escape_string($r['reviewed_by'])."', ";
+            $values.="description='".mysql_real_escape_string($r['description'])."', ";
             $values.="date='".mysql_real_escape_string($r['date'])."', ";
-            $values.="value='".mysql_real_escape_string($r['value'])."'";
+            $values.="status='".mysql_real_escape_string($r['status'])."'";
             $result = mysql_query("
-            UPDATE rating_records
+            UPDATE rating_external_records
             $values
             WHERE id = $id
             ");
@@ -196,33 +162,26 @@ class ExternalRecordsDao {
         }
     }
 
-    private static function make_search_query($search)
-    {
-        $searchString = "";
-        if ($search !== null) {
-            if (isset($search->teacher) && $search->teacher != "") {
-                $teacher_id = mysql_real_escape_string($search->teacher->id);
-                $searchString .= " AND r.staff_id = $teacher_id ";
+    static function delete($records){
+        if(sizeof($records)===0){return;}
+        foreach($records as $r){
+            $id = mysql_real_escape_string($r['id']);
+            $result = mysql_query("
+                DELETE FROM rating_external_records
+                WHERE id = $id
+            ");
+            if(!$result){
+                throw new Exception('SQL error: '.mysql_error());
             }
-            if (isset($search->name)) {
-                $name = mysql_real_escape_string($search->name);
-                $searchString .= " AND r.name LIKE '%$name%' ";
-            }
-            if (isset($search->option)) {
-                $option_value = mysql_real_escape_string($search->option->value);
-                $searchString .= " AND r.value = $option_value ";
-            }
-            if (isset($search->date_from)) {
-                $from = mysql_real_escape_string($search->date_from);
-                $searchString .= " AND r.date >= '$from' ";
-            }
-            if (isset($search->date_to)) {
-                $to = mysql_real_escape_string($search->date_to);
-                $searchString .= " AND r.date <= '$to' ";
-                return $searchString;
+            // delete dependent notes
+            $result = mysql_query("
+                DELETE FROM rating_record_external_notes
+                WHERE record_id = $id
+            ");
+            if(!$result){
+                throw new Exception('SQL error: '.mysql_error());
             }
         }
-        return $searchString;
     }
 
 }
