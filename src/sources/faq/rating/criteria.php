@@ -22,15 +22,30 @@ class Criteria {
             else {
                 $map["id"]=null;
             }
+            if (isset($obj->fetch_value)){
+                $map["fetch_value"]=$obj->fetch_value;
+            }
+            else {
+                $map["fetch_value"]=null;
+            }
+            if (isset($obj->external_records)){
+                $map["external_records"]=$obj->external_records;
+            }
+            else {
+                $map["external_records"]=false;
+            }
+            if (isset($obj->description)){
+                $map["description"]=$obj->description;
+            }
+            else {
+                $map["description"]="";
+            }
             $map["fetch_type"]=$obj->fetch_type;
-            $map["fetch_value"]=$obj->fetch_value;
             $map["name"]=$obj->name;
             $map["year_limit"]=$obj->year_limit;
             $map["multiplier"]=$obj->multiplier;
             $map["calculation_type"]=$obj->calculation_type;
-            $map["description"]=$obj->description;
             $map["creation_date"]=$obj->creation_date;
-            $map["external_records"]=$obj->external_records;
         }
         $this->id = $map["id"];
         if (!isset($map["external_records"]) || empty($map["external_records"])){

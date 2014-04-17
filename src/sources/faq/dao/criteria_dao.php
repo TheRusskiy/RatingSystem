@@ -88,7 +88,7 @@ class CriteriaDao {
              '$multi',
              '$criteria->calculation_type',
              '$criteria->creation_date',
-             $criteria->external_records)
+             $external_records)
             ");
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
