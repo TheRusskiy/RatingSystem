@@ -70,3 +70,43 @@ button.clear-search {
   padding-bottom: 20px;
   vertical-align: middle;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000360}}
+.all-height {
+  height: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000363}}
+.height-80 {
+  height: 80%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000366}}
+.go-back {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000371}}
+.go-back a {
+  height: 800px;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  background: #d4f1ff;
+  font-size: 4em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000379}}
+.go-back a i {
+  margin-bottom: auto;
+  padding-top: 350px;
+  padding-bottom: 400px;
+  height: 100px;
+  margin-top: auto;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000387}}
+.go-back a:hover {
+  background: #6de0e6;
+}

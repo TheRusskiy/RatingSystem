@@ -1,13 +1,16 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-10 col-md-offset-2">
+  <div class="col-md-1 col-md-offset-1">
+    <div class="go-back">
+      <a href ng-click="goto('/criteria')" class="btn btn-link">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+      </a>
+    </div>
+  </div>
+    <div class="col-md-10">
       <div class="row">
         <div class="col-md-12">
           <h2>
-            <a href ng-click="goto('/criteria')" class="btn btn-link">
-              <i class="glyphicon glyphicon-chevron-left"></i>
-              Все показатели
-            </a>
             {{criteria.id ? 'Редактирование' : 'Создание'}} показателя</h2>
         </div>
       </div>
