@@ -8,7 +8,8 @@ CREATE TABLE criteria (
   fetch_value VARCHAR(4000) NOT NULL,
   multiplier VARCHAR(30),
   calculation_type VARCHAR(30) NOT NULL ,
-  year_limit INT(10),
+  year_limit INT(10) NOT NULL DEFAULT 0,
+  year_2_limit INT(10) NOT NULL DEFAULT 0,
   creation_date DATE,
   external_records TINYINT(1) DEFAULT 0,
   PRIMARY KEY(id)

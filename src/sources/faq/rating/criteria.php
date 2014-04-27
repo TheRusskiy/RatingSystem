@@ -7,6 +7,7 @@ class Criteria {
         'fetch_value'=>"",
         'name'=>"",
         'year_limit'=>0,
+        'year_2_limit'=>0,
         'multiplier'=>0,
         'calculation_type'=>"",
         'description'=>"",
@@ -43,6 +44,7 @@ class Criteria {
             $map["fetch_type"]=$obj->fetch_type;
             $map["name"]=$obj->name;
             $map["year_limit"]=$obj->year_limit;
+            $map["year_2_limit"]=$obj->year_2_limit;
             $map["multiplier"]=$obj->multiplier;
             $map["calculation_type"]=$obj->calculation_type;
             $map["creation_date"]=$obj->creation_date;
@@ -58,6 +60,7 @@ class Criteria {
         $this->name = $map["name"];
         $this->description = $map["description"];
         $this->year_limit = $map["year_limit"];
+        $this->year_2_limit = $map["year_2_limit"];
         $this->calculation_type = $map["calculation_type"];
         $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
         $this->result = null;
@@ -147,6 +150,7 @@ class Criteria {
         $obj["fetch_value"]=$this->fetch_value;
         $obj["calculation_type"]=$this->calculation_type;
         $obj["year_limit"]=$this->year_limit;
+        $obj["year_2_limit"]=$this->year_2_limit;
         $obj["multiplier"]=$this->multiplier_to_string();
         $obj["creation_date"]=$this->creation_date;
         $obj["external_records"]=$this->external_records;
