@@ -1,141 +1,141 @@
-table, td, th {
-    border: 1px solid #bebebe;
-    padding: 5px;
-    margin: 5px;
-    border-spacing: 0;
-    font-size: 14px;
-}
-td, th {
-    word-wrap: break-word;
-    max-width: 200px;
-}
-.cell {
-    max-height: 100px;
-    overflow: hidden;
-    display: inline-block;
-}
-.menu {
-    padding: 0px;
-}
-.menu li {
+/*table, td, th {*/
+    /*border: 1px solid #bebebe;*/
+    /*padding: 5px;*/
+    /*margin: 5px;*/
+    /*border-spacing: 0;*/
+    /*font-size: 14px;*/
+/*}*/
+/*td, th {*/
+    /*word-wrap: break-word;*/
+    /*max-width: 200px;*/
+/*}*/
+/*.cell {*/
+    /*max-height: 100px;*/
+    /*overflow: hidden;*/
+    /*display: inline-block;*/
+/*}*/
+/*.menu {*/
+    /*padding: 0px;*/
+/*}*/
+/*.menu li {*/
     /*box-shadow: 1px 1px 1px #888888;*/
-    padding: 5px;
-    display: inline-block;
+    /*padding: 5px;*/
+    /*display: inline-block;*/
     /*background-color: #8fb9fd;*/
-    border-radius: 5px;
-    font-size: large;
-}
-.menu a {
-    text-decoration: none;
-}
+    /*border-radius: 5px;*/
+    /*font-size: large;*/
+/*}*/
+/*.menu a {*/
+    /*text-decoration: none;*/
+/*}*/
 
-.menu li:last-child {
-    float: right;
-}
+/*.menu li:last-child {*/
+    /*float: right;*/
+/*}*/
 
-.menu .current {
-    font-weight: bold;
-}
+/*.menu .current {*/
+    /*font-weight: bold;*/
+/*}*/
 
-.field {
-    width: 120px;
-}
-.field.date-field{
-    width: 80px;
-}
+/*.field {*/
+    /*width: 120px;*/
+/*}*/
+/*.field.date-field{*/
+    /*width: 80px;*/
+/*}*/
 
-h1, caption {
-    font-size: large;
-}
-body {
-    background-color: #8fb9fd;
-}
-.content {
-    padding: 10px;
-    width: 900px;
-    margin: 0px auto;
-    background-color: #ffffff;
-    min-height: 600px;
-}
-.header, .footer {
-    margin: 0px auto;
-    padding: 5px;
-    width: 900px;
-    background-color: #eaeaea;
-}
-
-.header, .footer, .content {
-    box-shadow: 1px 1px 1px #888888;
-}
-
-.header{
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-.footer{
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-#date_range {
-    padding: 5px;
-    display: block;
-    float: right;
-    position: relative;
-    margin: 10px;
-    border: thin solid #c7c7c7;
-    border-radius: 5px;
-}
-#rating_table{
-    width: 800px;
-}
-#rating_table table {
-    width: 800px;
-}
-
-.content {
-    position: relative;
-}
-#pagination {
+/*h1, caption {*/
+    /*font-size: large;*/
+/*}*/
+/*body {*/
+    /*background-color: #8fb9fd;*/
+/*}*/
+/*.content {*/
+    /*padding: 10px;*/
+    /*width: 900px;*/
     /*margin: 0px auto;*/
-    width: 270px;
-    background-color: #eaeaea;
-    padding: 2px;
-    border-radius: 3px;
-    position: absolute; bottom: 0; left: 0;
+    /*background-color: #ffffff;*/
+    /*min-height: 600px;*/
+/*}*/
+/*.header, .footer {*/
+    /*margin: 0px auto;*/
+    /*padding: 5px;*/
+    /*width: 900px;*/
+    /*background-color: #eaeaea;*/
+/*}*/
+
+/*.header, .footer, .content {*/
+    /*box-shadow: 1px 1px 1px #888888;*/
+/*}*/
+
+/*.header{*/
+    /*border-top-left-radius: 5px;*/
+    /*border-top-right-radius: 5px;*/
+/*}*/
+/*.footer{*/
+    /*border-bottom-left-radius: 5px;*/
+    /*border-bottom-right-radius: 5px;*/
+/*}*/
+
+/*#date_range {*/
+    /*padding: 5px;*/
+    /*display: block;*/
+    /*float: right;*/
+    /*position: relative;*/
+    /*margin: 10px;*/
+    /*border: thin solid #c7c7c7;*/
+    /*border-radius: 5px;*/
+/*}*/
+/*#rating_table{*/
+    /*width: 800px;*/
+/*}*/
+/*#rating_table table {*/
+    /*width: 800px;*/
+/*}*/
+
+/*.content {*/
+    /*position: relative;*/
+/*}*/
+/*#pagination {*/
+    /*margin: 0px auto;*/
+    /*width: 270px;*/
+    /*background-color: #eaeaea;*/
+    /*padding: 2px;*/
+    /*border-radius: 3px;*/
+    /*position: absolute; bottom: 0; left: 0;*/
+/*}*/
+
+/*.error, .notice {*/
+    /*display: block;*/
+    /*font-size: large;*/
+    /*border-radius: 5px;*/
+    /*display: block;*/
+    /*padding: 5px;*/
+/*}*/
+/*.error {*/
+    /*color: red;*/
+    /*background-color: #ffc3d2;*/
+/*}*/
+/*.notice {*/
+    /*color: green;*/
+    /*background-color: #9bff9f;*/
+/*}*/
+
+#ssau-logo {
+    width: 50px;
+    height: 30px;
 }
 
-.error, .notice {
-    display: block;
-    font-size: large;
-    border-radius: 5px;
-    display: block;
-    padding: 5px;
-}
-.error {
-    color: red;
-    background-color: #ffc3d2;
-}
-.notice {
-    color: green;
-    background-color: #9bff9f;
-}
+/*.left {*/
+    /*float: left;*/
+/*}*/
+/*.right {*/
+    /*float: right;*/
+/*}*/
 
-#logo {
-    width: 5%;
-    height: 5%;
-}
-
-.left {
-    float: left;
-}
-.right {
-    float: right;
-}
-
-div.field {
-    padding: 5px;
-}
+/*div.field {*/
+    /*padding: 5px;*/
+/*}*/
 
 
 .clearable{
