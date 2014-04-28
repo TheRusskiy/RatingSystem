@@ -35,3 +35,5 @@ junk/
 src/prototypes/node_modules
 src/sources/verification/node_modules
 src/sources/verification/bower_components
+src/sources/faq/node_modules
+src/sources/faq/bower_components

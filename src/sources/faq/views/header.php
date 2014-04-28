@@ -12,7 +12,7 @@ function class_for($controller){
 <body>
 <div class="header">
     <ul class = 'menu'>
-        <li id='logo'><img src="images/ssaulogo.gif"/></li>
+        <li id='logo'><img src="sources/faq/images/ssaulogo.gif"/></li>
         <li class="<?= class_for('home')?>">
             <a href='/?controller=home&action=index'>Рейтинговая cистема</a>
         </li>
