@@ -25,14 +25,14 @@ function class_for($controller){
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="<?= class_for('home')?>">
-                        <a href='/?controller=home&action=index'>Рейтинговая система</a>
+                    <li class="<?= class_for('rating')?>">
+                        <a href='/?controller=teachers&action=index'>Общий рейтинг</a>
                     </li>
                     <li class="<?= class_for('teachers')?>">
                         <a href='/?controller=teachers&action=index'>Преподаватели</a>
                     </li>
-                    <li class="<?= class_for('criteria')?>">
-                        <a href='/?controller=criteria&action=index'>Критерии</a>
+                    <li class="<?= class_for('home')?>">
+                        <a href='/?controller=home&action=help'>Помощь</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
