@@ -22,6 +22,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
+            "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
         $this->assertEquals($criteria->id, 1);
@@ -45,6 +46,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "description" => "",
             "multiplier" => 10,
             "year_limit" => 100,
+            "year_2_limit" => 0,
             "calculation_type" => "max"
         ));
         $calculator = new CriteriaCalculator();
@@ -64,6 +66,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
+            "year_2_limit" => 0,
             "calculation_type" => "max"
         ));
         $calculator = new CriteriaCalculator();
@@ -93,6 +96,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
+            "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
         $_REQUEST['from_date'] = '2010-01-10';
@@ -123,6 +127,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 20,
+            "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
         $_REQUEST['from_date'] = '2011-01-01';
@@ -145,6 +150,7 @@ EOF;
             "description" => "",
             "multiplier" => 10,
             "year_limit" => 200,
+            "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
         $calculator = new CriteriaCalculator();
@@ -164,6 +170,7 @@ EOF;
                 "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
+                "year_2_limit" => 0,
                 "calculation_type" => "sum"
             ));
         };
@@ -206,6 +213,7 @@ EOF;
                 "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
+                "year_2_limit" => 0,
                 "calculation_type" => "sum"
             ));
         };
@@ -250,6 +258,7 @@ EOF;
                 "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
+                "year_2_limit" => 0,
                 "calculation_type" => "sum"
             ));
         };
@@ -284,6 +293,7 @@ EOF;
                 "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
+                "year_2_limit" => 0,
                 "calculation_type" => "sum"
             ));
         };

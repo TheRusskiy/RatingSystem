@@ -6,6 +6,7 @@ function require_all ($path) {
     }
 }
 require_all('controllers');
+require_all('dao');
 class Router {
     public function __construct(){
         $controller_name = isset($_REQUEST['controller']) ? $_REQUEST['controller'] : "home";
