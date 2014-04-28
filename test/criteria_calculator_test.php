@@ -47,7 +47,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "year_limit" => 100,
             "year_2_limit" => 0,
-            "calculation_type" => "max"
+            "calculation_type" => "sum"
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -67,7 +67,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "description" => "",
             "year_limit" => 100,
             "year_2_limit" => 0,
-            "calculation_type" => "max"
+            "calculation_type" => "sum"
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -140,6 +140,39 @@ EOF;
         $this->assertEquals($criteria->has_records, true);
     }
 
+    function testCalculateSqlWith2YearLimit(){
+        return;
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "calculation_type" => "sum"
+        ));
+        $_REQUEST['from_date'] = '2012-03-10';
+        $_REQUEST['to_date'] = '2013-03-10';
+        $_REQUEST['staff_id'] = '4';
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals(10, $result);
+//        $this->assertEquals($criteria->value, 10);
+        $this->assertEquals($criteria->has_records, true);
+    }
+
     function testCalculatePhp(){
         $file = "../test/php_queries/q1.php";
         $criteria = new Criteria(array(
@@ -185,22 +218,6 @@ EOF;
         $this->assertEquals($criteria->value, 4);
         $this->assertEquals($criteria->has_records, true);
         $this->assertEquals(sizeof($criteria->records), 3);
-
-        $criteria = $this->build_criteria->__invoke();
-        $criteria->calculation_type = "max";
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 20);
-        $this->assertEquals($criteria->value, 4);
-        $this->assertEquals($criteria->has_records, true);
-        $this->assertEquals(sizeof($criteria->records), 3);
-
-        $criteria = $this->build_criteria->__invoke();
-        $criteria->calculation_type = "exists";
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 10);
-        $this->assertEquals($criteria->value, 4);
-        $this->assertEquals($criteria->has_records, true);
-        $this->assertEquals(sizeof($criteria->records), 3);
     }
 
     function testManuallyNoRecords(){
@@ -238,14 +255,6 @@ EOF;
         $this->assertEquals($criteria->result, 0);
         $this->assertEquals($criteria->value, 0);
         $this->assertEquals($criteria->has_records, false);
-
-        $criteria = $this->build_criteria->__invoke();
-        $criteria->calculation_type = "exists";
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 0);
-        $this->assertEquals($criteria->result, 0);
-        $this->assertEquals($criteria->value, 0);
-        $this->assertEquals($criteria->has_records, false);
     }
 
     function testCalculateManuallyFromOptions(){
@@ -273,14 +282,6 @@ EOF;
         $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
         $this->assertEquals($criteria->has_records, true);
         $this->assertEquals(sizeof($criteria->records), 6);
-
-        $criteria = $this->build_criteria->__invoke();
-        $criteria->calculation_type = "max";
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 25);
-        $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
-        $this->assertEquals($criteria->has_records, true);
-        $this->assertEquals(sizeof($criteria->records), 6);
     }
 
     function testCalculateManuallyFromOptionsNoRecords(){
@@ -303,14 +304,6 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
-        $this->assertEquals($result, 0);
-        $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
-        $this->assertEquals($criteria->has_records, false);
-        $this->assertEquals(sizeof($criteria->records), 0);
-
-        $criteria = $this->build_criteria->__invoke();
-        $criteria->calculation_type = "max";
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 0);
         $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values

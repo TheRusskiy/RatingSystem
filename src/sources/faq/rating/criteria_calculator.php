@@ -46,7 +46,7 @@ class CriteriaCalculator {
                 $this->calculate_for_current_dates($criteria)
             );
         }
-        $result = $this->calculate_based_on_type($criteria, $values);
+        $result = $this->sum($values);
         $criteria->result =$result;
         return $result;
     }
@@ -126,7 +126,7 @@ class CriteriaCalculator {
         } else {
             throw new Exception("Unknown fetch type");
         }
-        $result = $this->calculate_based_on_type($criteria, $values);
+        $result = $this->sum($values);
         return $result;
     }
 
@@ -138,25 +138,6 @@ class CriteriaCalculator {
         return $result;
     }
 
-    private function max($values){
-        $result = 0;
-        foreach($values as $v){
-            if ($v>$result){
-                $result = $v;
-            }
-        }
-        return $result;
-    }
-    private function exists($values, $multiplier){
-        $result = 0;
-        foreach($values as $v){
-            if ($v>0){
-                $result = $multiplier;
-            }
-        }
-        return $result;
-    }
-
     private function period_from_date($date)
     {
         $query = "SELECT id FROM ka_periods " .
@@ -164,18 +145,5 @@ class CriteriaCalculator {
             "AND end_date >= '$date'";
         $row = mysql_fetch_array(mysql_query($query));
         return intval($row[0]);
-    }
-
-    private function calculate_based_on_type($criteria, $values){
-        switch($criteria->calculation_type){
-            case "sum": $result = $this->sum($values); break;
-            // I decided not to support sql/php, as it should be customizable how to calculate as well
-            // case "sql/php": $result = $this->sum($values); break;
-            case "max": $result = $this->max($values); break;
-            // exists unsupported for manual_options!!
-            case "exists": $result = $this->exists($values, $criteria->multiplier); break;
-            default: throw new Exception("Unknown calculation type");
-        }
-        return $result;
     }
 }
