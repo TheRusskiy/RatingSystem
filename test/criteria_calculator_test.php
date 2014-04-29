@@ -169,7 +169,7 @@ EOF;
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals(10, $result);
-//        $this->assertEquals($criteria->value, 10);
+        $this->assertEquals($criteria->value, 3);
         $this->assertEquals($criteria->has_records, true);
     }
 

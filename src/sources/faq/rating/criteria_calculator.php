@@ -1,6 +1,7 @@
 <?php
 require_once "criteria.php";
 require_once "date_splitter.php";
+require_once "season.php";
 class CriteriaCalculator {
     public function __construct() {
         if (isset($_REQUEST['from_date'])){
@@ -31,11 +32,27 @@ class CriteriaCalculator {
         $this->dates = $splitter->split($from_date, $to_date);
         $this->date_ids = array();
         foreach($this->dates as $d){
-            $this->date_ids[] = $this->period_from_date($d);
+            $this->date_ids[] = Season::period_from_date($d);
         }
     }
 
     public function calculate($criteria){
+        $values = array();
+        for ($i=0; $i<count($this->dates); $i=$i+2){
+            $this->from_date = $this->dates[$i];
+            $this->to_date = $this->dates[$i+1];
+            $this->from_date_id = $this->date_ids[$i];
+            $this->to_date_id = $this->date_ids[$i+1];
+            $values[]= $this->with_limit($criteria->year_limit,
+                $this->calculate_for_current_dates($criteria)
+            );
+        }
+        $result = $this->sum($values);
+        $criteria->result =$result;
+        return $result;
+    }
+
+    public function calculate_for_season($criteria, $season){
         $values = array();
         for ($i=0; $i<count($this->dates); $i=$i+2){
             $this->from_date = $this->dates[$i];
@@ -136,14 +153,5 @@ class CriteriaCalculator {
             $result+=$v;
         }
         return $result;
-    }
-
-    private function period_from_date($date)
-    {
-        $query = "SELECT id FROM ka_periods " .
-            "WHERE start_date <= '$date' " .
-            "AND end_date >= '$date'";
-        $row = mysql_fetch_array(mysql_query($query));
-        return intval($row[0]);
     }
 }
