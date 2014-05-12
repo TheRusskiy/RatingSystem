@@ -9,7 +9,10 @@ class SeasonsDao {
             LIMIT 1
             ");
         $row = mysql_fetch_array($count_query);
-        $season = new Season($row['id'], $row['from_date'], $row['to_date']);
-        return $season;
+        if ($row){
+            return new Season($row['id'], $row['from_date'], $row['to_date']);
+        } else {
+            return null;
+        }
     }
 }
