@@ -16,7 +16,11 @@ class ParamProcessor {
         if (isset($this->season_id)){
             return $this->season_id;
         }
-        return $_REQUEST['season_id'] || $_SESSION['season_id'];
+        if (isset($_REQUEST['season_id']) || isset($_SESSION['season_id'])){
+            return mysql_real_escape_string(_or_($_REQUEST['season_id'], $_SESSION['season_id']));
+        } else {
+            return null;
+        }
     }
 
     public function set_season_id($value){
@@ -31,10 +35,10 @@ class ParamProcessor {
         if (isset($this->from_date)){
             return $this->from_date;
         }
-        if ($_REQUEST['from_date'] || $_SESSION['from_date']){
-            return mysql_real_escape_string($_REQUEST['from_date'] || $_SESSION['from_date']);
+        if (isset($_REQUEST['from_date']) || isset($_SESSION['from_date'])){
+            return mysql_real_escape_string(_or_($_REQUEST['from_date'], $_SESSION['from_date']));
         } else {
-            throw new Exception("from_date isn't set!");
+            return null;
         }
     }
 
@@ -50,10 +54,10 @@ class ParamProcessor {
         if (isset($this->to_date)){
             return $this->to_date;
         }
-        if ($_REQUEST['to_date'] || $_SESSION['to_date']){
-            return mysql_real_escape_string($_REQUEST['to_date'] || $_SESSION['to_date']);
+        if (isset($_REQUEST['to_date']) || isset($_SESSION['to_date'])){
+            return mysql_real_escape_string(_or_($_REQUEST['to_date'], $_SESSION['to_date']));
         } else {
-            throw new Exception("to_date isn't set!");
+            return null;
         }
     }
 
@@ -70,10 +74,10 @@ class ParamProcessor {
         if (isset($this->staff_id)){
             return $this->staff_id;
         }
-        if ($_REQUEST['staff_id'] || $_SESSION['staff_id']){
-            return mysql_real_escape_string($_REQUEST['staff_id'] || $_SESSION['staff_id']);
+        if (isset($_REQUEST['staff_id']) || isset($_SESSION['staff_id'])){
+            return mysql_real_escape_string(_or_($_REQUEST['staff_id'], $_SESSION['staff_id']));
         } else {
-            throw new Exception("staff_id isn't set!");
+            return null;
         }
     }
 

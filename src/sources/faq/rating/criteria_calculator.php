@@ -5,8 +5,16 @@ require_once "date_splitter.php";
 require_once "season.php";
 class CriteriaCalculator {
     public function __construct() {
-        $from_date = ParamProcessor::Instance()->get_from_date();
-        $to_date = ParamProcessor::Instance()->get_to_date();
+        $from_date = null;
+        $to_date = null;
+        if (ParamProcessor::Instance()->get_season_id()){
+            $season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
+            $from_date = $season->from_date;
+            $to_date = $season->to_date;
+        } else {
+            $from_date = ParamProcessor::Instance()->get_from_date();
+            $to_date = ParamProcessor::Instance()->get_to_date();
+        }
         $this->staff_id = ParamProcessor::Instance()->get_staff_id();
 
         $splitter = new DateSplitter();

@@ -13,7 +13,10 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
     }
 
     protected  function tearDown(){
-
+        ParamProcessor::Instance()->unset_from_date();
+        ParamProcessor::Instance()->unset_to_date();
+        ParamProcessor::Instance()->unset_staff_id();
+        ParamProcessor::Instance()->unset_season_id();
     }
     function testInitialize(){
         $query = "SELECT * FROM staff";
@@ -144,7 +147,6 @@ EOF;
     }
 
     function testUsesSeasonId(){
-        return;
         $this->build_criteria = function(){
             return new Criteria(array(
                 "id" => 4,
@@ -160,8 +162,6 @@ EOF;
         };
         ParamProcessor::Instance()->set_season_id('4');
         ParamProcessor::Instance()->set_staff_id('1');
-        $_REQUEST['season_id'] = '4';
-        $_REQUEST['staff_id'] = '1';
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();

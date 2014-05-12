@@ -1,7 +1,8 @@
 <?php
-
+require_once(dirname(__FILE__).'/../dao/seasons_dao.php');
 class Season {
-    public function __construct($from, $to) {
+    public function __construct($id, $from, $to) {
+        $this->id = $id;
         $this->from_date = $from;
         $this->to_date = $to;
         $this->from_period = self::period_from_date($from);
@@ -12,9 +13,7 @@ class Season {
         if (isset($this->cachedPrevious)){
             return $this->cachedPrevious;
         }
-        $new_from_date = $this->year_before($this->from_date);
-        $new_to_date = $this->year_before($this->to_date);
-        $this->cachedPrevious = new Season($new_from_date, $new_to_date);
+        $this->cachedPrevious = SeasonsDao::find(intval($this->id)-1);
         return $this->cachedPrevious;
     }
 
