@@ -35,7 +35,9 @@ function execute_sql_file($filename){
         foreach(explode(";", $file) as $query){
             $query = trim($query);
             if (!empty($query) && $query != ";") {
-                mysql_query($query);
+                if (!mysql_query($query)){
+                    throw new Exception("Error during bootstrap: ".mysql_error());
+                }
             }
         }
     }

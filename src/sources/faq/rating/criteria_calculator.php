@@ -25,11 +25,8 @@ class CriteriaCalculator {
             foreach($seasons as $season){
                 $r = $this->type_aware_calculate($criteria, $season);
                 $this->update_values_for_limits($criteria, $r);
-                if ($prev != null){
-                    if ($r->score + $prev->score > $criteria->year_2_limit){
-                        $r->score = $criteria->year_2_limit - $prev->score;
-
-                    }
+                if ($prev != null && ($r->score + $prev->score > $criteria->year_2_limit)){
+                    $r->score = $criteria->year_2_limit - $prev->score;
                 }
                 $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
                 $prev = $r;
@@ -85,57 +82,36 @@ class CriteriaCalculator {
         }
     }
 
-//    public function calculate($criteria){
-//        $values = array();
-//        $current_season = $this->season;
-//        while($current_season != null){
-//            $this->from_date = $current_season->from_date;
-//            $this->to_date = $current_season->to_date;
-//            $this->from_date_id = $current_season->from_period;
-//            $this->to_date_id = $current_season->to_period;
-//            $values[]= $this->with_limit($criteria->year_limit,
-//                $this->calculate_for_current_dates($criteria)
-//            );
-//            $current_season = $current_season->previous();
-//        }
-//        $result = $this->sum($values);
-//        $criteria->result =$result;
-//        return $result;
-//    }
+    private function php_calculate($criteria, $season){
+        $file_result = include($criteria->fetch_value);
+        $result = new RatingResult();
+        $result->value = $file_result;
+        return $result;
+    }
 
-//    public function calculate_for_season($criteria, $season){
-//        $values = array();
-//        for ($i=0; $i<count($this->dates); $i=$i+2){
-//            $this->from_date = $this->dates[$i];
-//            $this->to_date = $this->dates[$i+1];
-//            $this->from_date_id = $this->date_ids[$i];
-//            $this->to_date_id = $this->date_ids[$i+1];
-//            $values[]= $this->with_limit($criteria->year_limit,
-//                $this->calculate_for_current_dates($criteria)
-//            );
-//        }
-//        $result = $this->sum($values);
-//        $criteria->result =$result;
-//        return $result;
-//    }
-//
-//    private function with_limit($limit, $value){
-//        if ($value > $limit && $limit != 0){
-//            return $limit;
-//        } else {
-//            return $value;
-//        }
-//    }
-//
+    private function manual_calculate($criteria, $season){
+        $query = mysql_query("SELECT * FROM rating_records " .
+                             "WHERE ".
+                             "staff_id=$this->staff_id " .
+                             "AND criteria_id = $criteria->id " .
+                             "AND date >='$season->from_date' " .
+                             "AND date <='$season->to_date' ");
+        $values = array();
+        $records = array();
+        while ($row = mysql_fetch_array($query)) {
+            $records[]=$row;
+            $values[] = $row['value'];
+        }
+        $sum = 0;
+        foreach ($values as $v) {
+            $sum += intval($v);
+        }
 
-//
-//    private function php_calculate($criteria){
-//        $criteria->has_records = true;
-//        $file_result = include($criteria->fetch_value);
-//        $criteria->value = ($criteria->value===null) ? $file_result : $file_result + $criteria->value;
-//        return $file_result * $criteria->multiplier;
-//    }
-//
+        $result = new RatingResult();
+        $result->value = $sum;
+        $result->records = $records;
+        return $result;
+    }
 //    private function manual_calculate($criteria){
 //        $query = mysql_query("SELECT * FROM rating_records " .
 //                             "WHERE ".

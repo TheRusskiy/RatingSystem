@@ -246,87 +246,75 @@ EOF;
         $this->assertEquals($result->value_with_2_limit, 3);
     }
 
-//    function testCalculatePhp(){
-//        $file = "../test/php_queries/q1.php";
-//        $criteria = new Criteria(array(
-//            "id" => 3,
-//            "fetch_type" => "php",
-//            "fetch_value" => $file,
-//            "name" => "name of criteria",
-//            "description" => "",
-//            "multiplier" => 10,
-//            "year_limit" => 200,
-//            "year_2_limit" => 0,
-//            "calculation_type" => "sum"
-//        ));
-//        $calculator = new CriteriaCalculator();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 170);
-//        $this->assertEquals($criteria->value, 17);
-//        $this->assertEquals($criteria->has_records, true);
-//    }
-//
-//    function testCalculateManually(){
-//        $this->build_criteria = function(){
-//            return new Criteria(array(
-//                "id" => 4,
-//                "fetch_type" => "manual",
-//                "fetch_value" => "", // doesn't matter
-//                "name" => "name of criteria",
-//                "description" => "",
-//                "multiplier" => 10,
-//                "year_limit" => 100,
-//                "year_2_limit" => 0,
-//                "calculation_type" => "sum"
-//            ));
-//        };
-//        ParamProcessor::Instance()->set_season_id(4);
-//        ParamProcessor::Instance()->set_staff_id('1');
-//        $calculator = new CriteriaCalculator();
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 40);
-//        $this->assertEquals($criteria->value, 4);
-//        $this->assertEquals($criteria->has_records, true);
-//        $this->assertEquals(sizeof($criteria->records), 3);
-//    }
-//
-//    function testManuallyNoRecords(){
-//        $this->build_criteria = function (){
-//            return new Criteria(array(
-//                "id" => -1,
-//                "fetch_type" => "manual",
-//                "fetch_value" => "", // doesn't matter
-//                "name" => "name of criteria",
-//                "description" => "",
-//                "multiplier" => 10,
-//                "year_limit" => 100,
-//                "year_2_limit" => 0,
-//                "calculation_type" => "sum"
-//            ));
-//        };
-//        ParamProcessor::Instance()->set_season_id(4);
-//        ParamProcessor::Instance()->set_staff_id('1');
-//
-//        $calculator = new CriteriaCalculator();
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 0);
-//        $this->assertEquals($criteria->result, 0);
-//        $this->assertEquals($criteria->value, 0);
-//        $this->assertEquals($criteria->has_records, false);
-//        $this->assertEquals(sizeof($criteria->records), 0);
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $criteria->calculation_type = "sum";
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 0);
-//        $this->assertEquals($criteria->result, 0);
-//        $this->assertEquals($criteria->value, 0);
-//        $this->assertEquals($criteria->has_records, false);
-//    }
+    function testCalculatePhp(){
+        $file = "../test/php_queries/q1.php";
+        $criteria = new Criteria(array(
+            "id" => 3,
+            "fetch_type" => "php",
+            "fetch_value" => $file,
+            "name" => "name of criteria",
+            "description" => "",
+            "multiplier" => 10,
+            "year_limit" => 200,
+            "year_2_limit" => 0,
+            "calculation_type" => "sum"
+        ));
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 170);
+        $this->assertEquals($result->value, 17);
+    }
+
+    function testCalculateManually(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 4,
+                "fetch_type" => "manual",
+                "fetch_value" => "", // doesn't matter
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => 10,
+                "year_limit" => 100,
+                "year_2_limit" => 0,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(4);
+        ParamProcessor::Instance()->set_staff_id('1');
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 40);
+        $this->assertEquals($result->value, 4);
+        $this->assertEquals(sizeof($result->records), 3);
+    }
+
+    function testManuallyNoRecords(){
+        $this->build_criteria = function (){
+            return new Criteria(array(
+                "id" => -1,
+                "fetch_type" => "manual",
+                "fetch_value" => "", // doesn't matter
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => 10,
+                "year_limit" => 100,
+                "year_2_limit" => 0,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(4);
+        ParamProcessor::Instance()->set_staff_id('1');
+
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 0);
+        $this->assertEquals($result->value, 0);
+        $this->assertEquals(sizeof($result->records), 0);
+    }
 //
 //    function testCalculateManuallyFromOptions(){
 //        $this->build_criteria = function(){

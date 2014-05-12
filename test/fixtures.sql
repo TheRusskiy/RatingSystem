@@ -9,6 +9,7 @@ CREATE TABLE testings(
 );
 INSERT into testings VALUES();
 
+DROP TABLE IF EXISTS criteria;
 CREATE TABLE criteria (
   id INT(17) NOT NULL auto_increment,
   name VARCHAR(120) NOT NULL ,
@@ -115,7 +116,7 @@ INSERT INTO rating_seasons(id, from_date, to_date)
   (1, '2010-01-01', '2010-12-31'),
   (2, '2011-01-01', '2011-12-31'),
   (3, '2012-01-01', '2012-12-31'),
-  (4, '2013-01-01', '2014-12-31');
+  (4, '2013-01-01', '2013-12-31');
 
 INSERT INTO staff(id, name)
   VALUES
