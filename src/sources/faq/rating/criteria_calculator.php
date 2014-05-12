@@ -11,22 +11,78 @@ class CriteriaCalculator {
     }
 
     public function calculate($criteria){
-        $result = new RatingResult();
+        $season = $this->season;
+        $result = null;
 
+        if (intval($criteria->year_2_limit)!=0){
+            $current_season = $season;
+            $seasons = array();
+            while ($current_season != null) {
+                array_unshift($seasons, $current_season);
+                $current_season = $current_season->previous();
+            }
+            $prev = null;
+            foreach($seasons as $season){
+                $r = $this->type_aware_calculate($criteria, $season);
+                $this->update_values_for_limits($criteria, $r);
+                if ($prev != null){
+                    if ($r->score + $prev->score > $criteria->year_2_limit){
+                        $r->score = $criteria->year_2_limit - $prev->score;
+
+                    }
+                }
+                $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
+                $prev = $r;
+            }
+            $result = $prev;
+
+        } else {
+            $result = $this->type_aware_calculate($criteria, $season);
+            $this->update_values_for_limits($criteria, $result);
+        }
         return $result;
     }
 
-        private function sql_calculate($criteria){
-        $criteria->has_records = true;
+    private function type_aware_calculate($criteria, $season){
+        switch($criteria->fetch_type){
+            case "sql":
+                return $this->sql_calculate($criteria, $season);
+            case "php":
+                return $this->php_calculate($criteria, $season);
+            case "manual":
+                return $this->manual_calculate($criteria, $season);
+            case "manual_options":
+                return $this->manual_calculate($criteria, $season);
+            default: throw new Exception("Unknown fetch type");
+        }
+    }
+
+
+    private function sql_calculate($criteria, $season){
+//        $criteria->has_records = true;
         $text_query = $criteria->fetch_value;
         $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
-        $text_query = str_replace("@from_period_id@", $this->from_date_id, $text_query);
-        $text_query = str_replace("@to_period_id@", $this->to_date_id, $text_query);
+        $text_query = str_replace("@from_period_id@", $season->from_period, $text_query);
+        $text_query = str_replace("@to_period_id@", $season->to_period, $text_query);
         $query = mysql_query($text_query);
         $row = mysql_fetch_array($query);
         $query_result = intval($row[0]);
-        $criteria->value = ($criteria->value===null) ? $query_result : $query_result + $criteria->value;
-        return $query_result * $criteria->multiplier;
+//        $criteria->value = ($criteria->value===null) ? $query_result : $query_result + $criteria->value;
+        $result = new RatingResult();
+        $result->value = $query_result;
+        return $result;
+    }
+
+    private function update_values_for_limits($criteria, $result)
+    {
+        $initial_score = $result->value * $criteria->multiplier;
+        if ($initial_score > $criteria->year_limit) {
+            $result->score = $criteria->year_limit;
+            $result->value_with_limit = $criteria->year_limit / $criteria->multiplier;
+        } else {
+            $result->score = $initial_score;
+            $result->value_with_limit = $result->value;
+        }
     }
 
 //    public function calculate($criteria){
@@ -68,19 +124,6 @@ class CriteriaCalculator {
 //            return $limit;
 //        } else {
 //            return $value;
-//        }
-//    }
-//    private function calculate_for_current_dates($criteria){
-//        switch($criteria->fetch_type){
-//            case "sql":
-//                return $this->sql_calculate($criteria);
-//            case "php":
-//                return $this->php_calculate($criteria);
-//            case "manual":
-//                return $this->manual_calculate($criteria);
-//            case "manual_options":
-//                return $this->manual_calculate($criteria);
-//            default: throw new Exception("Unknown fetch type");
 //        }
 //    }
 //

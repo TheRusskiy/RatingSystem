@@ -57,155 +57,195 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result->score, 70);
-//        $this->assertEquals($result->value, 7);
-//        $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals($result->value, 7);
     }
-//
-//    function testCalculateSqlNoRecords(){
-//        $query = "SELECT count(*) FROM staff WHERE 1=2";
-//        $criteria = new Criteria(array(
-//            "id" => 2,
-//            "fetch_type" => "sql",
-//            "fetch_value" => $query,
-//            "name" => "name of criteria",
-//            "multiplier" => 10,
-//            "description" => "",
-//            "year_limit" => 100,
-//            "year_2_limit" => 0,
-//            "calculation_type" => "sum"
-//        ));
-//        $calculator = new CriteriaCalculator();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 0);
-//        $this->assertEquals($criteria->value, 0);
-//        // Sql calculation should always say there are records
-//        $this->assertEquals($criteria->has_records, true);
-//    }
-//
-//
-//    function testCalculateSqlWithPlaceholders(){
-//        $query =
-//<<<EOF
-//    SELECT count(*)
-//    FROM some_entries
-//    WHERE
-//    staff_id = @staff_id@
-//    AND period_id >= @from_period_id@
-//    AND period_id <= @to_period_id@
-//EOF;
-//        $criteria = new Criteria(array(
-//            "id" => 6,
-//            "fetch_type" => "sql",
-//            "fetch_value" => $query,
-//            "name" => "name of criteria",
-//            "multiplier" => 10,
-//            "description" => "",
-//            "year_limit" => 100,
-//            "year_2_limit" => 0,
-//            "calculation_type" => "sum"
-//        ));
-//        ParamProcessor::Instance()->set_from_date('2010-01-10');
-//        ParamProcessor::Instance()->set_to_date('2013-03-09');
-//        ParamProcessor::Instance()->set_staff_id('2');
-//        $calculator = new CriteriaCalculator();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 50);
-//    }
-//
-//
-//    function testCalculateSqlWithYearLimit(){
-//        $query =
-//<<<EOF
-//    SELECT count(*)
-//    FROM some_entries
-//    WHERE
-//    staff_id = @staff_id@
-//    AND period_id >= @from_period_id@
-//    AND period_id <= @to_period_id@
-//EOF;
-//
-//        $criteria = new Criteria(array(
-//            "id" => 6,
-//            "fetch_type" => "sql",
-//            "fetch_value" => $query,
-//            "name" => "name of criteria",
-//            "multiplier" => 10,
-//            "description" => "",
-//            "year_limit" => 20,
-//            "year_2_limit" => 0,
-//            "calculation_type" => "sum"
-//        ));
-//        ParamProcessor::Instance()->set_from_date('2011-01-01');
-//        ParamProcessor::Instance()->set_to_date('2013-03-10');
-//        ParamProcessor::Instance()->set_staff_id('3');
-//        $calculator = new CriteriaCalculator();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 50);
-//        $this->assertEquals($criteria->value, 10);
-//        $this->assertEquals($criteria->has_records, true);
-//    }
-//
-//    function testUsesSeasonId(){
-//        $this->build_criteria = function(){
-//            return new Criteria(array(
-//                "id" => 4,
-//                "fetch_type" => "manual",
-//                "fetch_value" => "", // doesn't matter
-//                "name" => "name of criteria",
-//                "description" => "",
-//                "multiplier" => 10,
-//                "year_limit" => 100,
-//                "year_2_limit" => 0,
-//                "calculation_type" => "sum"
-//            ));
-//        };
-//        ParamProcessor::Instance()->set_season_id('4');
-//        ParamProcessor::Instance()->set_staff_id('1');
-//        $calculator = new CriteriaCalculator();
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 40);
-//        $this->assertEquals($criteria->value, 4);
-//        $this->assertEquals($criteria->has_records, true);
-//        $this->assertEquals(sizeof($criteria->records), 3);
-//    }
-//
-//    function testCalculateSqlWith2YearLimit(){
-//        $query =
-//<<<EOF
-//    SELECT count(*)
-//    FROM some_entries
-//    WHERE
-//    staff_id = @staff_id@
-//    AND period_id >= @from_period_id@
-//    AND period_id <= @to_period_id@
-//EOF;
-//
-//        $criteria = new Criteria(array(
-//            "id" => 6,
-//            "fetch_type" => "sql",
-//            "fetch_value" => $query,
-//            "name" => "name of criteria",
-//            "multiplier" => 10,
-//            "description" => "",
-//            "year_limit" => 30,
-//            "year_2_limit" => 50,
-//            "calculation_type" => "sum"
-//        ));
-//        ParamProcessor::Instance()->set_season_id(3);
-//        ParamProcessor::Instance()->set_staff_id('4');
-//        $calculator = new CriteriaCalculator();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals(20, $result);
-//        $this->assertEquals($criteria->value, 2);
-//        $this->assertEquals($criteria->has_records, true);
-//    }
-//
-//    function testTakesAllYearsIntoAccount(){
-//
-//    }
-//
+
+    function testCalculateSqlNoRecords(){
+        $query = "SELECT count(*) FROM staff WHERE 1=2";
+        $criteria = new Criteria(array(
+            "id" => 2,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "calculation_type" => "sum"
+        ));
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 0);
+        $this->assertEquals($result->value, 0);
+    }
+
+
+    function testCalculateSqlWithPlaceholders(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "calculation_type" => "sum"
+        ));
+        ParamProcessor::Instance()->set_season_id(1);
+        ParamProcessor::Instance()->set_staff_id('2');
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 20);
+        $this->assertEquals($result->value, 2);
+    }
+
+
+    function testCalculateSqlWithYearLimit(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 20,
+            "year_2_limit" => 0,
+            "calculation_type" => "sum"
+        ));
+        ParamProcessor::Instance()->set_season_id(3); // 2012
+        ParamProcessor::Instance()->set_staff_id('3');
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 20);
+        $this->assertEquals($result->value, 6);
+        $this->assertEquals($result->value_with_limit, 2);
+    }
+
+    function testCalculateSqlWith2YearLimit(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "calculation_type" => "sum"
+        ));
+        ParamProcessor::Instance()->set_season_id(3); // 2012
+        ParamProcessor::Instance()->set_staff_id('4');
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        // 50 for 2011, 30 for 2012, year limit = 30, two year limit = 50,
+        // score after limits:
+        // 30 for 2011
+        // 50-30=20 for 2012
+        $this->assertEquals($result->score, 20);
+        $this->assertEquals($result->value, 3);
+        $this->assertEquals($result->value_with_limit, 3);
+        $this->assertEquals($result->value_with_2_limit, 2);
+    }
+
+    function testTakesAllYearsIntoAccount(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "calculation_type" => "sum"
+        ));
+        ParamProcessor::Instance()->set_season_id(3); // 2012
+        ParamProcessor::Instance()->set_staff_id('5');
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        // 40 for 2010, 40 for 2011, 30 for 2012, year limit = 30, two year limit = 50,
+        // score after limits:
+        // 30 for 2010
+        // 50-30=20 for 2011
+        // 50-20=30 for 2012
+        $this->assertEquals($result->score, 30);
+        $this->assertEquals($result->value, 3);
+        $this->assertEquals($result->value_with_limit, 3);
+        $this->assertEquals($result->value_with_2_limit, 3);
+    }
+
+    function testTakesAllYearsIntoAccount_first_year(){
+        $query =
+<<<EOF
+    SELECT count(*)
+    FROM some_entries
+    WHERE
+    staff_id = @staff_id@
+    AND period_id >= @from_period_id@
+    AND period_id <= @to_period_id@
+EOF;
+
+        $criteria = new Criteria(array(
+            "id" => 6,
+            "fetch_type" => "sql",
+            "fetch_value" => $query,
+            "name" => "name of criteria",
+            "multiplier" => 10,
+            "description" => "",
+            "year_limit" => 30,
+            "year_2_limit" => 40,
+            "calculation_type" => "sum"
+        ));
+        ParamProcessor::Instance()->set_season_id(1); // 2010
+        ParamProcessor::Instance()->set_staff_id('6');
+        $calculator = new CriteriaCalculator();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 30);
+        $this->assertEquals($result->value, 5);
+        $this->assertEquals($result->value_with_limit, 3);
+        $this->assertEquals($result->value_with_2_limit, 3);
+    }
+
 //    function testCalculatePhp(){
 //        $file = "../test/php_queries/q1.php";
 //        $criteria = new Criteria(array(
