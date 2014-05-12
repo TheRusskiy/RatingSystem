@@ -15,24 +15,7 @@ class CriteriaCalculator {
         $result = null;
 
         if (intval($criteria->year_2_limit)!=0){
-            $current_season = $season;
-            $seasons = array();
-            while ($current_season != null) {
-                array_unshift($seasons, $current_season);
-                $current_season = $current_season->previous();
-            }
-            $prev = null;
-            foreach($seasons as $season){
-                $r = $this->type_aware_calculate($criteria, $season);
-                $this->update_values_for_limits($criteria, $r);
-                if ($prev != null && ($r->score + $prev->score > $criteria->year_2_limit)){
-                    $r->score = $criteria->year_2_limit - $prev->score;
-                }
-                $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
-                $prev = $r;
-            }
-            $result = $prev;
-
+            $result = $this->multi_year_result($criteria, $season);
         } else {
             $result = $this->type_aware_calculate($criteria, $season);
             $this->update_values_for_limits($criteria, $result);
@@ -49,7 +32,7 @@ class CriteriaCalculator {
             case "manual":
                 return $this->manual_calculate($criteria, $season);
             case "manual_options":
-                return $this->manual_calculate($criteria, $season);
+                return $this->manual_options_calculate($criteria, $season);
             default: throw new Exception("Unknown fetch type");
         }
     }
@@ -72,6 +55,10 @@ class CriteriaCalculator {
 
     private function update_values_for_limits($criteria, $result)
     {
+        if ($criteria->fetch_type == 'manual_options'){
+            $this->update_values_for_limits_options($criteria, $result);
+            return;
+        }
         $initial_score = $result->value * $criteria->multiplier;
         if ($initial_score > $criteria->year_limit) {
             $result->score = $criteria->year_limit;
@@ -79,6 +66,19 @@ class CriteriaCalculator {
         } else {
             $result->score = $initial_score;
             $result->value_with_limit = $result->value;
+        }
+    }
+    private function update_values_for_limits_options($criteria, $result){
+        $initial_score = 0;
+        for($i = 0; $i<sizeof($criteria->multiplier); $i++){
+            $initial_score+= $result->value[$i]*$criteria->multiplier[$i];
+        }
+        if ($initial_score > $criteria->year_limit) {
+            $result->score = $criteria->year_limit;
+            $result->value_with_limit = null;
+        } else {
+            $result->score = $initial_score;
+            $result->value_with_limit = null;
         }
     }
 
@@ -110,6 +110,53 @@ class CriteriaCalculator {
         $result = new RatingResult();
         $result->value = $sum;
         $result->records = $records;
+        return $result;
+    }
+
+    private function manual_options_calculate($criteria, $season){
+        $query = mysql_query("SELECT * FROM rating_records " .
+                             "WHERE ".
+                             "staff_id=$this->staff_id " .
+                             "AND criteria_id = $criteria->id " .
+                             "AND date >='$season->from_date' " .
+                             "AND date <='$season->to_date' ");
+        $values = array();
+        for($i = 0; $i<sizeof($criteria->multiplier); $i++){
+            $values[$i]=0;
+        }
+        $records = array();
+        while ($row = mysql_fetch_array($query)) {
+            $records[]=$row;
+            $values[$row['value']]++;
+        }
+
+        $result = new RatingResult();
+        $result->value = $values;
+        $result->records = $records;
+        return $result;
+    }
+
+    private function multi_year_result($criteria, $season)
+    {
+        $current_season = $season;
+        $seasons = array();
+        while ($current_season != null) {
+            array_unshift($seasons, $current_season);
+            $current_season = $current_season->previous();
+        }
+        $prev = null;
+        foreach ($seasons as $season) {
+            $r = $this->type_aware_calculate($criteria, $season);
+            $this->update_values_for_limits($criteria, $r);
+            if ($prev != null && ($r->score + $prev->score > $criteria->year_2_limit)) {
+                $r->score = $criteria->year_2_limit - $prev->score;
+            }
+            if ($criteria->fetch_type != 'manual_options') {
+                $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
+            }
+            $prev = $r;
+        }
+        $result = $prev;
         return $result;
     }
 //    private function manual_calculate($criteria){

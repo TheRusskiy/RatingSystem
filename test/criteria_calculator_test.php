@@ -315,56 +315,79 @@ EOF;
         $this->assertEquals($result->value, 0);
         $this->assertEquals(sizeof($result->records), 0);
     }
-//
-//    function testCalculateManuallyFromOptions(){
-//        $this->build_criteria = function(){
-//            return new Criteria(array(
-//                "id" => 5,
-//                "fetch_type" => "manual_options",
-//                "fetch_value" => "v1|v2|v3",
-//                "name" => "name of criteria",
-//                "description" => "",
-//                "multiplier" => '25|15|10',
-//                "year_limit" => 100,
-//                "year_2_limit" => 0,
-//                "calculation_type" => "sum"
-//            ));
-//        };
-//        ParamProcessor::Instance()->set_season_id(4);
-//        ParamProcessor::Instance()->set_staff_id('1');
-//        $calculator = new CriteriaCalculator();
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 75);
-//        $this->assertEquals($criteria->value, array(2,2,1,1)); // first digit is for 0 values
-//        $this->assertEquals($criteria->has_records, true);
-//        $this->assertEquals(sizeof($criteria->records), 6);
-//    }
-//
-//    function testCalculateManuallyFromOptionsNoRecords(){
-//        $this->build_criteria = function(){
-//            return new Criteria(array(
-//                "id" => -1,
-//                "fetch_type" => "manual_options",
-//                "fetch_value" => "v1|v2|v3",
-//                "name" => "name of criteria",
-//                "description" => "",
-//                "multiplier" => '25|15|10',
-//                "year_limit" => 100,
-//                "year_2_limit" => 0,
-//                "calculation_type" => "sum"
-//            ));
-//        };
-//        ParamProcessor::Instance()->set_season_id(4);
-//        ParamProcessor::Instance()->set_staff_id('1');
-//        $calculator = new CriteriaCalculator();
-//
-//        $criteria = $this->build_criteria->__invoke();
-//        $result = $calculator->calculate($criteria);
-//        $this->assertEquals($result, 0);
-//        $this->assertEquals($criteria->value, array(0,0,0,0)); // first digit is for 0 values
-//        $this->assertEquals($criteria->has_records, false);
-//        $this->assertEquals(sizeof($criteria->records), 0);
-//    }
+
+    function testCalculateManuallyFromOptions(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 5,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1|v2|v3",
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => '25|15|10',
+                "year_limit" => 100,
+                "year_2_limit" => 0,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(4);
+        ParamProcessor::Instance()->set_staff_id('1');
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 75);
+        $this->assertEquals($result->value, array(2,2,1,1)); // first digit is for 0 values
+        $this->assertEquals(sizeof($result->records), 6);
+    }
+
+    function testCalculateManuallyFromOptionsWith2YearLimit(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 6,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1|v2|v3",
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => '10|10|10',
+                "year_limit" => 30,
+                "year_2_limit" => 50,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(3);
+        ParamProcessor::Instance()->set_staff_id('1');
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 20);
+        $this->assertEquals($result->value, array(0,3,0,0)); // first digit is for 0 values
+        $this->assertEquals(sizeof($result->records), 3);
+    }
+
+    function testCalculateManuallyFromOptionsNoRecords(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => -1,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1|v2|v3",
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => '25|15|10',
+                "year_limit" => 100,
+                "year_2_limit" => 0,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(3);
+        ParamProcessor::Instance()->set_staff_id('1');
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result->score, 0);
+        $this->assertEquals($result->value, array(0,0,0,0)); // first digit is for 0 values
+        $this->assertEquals(sizeof($criteria->records), 0);
+    }
 }
