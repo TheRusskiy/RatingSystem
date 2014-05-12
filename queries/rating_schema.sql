@@ -82,9 +82,10 @@ CREATE TABLE rating_user_permissions (
   PRIMARY KEY(id)
 );
 
-# DROP TABLE IF EXISTS verification_user_role;
-# CREATE TABLE verification_user_role (
-#   id INT(17) NOT NULL auto_increment,
-#   user_id INT(10) NOT NULL UNIQUE,
-#   permissions VARCHAR(100)
-# );
+DROP TABLE IF EXISTS rating_seasons;
+CREATE TABLE rating_seasons (
+  id INT(17) NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE NOT NULL,
+  PRIMARY KEY(id)
+);

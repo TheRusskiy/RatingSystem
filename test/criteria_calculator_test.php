@@ -7,11 +7,14 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
     protected function setUp(){
         connect_test_db();
         // Just some dummy values for tests that don't need those
-        $_REQUEST['from_date'] = '1980-01-01';
-        $_REQUEST['to_date'] = '1980-01-10';
-        $_REQUEST['staff_id'] = '99999';
+        ParamProcessor::Instance()->set_from_date('1980-01-01');
+        ParamProcessor::Instance()->set_to_date('1980-01-10');
+        ParamProcessor::Instance()->set_staff_id('99999');
     }
 
+    protected  function tearDown(){
+
+    }
     function testInitialize(){
         $query = "SELECT * FROM staff";
         $criteria = new Criteria(array(
@@ -99,9 +102,9 @@ EOF;
             "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
-        $_REQUEST['from_date'] = '2010-01-10';
-        $_REQUEST['to_date'] = '2013-03-09';
-        $_REQUEST['staff_id'] = '2';
+        ParamProcessor::Instance()->set_from_date('2010-01-10');
+        ParamProcessor::Instance()->set_to_date('2013-03-09');
+        ParamProcessor::Instance()->set_staff_id('2');
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 50);
@@ -130,14 +133,43 @@ EOF;
             "year_2_limit" => 0,
             "calculation_type" => "sum"
         ));
-        $_REQUEST['from_date'] = '2011-01-01';
-        $_REQUEST['to_date'] = '2013-03-10';
-        $_REQUEST['staff_id'] = '3';
+        ParamProcessor::Instance()->set_from_date('2011-01-01');
+        ParamProcessor::Instance()->set_to_date('2013-03-10');
+        ParamProcessor::Instance()->set_staff_id('3');
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals($result, 50);
         $this->assertEquals($criteria->value, 10);
         $this->assertEquals($criteria->has_records, true);
+    }
+
+    function testUsesSeasonId(){
+        return;
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 4,
+                "fetch_type" => "manual",
+                "fetch_value" => "", // doesn't matter
+                "name" => "name of criteria",
+                "description" => "",
+                "multiplier" => 10,
+                "year_limit" => 100,
+                "year_2_limit" => 0,
+                "calculation_type" => "sum"
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id('4');
+        ParamProcessor::Instance()->set_staff_id('1');
+        $_REQUEST['season_id'] = '4';
+        $_REQUEST['staff_id'] = '1';
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        $result = $calculator->calculate($criteria);
+        $this->assertEquals($result, 40);
+        $this->assertEquals($criteria->value, 4);
+        $this->assertEquals($criteria->has_records, true);
+        $this->assertEquals(sizeof($criteria->records), 3);
     }
 
     function testCalculateSqlWith2YearLimit(){
@@ -163,9 +195,9 @@ EOF;
             "year_2_limit" => 50,
             "calculation_type" => "sum"
         ));
-        $_REQUEST['from_date'] = '2012-03-10';
-        $_REQUEST['to_date'] = '2013-03-10';
-        $_REQUEST['staff_id'] = '4';
+        ParamProcessor::Instance()->set_from_date('2012-03-10');
+        ParamProcessor::Instance()->set_to_date('2013-03-10');
+        ParamProcessor::Instance()->set_staff_id('4');
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
         $this->assertEquals(10, $result);
@@ -207,9 +239,9 @@ EOF;
                 "calculation_type" => "sum"
             ));
         };
-        $_REQUEST['from_date'] = '2013-01-01';
-        $_REQUEST['to_date'] = '2014-01-01';
-        $_REQUEST['staff_id'] = '1';
+        ParamProcessor::Instance()->set_from_date('2013-01-01');
+        ParamProcessor::Instance()->set_to_date('2014-01-01');
+        ParamProcessor::Instance()->set_staff_id('1');
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
@@ -234,9 +266,9 @@ EOF;
                 "calculation_type" => "sum"
             ));
         };
-        $_REQUEST['from_date'] = '2013-01-01';
-        $_REQUEST['to_date'] = '2014-01-01';
-        $_REQUEST['staff_id'] = '1';
+        ParamProcessor::Instance()->set_from_date('2013-01-01');
+        ParamProcessor::Instance()->set_to_date('2014-01-01');
+        ParamProcessor::Instance()->set_staff_id('1');
 
         $calculator = new CriteriaCalculator();
 
@@ -271,9 +303,9 @@ EOF;
                 "calculation_type" => "sum"
             ));
         };
-        $_REQUEST['from_date'] = '2013-01-01';
-        $_REQUEST['to_date'] = '2014-01-01';
-        $_REQUEST['staff_id'] = '1';
+        ParamProcessor::Instance()->set_from_date('2013-01-01');
+        ParamProcessor::Instance()->set_to_date('2014-01-01');
+        ParamProcessor::Instance()->set_staff_id('1');
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
@@ -298,9 +330,9 @@ EOF;
                 "calculation_type" => "sum"
             ));
         };
-        $_REQUEST['from_date'] = '2013-01-01';
-        $_REQUEST['to_date'] = '2014-01-01';
-        $_REQUEST['staff_id'] = '1';
+        ParamProcessor::Instance()->set_from_date('2013-01-01');
+        ParamProcessor::Instance()->set_to_date('2014-01-01');
+        ParamProcessor::Instance()->set_staff_id('1');
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();

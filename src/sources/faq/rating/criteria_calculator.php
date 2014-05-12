@@ -1,32 +1,13 @@
 <?php
+require_once "param_processor.php";
 require_once "criteria.php";
 require_once "date_splitter.php";
 require_once "season.php";
 class CriteriaCalculator {
     public function __construct() {
-        if (isset($_REQUEST['from_date'])){
-            $from_date = mysql_real_escape_string($_REQUEST['from_date']);
-        } elseif (isset($_SESSION['from_date'])){
-            $from_date = mysql_real_escape_string($_SESSION['from_date']);
-        } else {
-            throw new Exception("from_date isn't set!");
-        }
-
-        if (isset($_REQUEST['to_date'])){
-            $to_date = mysql_real_escape_string($_REQUEST['to_date']);
-        } elseif (isset($_SESSION['to_date'])){
-            $to_date = mysql_real_escape_string($_SESSION['to_date']);
-        } else {
-            throw new Exception("to_date isn't set!");
-        }
-
-        if (isset($_REQUEST['staff_id'])){
-            $this->staff_id = mysql_real_escape_string($_REQUEST['staff_id']);
-        } elseif (isset($_REQUEST['id'])){
-            $this->staff_id = mysql_real_escape_string($_REQUEST['id']);
-        } else {
-            throw new Exception("staff_id isn't set!");
-        }
+        $from_date = ParamProcessor::Instance()->get_from_date();
+        $to_date = ParamProcessor::Instance()->get_to_date();
+        $this->staff_id = ParamProcessor::Instance()->get_staff_id();
 
         $splitter = new DateSplitter();
         $this->dates = $splitter->split($from_date, $to_date);

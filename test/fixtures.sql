@@ -102,6 +102,21 @@ CREATE TABLE ka_periods (
   KEY start_date (start_date)
 );
 
+DROP TABLE IF EXISTS rating_seasons;
+CREATE TABLE rating_seasons (
+  id INT(17) NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE NOT NULL,
+  PRIMARY KEY(id)
+);
+
+INSERT INTO rating_seasons(id, from_date, to_date)
+  VALUES
+  (1, '2010-01-01', '2010-12-31'),
+  (2, '2011-01-01', '2011-12-31'),
+  (3, '2012-01-01', '2012-12-31'),
+  (4, '2013-01-01', '2014-12-31');
+
 INSERT INTO staff(id, name)
   VALUES
   (0, 'name_0'),
