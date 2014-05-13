@@ -9,7 +9,6 @@ class Criteria {
         'year_limit'=>0,
         'year_2_limit'=>0,
         'multiplier'=>0,
-        'calculation_type'=>"",
         'description'=>"",
         'external_records'=>0
     ))
@@ -46,7 +45,6 @@ class Criteria {
             $map["year_limit"]=$obj->year_limit;
             $map["year_2_limit"]=$obj->year_2_limit;
             $map["multiplier"]=$obj->multiplier;
-            $map["calculation_type"]=$obj->calculation_type;
             $map["creation_date"]=$obj->creation_date;
         }
         $this->id = $map["id"];
@@ -61,7 +59,6 @@ class Criteria {
         $this->description = $map["description"];
         $this->year_limit = $map["year_limit"];
         $this->year_2_limit = $map["year_2_limit"];
-        $this->calculation_type = $map["calculation_type"];
         $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
         $this->result = null;
         $this->value = null;
@@ -78,16 +75,6 @@ class Criteria {
         return self::fetch_types_index();
     }
 
-    public static function calculation_types_index(){
-        return array('sum'=>"Сумма", 'max' => "Максимум", 'exists' => "Существует");
-    }
-    public function calculation_types(){
-        return self::calculation_types_index();
-    }
-    public function calculation_type_to_string(){
-        $types = $this->calculation_types();
-        return $types[$this->calculation_type];
-    }
     public function fetch_type_to_string(){
         $types = $this->fetch_types();
         return $types[$this->fetch_type];
@@ -148,7 +135,6 @@ class Criteria {
         $obj["description"]=$this->description;
         $obj["fetch_type"]=$this->fetch_type;
         $obj["fetch_value"]=$this->fetch_value;
-        $obj["calculation_type"]=$this->calculation_type;
         $obj["year_limit"]=$this->year_limit;
         $obj["year_2_limit"]=$this->year_2_limit;
         $obj["multiplier"]=$this->multiplier_to_string();

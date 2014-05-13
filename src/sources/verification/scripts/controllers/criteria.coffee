@@ -2,4 +2,3 @@
 angular.module("verificationApp").controller "CriteriaCtrl", ($scope, Criteria) ->
   $scope.criteria = Criteria.index()
   $scope.fetch_types = Criteria.fetch_types()
-  $scope.calculation_types = Criteria.calculation_types()

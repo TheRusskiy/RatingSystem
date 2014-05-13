@@ -27,8 +27,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         $this->assertEquals($criteria->id, 1);
         $this->assertEquals($criteria->fetch_type, "sql");
@@ -36,7 +35,6 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
         $this->assertEquals($criteria->name, "name of criteria");
         $this->assertEquals($criteria->multiplier, 10);
         $this->assertEquals($criteria->year_limit, 100);
-        $this->assertEquals($criteria->calculation_type, "sum");
         $calculator = new CriteriaCalculator();
         $calculator->calculate($criteria);
     }
@@ -51,8 +49,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "description" => "",
             "multiplier" => 10,
             "year_limit" => 100,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -70,8 +67,7 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -98,8 +94,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         ParamProcessor::Instance()->set_season_id(1);
         ParamProcessor::Instance()->set_staff_id('2');
@@ -129,8 +124,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 20,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('3');
@@ -160,8 +154,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 30,
-            "year_2_limit" => 50,
-            "calculation_type" => "sum"
+            "year_2_limit" => 50
         ));
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('4');
@@ -196,8 +189,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 30,
-            "year_2_limit" => 50,
-            "calculation_type" => "sum"
+            "year_2_limit" => 50
         ));
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('5');
@@ -233,8 +225,7 @@ EOF;
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 30,
-            "year_2_limit" => 40,
-            "calculation_type" => "sum"
+            "year_2_limit" => 40
         ));
         ParamProcessor::Instance()->set_season_id(1); // 2010
         ParamProcessor::Instance()->set_staff_id('6');
@@ -256,8 +247,7 @@ EOF;
             "description" => "",
             "multiplier" => 10,
             "year_limit" => 200,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         $calculator = new CriteriaCalculator();
         $result = $calculator->calculate($criteria);
@@ -275,8 +265,7 @@ EOF;
                 "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
-                "year_2_limit" => 0,
-                "calculation_type" => "sum"
+                "year_2_limit" => 0
             ));
         };
         ParamProcessor::Instance()->set_season_id(4);
@@ -300,8 +289,7 @@ EOF;
                 "description" => "",
                 "multiplier" => 10,
                 "year_limit" => 100,
-                "year_2_limit" => 0,
-                "calculation_type" => "sum"
+                "year_2_limit" => 0
             ));
         };
         ParamProcessor::Instance()->set_season_id(4);
@@ -326,8 +314,7 @@ EOF;
                 "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
-                "year_2_limit" => 0,
-                "calculation_type" => "sum"
+                "year_2_limit" => 0
             ));
         };
         ParamProcessor::Instance()->set_season_id(4);
@@ -351,8 +338,7 @@ EOF;
                 "description" => "",
                 "multiplier" => '10|10|10',
                 "year_limit" => 30,
-                "year_2_limit" => 50,
-                "calculation_type" => "sum"
+                "year_2_limit" => 50
             ));
         };
         ParamProcessor::Instance()->set_season_id(3);
@@ -376,8 +362,7 @@ EOF;
                 "description" => "",
                 "multiplier" => '25|15|10',
                 "year_limit" => 100,
-                "year_2_limit" => 0,
-                "calculation_type" => "sum"
+                "year_2_limit" => 0
             ));
         };
         ParamProcessor::Instance()->set_season_id(3);

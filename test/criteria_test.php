@@ -18,15 +18,13 @@ class TestCriteria extends PHPUnit_Framework_TestCase {
             "multiplier" => 10,
             "description" => "",
             "year_limit" => 100,
-            "year_2_limit" => 0,
-            "calculation_type" => "sum"
+            "year_2_limit" => 0
         ));
         $this->assertEquals($criteria->fetch_type, "sql");
         $this->assertEquals($criteria->fetch_value, $query);
         $this->assertEquals($criteria->name, "name of criteria");
         $this->assertEquals($criteria->multiplier, 10);
         $this->assertEquals($criteria->year_limit, 100);
-        $this->assertEquals($criteria->calculation_type, "sum");
     }
 
 }

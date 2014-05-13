@@ -48,12 +48,6 @@
         params: {
           action: "delete"
         }
-      },
-      calculation_types_index: {
-        method: "GET",
-        params: {
-          action: "calculation_types"
-        }
       }
     });
     resetCache = function() {
@@ -84,14 +78,6 @@
       }
       this.fetchTypesCache = Criteria.fetch_types_index();
       return this.fetchTypesCache;
-    };
-    Criteria.calculation_types = function() {
-      console.log('fetch types');
-      if (this.calcTypesCache) {
-        return this.calcTypesCache;
-      }
-      this.calcTypesCache = Criteria.calculation_types_index();
-      return this.calcTypesCache;
     };
     Criteria.find = function(id) {
       console.log('find criteria ' + id);

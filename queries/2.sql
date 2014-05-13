@@ -1,5 +1,5 @@
 use diploma_development;
-insert into criteria (name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit)
+insert into criteria (name, description, fetch_type, fetch_value, multiplier, year_limit)
   VALUES(
     "Conducting conferences",
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -11,5 +11,4 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "manual_options",
     "International|National|Regional",
     "15|10|5",
-    "sum",
     60)

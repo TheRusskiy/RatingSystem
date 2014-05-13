@@ -1,5 +1,5 @@
 use diploma_development;
-insert into criteria (name, fetch_type, fetch_value, multiplier, calculation_type, year_limit)
+insert into criteria (name, fetch_type, fetch_value, multiplier, year_limit)
   VALUES(
     "test criteria",
     "sql",
@@ -18,5 +18,4 @@ insert into criteria (name, fetch_type, fetch_value, multiplier, calculation_typ
     AND p.period_id <= @to_period_id@
     AND s.staff_id = @staff_id@",
     "100",
-    "sum",
     0)

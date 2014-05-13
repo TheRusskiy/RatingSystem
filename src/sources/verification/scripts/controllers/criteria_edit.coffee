@@ -1,7 +1,6 @@
 "use strict"
 angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criteria, $routeParams, $rootScope) ->
   $scope.fetch_types = Criteria.fetch_types()
-  $scope.calculation_types = Criteria.calculation_types()
   $scope.id = $routeParams.id
   $scope.criteria = if $scope.id is 'new' then new Criteria else Criteria.find($routeParams.id)
   # date

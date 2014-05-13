@@ -31,10 +31,6 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
       method: "DELETE"
       params:
         action: "delete"
-    calculation_types_index:
-      method: "GET"
-      params:
-        action: "calculation_types"
   resetCache = ()->
     console.log "reset criteria cache"
     Criteria.criteriaCache = null
@@ -55,11 +51,6 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
     return @fetchTypesCache if @fetchTypesCache
     @fetchTypesCache = Criteria.fetch_types_index()
     return @fetchTypesCache
-  Criteria.calculation_types = ()->
-    console.log 'fetch types'
-    return @calcTypesCache if @calcTypesCache
-    @calcTypesCache = Criteria.calculation_types_index()
-    return @calcTypesCache
   Criteria.find = (id)->
     console.log 'find criteria '+id
     return Criteria.get(id: id)

@@ -9,7 +9,7 @@ class CriteriaDao {
                         LIMIT" . " $count OFFSET $from";
         }
         $query = mysql_query("
-            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, year_2_limit, creation_date, external_records
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, year_limit, year_2_limit, creation_date, external_records
             FROM criteria
             $limiter
             ");
@@ -21,7 +21,7 @@ class CriteriaDao {
     }
     static function all_with_records(){
         $query = mysql_query("
-            SELECT id, name, description, fetch_type, fetch_value, multiplier, calculation_type, year_limit, year_2_limit, creation_date, external_records
+            SELECT id, name, description, fetch_type, fetch_value, multiplier, year_limit, year_2_limit, creation_date, external_records
             FROM criteria
             WHERE fetch_type = 'manual' or fetch_type = 'manual_options'
             ");
@@ -64,7 +64,6 @@ class CriteriaDao {
             year_limit = $criteria->year_limit,
             year_2_limit = $criteria->year_2_limit,
             multiplier = '$multi',
-            calculation_type = '$criteria->calculation_type',
             creation_date = '$criteria->creation_date',
             external_records = $external_records,
             description = '$criteria->description'
@@ -79,7 +78,7 @@ class CriteriaDao {
         $multi = $criteria->multiplier_to_string();
         $external_records = $criteria->external_records_int();
         $query = mysql_query("
-            INSERT INTO criteria(fetch_type, fetch_value, name, description, year_limit, year_2_limit, multiplier, calculation_type, creation_date, external_records)
+            INSERT INTO criteria(fetch_type, fetch_value, name, description, year_limit, year_2_limit, multiplier, creation_date, external_records)
              VALUES
              ('$criteria->fetch_type',
              '$criteria->fetch_value',
@@ -88,7 +87,6 @@ class CriteriaDao {
              $criteria->year_limit,
              $criteria->year_2_limit,
              '$multi',
-             '$criteria->calculation_type',
              '$criteria->creation_date',
              $external_records)
             ");

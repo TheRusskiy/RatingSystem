@@ -53,9 +53,4 @@ class CriteriaController extends AppController
         $all = Criteria::fetch_types_index();
         return json_encode($all);
     }
-    function calculation_types()
-    {
-        $all = Criteria::calculation_types_index();
-        return json_encode($all);
-    }
 }

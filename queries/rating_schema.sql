@@ -7,7 +7,6 @@ CREATE TABLE criteria (
   fetch_type VARCHAR(30) NOT NULL ,
   fetch_value VARCHAR(4000) NOT NULL,
   multiplier VARCHAR(30),
-  calculation_type VARCHAR(30) NOT NULL ,
   year_limit INT(10) NOT NULL DEFAULT 0,
   year_2_limit INT(10) NOT NULL DEFAULT 0,
   creation_date DATE,

@@ -3,7 +3,6 @@
   angular.module("verificationApp").controller("CriteriaEditCtrl", function($scope, Criteria, $routeParams, $rootScope) {
     var deleteEmptyElements, isInt;
     $scope.fetch_types = Criteria.fetch_types();
-    $scope.calculation_types = Criteria.calculation_types();
     $scope.id = $routeParams.id;
     $scope.criteria = $scope.id === 'new' ? new Criteria : Criteria.find($routeParams.id);
     $scope.dateOptions = {

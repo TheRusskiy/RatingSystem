@@ -2,8 +2,7 @@
   "use strict";
   angular.module("verificationApp").controller("CriteriaCtrl", function($scope, Criteria) {
     $scope.criteria = Criteria.index();
-    $scope.fetch_types = Criteria.fetch_types();
-    return $scope.calculation_types = Criteria.calculation_types();
+    return $scope.fetch_types = Criteria.fetch_types();
   });
 
 }).call(this);
