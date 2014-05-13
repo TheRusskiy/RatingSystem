@@ -34,11 +34,13 @@ class TeachersController extends AppController{
             $results[]=$calculator->calculate($c);
         }
         $seasons = SeasonsDao::all();
+        $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
         return $this->wrap('teachers/show', array(
             'teacher'=>$teacher,
             'criteria'=>$criteria,
             'results'=>$results,
             'seasons'=>$seasons,
+            'season'=>$season,
             'script'=>'teachers/show'
         ));
     }
