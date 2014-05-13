@@ -3,6 +3,7 @@ require_once 'app_controller.php';
 require_relative(__FILE__, '../dao/teachers_dao.php');
 require_relative(__FILE__, '../rating/criteria_calculator.php');
 require_relative(__FILE__, '../dao/records_dao.php');
+require_relative(__FILE__, '../dao/seasons_dao.php');
 class TeachersController extends AppController{
     function index(){
         $on_page = 50;
@@ -22,22 +23,24 @@ class TeachersController extends AppController{
         $id = intval(params("id"));
         $teacher = TeachersDao::find($id);
         $criteria = CriteriaDao::all();
-        $calculator = new CriteriaCalculator();
-        foreach($criteria as $c){
-            $calculator->calculate($c);
+        if(params('season_id')==null){
+            $all = SeasonsDao::all();
+            ParamProcessor::Instance()->set_season_id($all[0]->id);
         }
-        TeachersDao::cache(
-            $id,
-            session('from_date'),
-            session('to_date'),
-            $this->get_result_value($criteria),
-            $this->get_result_completeness($criteria)
-        );
+        ParamProcessor::Instance()->set_staff_id(params('id'));
+        $calculator = new CriteriaCalculator();
+        $results = array();
+        foreach($criteria as $c){
+            $results[]=$calculator->calculate($c);
+        }
+        $seasons = SeasonsDao::all();
         return $this->wrap('teachers/show', array(
             'teacher'=>$teacher,
             'criteria'=>$criteria,
-            'script'=>'teachers/show',
-            'result'=>$this->get_result($criteria)));
+            'results'=>$results,
+            'seasons'=>$seasons,
+            'script'=>'teachers/show'
+        ));
     }
 
     function calculate_rating(){

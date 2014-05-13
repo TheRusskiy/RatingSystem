@@ -20,6 +20,7 @@ class CriteriaCalculator {
             $result = $this->type_aware_calculate($criteria, $season);
             $this->update_values_for_limits($criteria, $result);
         }
+        $result->criteria = $criteria;
         return $result;
     }
 
@@ -154,54 +155,14 @@ class CriteriaCalculator {
             if ($criteria->fetch_type != 'manual_options') {
                 $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
             }
+            if($prev != null){
+                $r->previous_year_score = $prev->score;
+            } else {
+                $r->previous_year_score = null;
+            }
             $prev = $r;
         }
         $result = $prev;
         return $result;
     }
-//    private function manual_calculate($criteria){
-//        $query = mysql_query("SELECT * FROM rating_records " .
-//                             "WHERE ".
-//                             "staff_id=$this->staff_id " .
-//                             "AND criteria_id = $criteria->id " .
-//                             "AND date >='$this->from_date' " .
-//                             "AND date <='$this->to_date' ");
-//        $values = array();
-//        while ($row = mysql_fetch_array($query)) {
-//            $criteria->has_records = true;
-//            $criteria->records[]=$row;
-//            $values[] = $row['value'];
-//        }
-//        if ($criteria->fetch_type == 'manual'){
-//            $values_acc = $criteria->value;
-//            $values_acc = $values_acc === null ? 0 : $values_acc;
-//            for ($i=0; $i<count($values); $i++){
-//                $values_acc+=$values[$i];
-//                $values[$i] = $values[$i] * $criteria->multiplier;
-//            }
-//            $criteria->value = $values_acc;
-//        } else if ($criteria->fetch_type == 'manual_options'){
-//            $option_values_acc = $criteria->value;
-//            if ($option_values_acc === null){
-//                $option_values_acc = array_fill(0, sizeof($criteria->multiplier), 0);
-//            }
-//            for ($i=0; $i<count($values); $i++){
-//                $option_values_acc[$values[$i]]+=1;
-//                $values[$i] = $criteria->multiplier[intval($values[$i])];
-//            }
-//            $criteria->value = $option_values_acc;
-//        } else {
-//            throw new Exception("Unknown fetch type");
-//        }
-//        $result = $this->sum($values);
-//        return $result;
-//    }
-//
-//    private function sum($values){
-//        $result = 0;
-//        foreach($values as $v){
-//            $result+=$v;
-//        }
-//        return $result;
-//    }
 }

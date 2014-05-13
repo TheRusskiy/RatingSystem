@@ -1,79 +1,103 @@
 <?php
-
-    function create_record($cr, $record = array(
-        'id'=>null,
-        'value'=>'',
-        'date'=>''
-    )){ // when null template is rendered
-        $r = "";
-        $class = 'record';
-        if ($record['id'] === null){
-            $class = '';
-        }
-        $id = $record['id'];
-        $value = $record['value'];
-        $date = $record['date'];
-        $r.="<div class='$class' data-id='$id' data-criteria='$cr->id'>\n";
-        $r.="<a class='delete_record' href='#'>X</a>\n";
-        $r.="<input class='field date-field' data-type='date' type='text' value='$date'/>\n";
-        if($cr->fetch_type=="manual"){
-            $r.="<input class='field' data-type='value' type='text' value='$value'/>\n";
-        } else{
-            $r.="<select class='field' data-type='value' type='text'>\n";
-            foreach ($cr->options as $i => $o){
-                $selected = $i=== intval($value) ? 'selected' : '';
-                $r.="<option value='$i' $selected>$o</option>\n";
-            }
-            $r.="</select>\n";
-        }
-        $r.="</div>\n";
-        return $r;
+function manual_options_multipliers($criteria){
+    $arr = array();
+    $m = $criteria->multiplier;
+    array_shift($m);
+    for($i = 0; $i < sizeof($m); $i++){
+        array_unshift($arr, $criteria->options[$i+1].": ".$m[$i]);
     }
-    function create_records($criteria){
-        $result = "";
-        foreach ($criteria->records as $r) {
-            $result.=create_record($criteria, $r);
-        }
-        return $result;
-    }
+    return implode("; ", $arr);
+}
+$score_sum = 0;
+foreach ($results as $r){
+    $score_sum += $r->score;
+}
 ?>
-<h1>Рейтинг для <?= $teacher['name']." ".$teacher['surname'] ?></h1>
-<hr/>
-<?= render('home/_date_range')?>
-<div id="rating_table">
-    <table>
-        <caption>Критерии</caption>
-        <tr>
-            <td>id</td>
-            <td>Название</td>
-            <td>Значение</td>
-            <td>Множитель</td>
-            <td>Баллы</td>
-        </tr>
-        <?php foreach ($criteria as $c) : ?>
+<div class="row">
+    <h1>Рейтинг для <?= $teacher['name']." ".$teacher['surname'] ?></h1>
+    <hr/>
+</div>
+<div class="row">
+    <form action="/">
+        <input name="controller" type="hidden" value="teachers"/>
+        <input name="action" type="hidden" value="show"/>
+        <input name="id" type="hidden" value="<?= params('id') ?>"/>
+        <select name="season_id" id="">
+            <?php foreach ($seasons as $s) : ?>
+                <option value="<?= $s->id ?>">
+                    С <?= $s->from_date ?> по <?= $s->to_date ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Выбрать интервал</button>
+    </form>
+
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        <?php foreach ($results as $r) : ?>
+            <? $last_year = isset($r->previous_year_score) && ($r->previous_year_score != null) ?>
             <tr>
-                <td><?= $c->id; ?></td>
-                <td><?= $c->name; ?></td>
-                <td>
-                    <?php $ct = $c->calculation_types(); $ct = $ct[$c->calculation_type] ?>
-                    <?= $c->value_to_string()." ($ct)"; ?>
-                    <br/>
-
-                    <?php if($c->fetch_type=="manual" || $c->fetch_type=="manual_options") : ?>
-                        <?= create_records($c) ?>
-                        <!--TEMPLATE for new record creation via JS:-->
-                        <div style="display: none" id="template_<?=$c->id?>">
-                            <?= create_record($c) ?>
-                        </div>
-                        <a class="new_record" data-id="<?=$c->id?>" href="#">Новая запись</a>
-                    <?php endif ?>
+                <td colspan="3">
+                    <?= $r->criteria->name ?>
+                    <? if ($r->criteria->year_limit != 0) : ?>
+                        (
+                        максимум в год: <?=$r->criteria->year_limit?>;
+                        <? if ($r->criteria->year_2_limit != 0) : ?>
+                            в 2 года: <?=$r->criteria->year_2_limit?>
+                        <? endif ?>
+                        )
+                    <? endif ?>
+                    <p>
+                        <?= $r->criteria->description ?>
+                    </p>
                 </td>
-                <td><?= $c->multiplier_to_string(); ?></td>
-                <td><?= $c->result_to_string(); ?></td>
             </tr>
+            <?php if(sizeof($r->records)>0) : ?>
+                <tr>
+                    <td>№</td>
+                    <td>Описание</td>
+                    <td>Дата</td>
+                </tr>
+                <?php foreach ($r->records as $i=>$record) : ?>
+                    <tr>
+                        <td><?= $i+1 ?>.</td>
+                        <td><?= $record['name'] ?></td>
+                        <td><?= $record['date'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <tr>
+                    <td colspan="3">Достижения отсутствуют</td>
+                </tr>
+            <?php endif ?>
 
+            <tr>
+                <td>Коэффициент</td>
+                <td colspan="2">
+                <?php if($r->criteria->fetch_type=='manual_options'): ?>
+                    <?= manual_options_multipliers($r->criteria) ?>
+                <?php else : ?>
+                    <?= $r->criteria->multiplier ?>
+                <?php endif ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Баллы</td>
+                <td>
+                <? if($last_year) : ?>
+                    В прошлом году: <?=$r->previous_year_score?>
+                <? endif ?>
+                </td>
+                <td>Всего: <?= $r->score ?></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
         <?php endforeach; ?>
+        <tr>
+            <td colspan="3">Всего баллов: <?= $score_sum ?></td>
+        </tr>
     </table>
-    <a id="save_criteria" href="#">Сохранить изменения</a>
-    <h2 class="right">Всего баллов: <?= $result?></h2>
+
 </div>

@@ -15,4 +15,17 @@ class SeasonsDao {
             return null;
         }
     }
+
+    static function all(){
+        $query = mysql_query("
+            SELECT *
+            FROM rating_seasons
+            ORDER BY id DESC
+            ");
+        $seasons = array();
+        while ($row = mysql_fetch_array($query)){
+            $seasons[]= new Season($row['id'], $row['from_date'], $row['to_date']);
+        }
+        return $seasons;
+    }
 }
