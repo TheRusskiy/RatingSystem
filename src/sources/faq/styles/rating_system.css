@@ -171,3 +171,19 @@ body {
 #footer .container {
     margin-top: 20px;
 }
+
+.print-only
+{
+    display: none !important;
+}
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    .print-only
+    {
+        display: inherit !important;
+    }
+}

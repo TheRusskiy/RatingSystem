@@ -14,27 +14,29 @@ foreach ($results as $r){
 }
 ?>
 <div class="row">
-    <div class="col-md-8">
-        <h3>Рейтинг для <?= $teacher['name']." ".$teacher['surname'] ?></h3>
+    <div class="col-md-7">
+        <h3>Рейтинг для <?= $teacher['name']." ".$teacher['secondname']." ".$teacher['surname'] ?></h3>
         <p>С <?= $season->from_date ?> по <?= $season->to_date ?></p>
     </div>
-    <div class="col-md-4">
-        <form action="/">
+    <div class="col-md-5 no-print">
+        <form action="/" class="form-inline pull-right">
             <input name="controller" type="hidden" value="teachers"/>
             <input name="action" type="hidden" value="show"/>
             <input name="id" type="hidden" value="<?= params('id') ?>"/>
-            <select name="season_id" id="">
-                <?php foreach ($seasons as $s) : ?>
-                    <option value="<?= $s->id ?>"
-                        <? if($s->id==$season->id) : ?>
-                        selected
-                        <? endif ?>
-                        >
-                        С <?= $s->from_date ?> по <?= $s->to_date ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <button type="submit">Выбрать интервал</button>
+            <div class="form-group">
+                <select name="season_id" id="" class="form-control">
+                    <?php foreach ($seasons as $s) : ?>
+                        <option value="<?= $s->id ?>"
+                            <? if($s->id==$season->id) : ?>
+                            selected
+                            <? endif ?>
+                            >
+                            С <?= $s->from_date ?> по <?= $s->to_date ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default">Выбрать интервал</button>
         </form>
     </div>
 </div>
@@ -107,4 +109,28 @@ foreach ($results as $r){
            </tr>
        </table>
    </div>
+</div>
+<div class="row print-only">
+    <p>
+        Данные сформированы в системе расчёта рейтинга ППС СГАУ
+<?= date("Y-m-d в H:i:s") ?>
+    </p>
+    <p>
+        <?= $teacher['name']." ".$teacher['secondname']." ".$teacher['surname'] ?>
+    </p>
+    <table>
+        <tr>
+            <td>Правильность предоставленных данных подтверждаю:
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>Подпись______________(_______________)</td>
+        </tr>
+        <tr>
+            <td>Заведующий кафедрой: </td>
+            <td>Подпись______________(_______________)</td>
+        </tr>
+        <tr>
+            <td>Уполномоченный по качеству кафедры: </td>
+            <td>Подпись______________(_______________)</td>
+        </tr>
+    </table>
 </div>
