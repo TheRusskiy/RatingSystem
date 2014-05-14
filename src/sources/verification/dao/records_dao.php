@@ -29,6 +29,29 @@ class RecordsDao {
       $result = mysql_fetch_array($teachers_query);
       return $result["length"];
     }
+
+    static function find($id){
+        $query = "
+            SELECT r.id as id, r.criteria_id as criteria_id, r.name as name, r.date as date, r.staff_id as staff_id, r.value as value,
+            t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
+            u.id as user_id, u.name as user_name
+            FROM rating_records r
+            JOIN staff2 t ON r.staff_id = t.id
+            JOIN user u ON r.user_id = u.id
+            WHERE r.id = $id
+            LIMIT 1
+            ";
+        $query = mysql_query($query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $row = mysql_fetch_array($query);
+        if(!$row){
+            throw new Exception("Record with id $id not found");
+        }
+        return $row;
+    }
+
     static function all($criteria_id, $page = null, $page_length = null, $search = null){
         $limiter = "";
         if ($page!==null) {

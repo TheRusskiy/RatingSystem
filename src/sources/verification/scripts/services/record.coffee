@@ -105,7 +105,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       recordsCache[criteria_id] = {}
     return recordsCache[criteria_id][pageNumber] if recordsCache[criteria_id][pageNumber]
     recordsCache[criteria_id][pageNumber] = Record.query(
-      criteria: criteria_id
+      criteria_id: criteria_id
       page: pageNumber
       page_length: countPerPage
     )
@@ -136,7 +136,7 @@ angular.module("verificationApp").factory "Record", ($resource) ->
       recordsSearchCache[criteria_id] = {}
     return recordsSearchCache[criteria_id][pageNumber] if recordsSearchCache[criteria_id][pageNumber]
     recordsSearchCache[criteria_id][pageNumber] = Record.search_query(
-      criteria: criteria_id
+      criteria_id: criteria_id
       page: pageNumber
       page_length: countPerPage
       search: record_template

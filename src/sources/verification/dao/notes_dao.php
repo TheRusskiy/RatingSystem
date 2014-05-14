@@ -87,4 +87,26 @@ class NotesDao {
         }
     }
 
+
+    static function find($id, $external=false){
+        $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
+        $query = "
+            SELECT n.id as id, n.record_id as record_id, n.date as date, n.text as text,
+            u.id as user_id, u.name as user_name
+            FROM $notes_table n
+            JOIN user u ON n.user_id = u.id
+            WHERE n.id = $id
+            LIMIT 1
+            ";
+        $query = mysql_query($query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $row = mysql_fetch_array($query);
+        if(!$row){
+            throw new Exception("Record with id $id not found");
+        }
+        return $row;
+    }
+
 }

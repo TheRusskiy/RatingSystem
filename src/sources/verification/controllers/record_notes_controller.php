@@ -4,8 +4,8 @@ require_once 'app_controller.php';
 
 class RecordNotesController extends AppController{
     function index(){
-        $note = params("record");
-        $all = NotesDao::all_notes($note);
+        $record = params("record");
+        $all = NotesDao::all_notes($record);
         return json_encode($all);
     }
 

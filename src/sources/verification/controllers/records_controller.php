@@ -4,7 +4,7 @@ require_once 'app_controller.php';
 
 class RecordsController extends AppController{
     function index(){
-        $criteria = params("criteria");
+        $criteria = params("criteria_id");
         $page = params("page");
         $page_length = params("page_length");
         $all = RecordsDao::all($criteria, $page, $page_length);
@@ -12,7 +12,7 @@ class RecordsController extends AppController{
     }
 
     function search(){
-        $criteria = params("criteria");
+        $criteria = params("criteria_id");
         $page = params("page");
         $page_length = params("page_length");
         $search = json_decode(params("search"));
@@ -45,7 +45,6 @@ class RecordsController extends AppController{
 
     function update(){
         $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
-//        $record = json_decode(file_get_contents("php://input"), true);
         $record = RecordsDao::upsert_from_object($record, $this->current_user());
         return json_encode($record);
     }
