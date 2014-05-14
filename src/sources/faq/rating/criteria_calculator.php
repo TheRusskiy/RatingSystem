@@ -45,6 +45,8 @@ class CriteriaCalculator {
         $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
         $text_query = str_replace("@from_period_id@", $season->from_period, $text_query);
         $text_query = str_replace("@to_period_id@", $season->to_period, $text_query);
+        $text_query = str_replace("@from_date@", $season->from_date, $text_query);
+        $text_query = str_replace("@to_date@", $season->to_date, $text_query);
         $query = mysql_query($text_query);
         $row = mysql_fetch_array($query);
         $query_result = intval($row[0]);
