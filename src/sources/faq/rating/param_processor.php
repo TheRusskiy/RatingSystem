@@ -12,6 +12,13 @@ class ParamProcessor {
 
     }
 
+    public function reset(){
+        $this->unset_season_id();
+        $this->unset_from_date();
+        $this->unset_to_date();
+        $this->unset_staff_id();
+
+    }
     public function get_season_id(){
         if (isset($this->season_id)){
             return $this->season_id;

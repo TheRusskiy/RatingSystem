@@ -38,7 +38,7 @@ function explain_value($criteria, $value){
 </div>
 <table class="table table-bordered table-condensed">
     <tr>
-        <td rowspan="2">Имя</td>
+        <td rowspan="2">ФИО</td>
         <?php foreach ($criteria as $i=>$c) : ?>
             <td colspan="2"><?= $i+1 ?>. <?= $c->name ?></td>
         <?php endforeach ?>
