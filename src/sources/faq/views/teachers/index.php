@@ -2,17 +2,19 @@
     $initial_class = params('search') == null ? "" : 'x';
 ?>
 
-<div id="search">
-    <form action="/">
-        <?= hidden_field('controller', 'teachers')?>
-        <?= hidden_field('action', 'index')?>
-        <input placeholder="Фамилия и/или имя" class="clearable <?=$initial_class?>" name="search" value="<?=params('search', '')?>"/>
-        <input type="submit" value="Поиск"/>
-    </form>
+<div class="row">
+    <div id="search" class="pull-right">
+        <form action="/">
+            <?= hidden_field('controller', 'teachers')?>
+            <?= hidden_field('action', 'index')?>
+            <input placeholder="Фамилия и/или имя" class="clearable <?=$initial_class?>" name="search" value="<?=params('search', '')?>"/>
+            <input type="submit" value="Поиск"/>
+        </form>
+    </div>
 </div>
-<div class="index">
-    <table>
-        <caption>Преподаватели</caption>
+<div class="row">
+    <table class="table table-bordered">
+        <h4>Преподаватели</h4>
         <tr>
             <td>id</td>
             <td>Имя</td>
@@ -41,6 +43,11 @@
         <?php endforeach; ?>
     </table>
 </div>
-<div>На странице: <?= count($teachers)?></div>
-<br/>
-<?= pagination(href('teachers', 'index'), $page_count, $page, array('search'=>params('search'))) ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">На странице: <?= count($teachers)?></div>
+        <div class="pull-left">
+            <?= pagination(href('teachers', 'index'), $page_count, $page, array('search'=>params('search'))) ?>
+        </div>
+    </div>
+</div>

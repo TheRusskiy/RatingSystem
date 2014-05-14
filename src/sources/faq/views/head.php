@@ -15,7 +15,7 @@
 <head>
 <!-- FREAKING Windows 1251 ENCODING, screw u-->
     <meta http-equiv=Content-Type content='text/html; charset=UTF-8'>
-  <title>Rating system</title>
+  <title>Рейтинг ППС СГАУ</title>
 <!--    <link type='text/css' href='/sources/faq/styles/reset.css' rel='stylesheet'>-->
     <link type='text/css' href='/sources/faq/bower_components/jquery-ui/themes/base/minified/jquery-ui.min.css' rel='stylesheet'>
     <link type='text/css' href='/sources/faq/bower_components/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet'>
