@@ -15,7 +15,11 @@
           return $window.location.href = new_path;
         }
       })["catch"](function(err) {
-        return console.log('Current user:' + err.data);
+        if (err) {
+          return console.log('Authentication error:' + err.data);
+        } else {
+          return console.log('Authentication error:' + err);
+        }
       });
     }
     $rootScope.logout = function() {

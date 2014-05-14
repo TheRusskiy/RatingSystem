@@ -14,6 +14,9 @@ class AppController {
         if ($this->current_user != null){
             return $this->current_user;
         } else {
+            if (session("user_id")==null){
+                return null;
+            }
             $this->current_user = UsersDao::find(session("user_id"));
             return $this->current_user;
         }

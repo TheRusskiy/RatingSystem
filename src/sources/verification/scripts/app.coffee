@@ -26,11 +26,16 @@ angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngR
   ).otherwise redirectTo: "/"
 #  $locationProvider.html5Mode true
   $localeProvider.id="ru-ru"
-  $httpProvider.interceptors.push ["$q", "$location", ($q, $location) ->
+  $httpProvider.interceptors.push ["$q", "$location", "$window", ($q, $location, $window) ->
     responseError: (response) ->
-      if response.status is 401 or response.status is 403
+      if response.status is 401
+        alert('Пользователь в текущей сессии не найден, перенаправляем..')
+        new_path = $location.protocol()+"://"+$location.host()+":"+$location.port()
+        $window.location.href = new_path
+      else if response.status is 403
         $location.path "/"
         $q.reject response
+        alert('Отказано в доступе')
       else
         $q.reject response
   ]

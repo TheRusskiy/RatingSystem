@@ -10,10 +10,23 @@ class Router {
     }
 
     public function execute(){
-        if ($this->ability->is_allowed($this->controller->current_user(), $this->controller_name, $this->action)){
+        $user = $this->controller->current_user();
+        if ($this->controller_name=='sessions' || ($this->controller_name=='users' && $this->action=='current')){
             return $this->controller->{$this->action}();
-        } else {
-            return 'not allowed';
+        }
+        else
+        {
+            if(!isset($user) || $user == null){
+                header('HTTP/1.0 401 Unauthorized');
+                return "Authentication required";
+            }
+
+            if ($this->ability->is_allowed($user, $this->controller_name, $this->action)){
+                return $this->controller->{$this->action}();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                return "Action {$this->controller_name}#{$this->action} is forbidden to you!";
+            }
         }
     }
 

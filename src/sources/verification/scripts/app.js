@@ -27,12 +27,18 @@
     });
     $localeProvider.id = "ru-ru";
     return $httpProvider.interceptors.push([
-      "$q", "$location", function($q, $location) {
+      "$q", "$location", "$window", function($q, $location, $window) {
         return {
           responseError: function(response) {
-            if (response.status === 401 || response.status === 403) {
+            var new_path;
+            if (response.status === 401) {
+              alert('Пользователь в текущей сессии не найден, перенаправляем..');
+              new_path = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+              return $window.location.href = new_path;
+            } else if (response.status === 403) {
               $location.path("/");
-              return $q.reject(response);
+              $q.reject(response);
+              return alert('Отказано в доступе');
             } else {
               return $q.reject(response);
             }

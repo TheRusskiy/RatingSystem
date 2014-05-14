@@ -14,8 +14,10 @@ angular.module('verificationApp')
           new_path = $location.protocol()+"://"+$location.host()+":"+$location.port()
           $window.location.href = new_path
       ).catch( (err)->
-        console.log('Current user:'+err.data);
-  #        $scope.errors.other = err.message;
+        if (err)
+          console.log('Authentication error:'+err.data);
+        else
+          console.log('Authentication error:'+err);
       );
     $rootScope.logout = ()->
       Auth.logout()

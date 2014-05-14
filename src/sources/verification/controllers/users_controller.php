@@ -4,9 +4,6 @@ require_once 'app_controller.php';
 
 class UsersController extends AppController{
     function current(){
-        session('user_id');
-        $user = array();
-        $user['id'] = 201;
         return json_encode($this->current_user()) ;
     }
     function index(){
