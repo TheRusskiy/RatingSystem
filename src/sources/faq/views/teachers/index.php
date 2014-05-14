@@ -2,7 +2,6 @@
     $initial_class = params('search') == null ? "" : 'x';
 ?>
 
-<?= render('home/_date_range')?>
 <div id="search">
     <form action="/">
         <?= hidden_field('controller', 'teachers')?>
@@ -18,7 +17,7 @@
             <td>id</td>
             <td>Имя</td>
             <td>Фамилия</td>
-            <td>Действия</td>
+            <td>Кафедра</td>
             <td>Рейтинг</td>
         </tr>
         <?php foreach ($teachers as $t) : ?>
@@ -33,10 +32,10 @@
                     <?= $t['surname']; ?>
                 </div></td>
                 <td><div class="cell">
-                    <?= link_for_teacher($t, 'Записи по критериям'); ?>
+                    <?= $t['department']; ?>
                 </div></td>
                 <td><div class="cell">
-                   <?= link_to_calculate_rating($t)?>
+                    <?= link_for_teacher($t, 'Просмотреть'); ?>
                 </div></td>
             </tr>
         <?php endforeach; ?>

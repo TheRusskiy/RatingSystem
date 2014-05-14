@@ -26,7 +26,7 @@ function class_for($controller){
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="<?= class_for('rating')?>">
-                        <a href='/?controller=teachers&action=index'>Общий рейтинг</a>
+                        <a href='/?controller=teachers&action=total_rating'>Общий рейтинг</a>
                     </li>
                     <li class="<?= class_for('teachers')?>">
                         <a href='/?controller=teachers&action=index'>Преподаватели</a>
@@ -47,7 +47,12 @@ function class_for($controller){
         </div>
     </div>
 </div>
-<div class="container">
+<?php
+ if (!isset($container_class)){
+     $container_class = 'container';
+ }
+?>
+<div class="<?= $container_class ?>">
 <?php if($notice): ?>
     <div class='notice'><?= $notice?></div>
 <?php endif ?>

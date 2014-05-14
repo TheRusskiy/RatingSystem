@@ -7,10 +7,10 @@ require_once "rating_result.php";
 class CriteriaCalculator {
     public function __construct() {
         $this->season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
-        $this->staff_id = ParamProcessor::Instance()->get_staff_id();
     }
 
     public function calculate($criteria){
+        $this->staff_id = ParamProcessor::Instance()->get_staff_id();
         $season = $this->season;
         $result = null;
 

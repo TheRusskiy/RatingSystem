@@ -10,12 +10,18 @@ class TeachersDao {
                         LIMIT" . " $count OFFSET $from_page";
         }
         $teachers_query = mysql_query("
-            SELECT s.*, c.value, c.is_data_complete
+            SELECT s.*, c.value, c.is_data_complete, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
             FROM staff2 s
             LEFT JOIN cached_rating c ON
             (s.id = c.staff_id
             AND c.date_from='$from_date'
             AND c.date_to='$to_date')
+            JOIN depstaff ds ON
+            (s.id = ds.id_staff
+            AND ds.rateacc > 0.6
+            )
+            JOIN dep d ON
+            (d.id = ds.id_dep)
             WHERE
             ".$filter."
             $limiter
@@ -32,6 +38,12 @@ class TeachersDao {
         $count_query = mysql_query("
             SELECT count(*)
             FROM staff2 s
+            JOIN depstaff ds ON
+            (s.id = ds.id_staff
+            AND ds.rateacc > 0.6
+            )
+            JOIN dep d ON
+            (d.id = ds.id_dep)
             WHERE $filter
             ");
         $row = mysql_fetch_array($count_query);
@@ -47,50 +59,6 @@ class TeachersDao {
             ");
         $row = mysql_fetch_array($count_query);
         return $row;
-    }
-
-    static function cache($id, $from, $to, $value, $is_data_complete){
-        // DELETE EXISTING RECORD:
-        $query = mysql_query("
-            DELETE FROM cached_rating
-            WHERE staff_id = $id AND date_from = '$from' AND date_to = '$to'
-            ");
-        if(!$query){
-            throw new Exception('SQL error: '.mysql_error());
-        }
-        // CACHE VALUE:
-        $query = mysql_query("
-            INSERT INTO cached_rating (staff_id, date_from, date_to, value, is_data_complete)
-            VALUES($id, '$from', '$to', $value, $is_data_complete)
-            ");
-        if(!$query){
-            throw new Exception('SQL error: '.mysql_error());
-        }
-        // FROM TIME TO TIME CHECK CACHE TABLE
-        // IF RECORD COUNT > 6000 DELETE FIRST N RECORDS
-        if (rand(0, 100)==0) {
-            $count_query = mysql_query("
-            SELECT count(*)
-            FROM cached_rating
-            ");
-            $row = mysql_fetch_array($count_query);
-            $count =  $row[0];
-            if ($count>6000) {
-                $count=$count-6000;
-                mysql_query("
-                    DELETE FROM cached_rating
-                    LIMIT $count
-                    ");
-            }
-        }
-    }
-    static function flush_cache(){
-        $query = mysql_query("
-            DELETE FROM cached_rating
-            ");
-        if(!$query){
-            throw new Exception('SQL error: '.mysql_error());
-        }
     }
 
     private static function filter($search){
