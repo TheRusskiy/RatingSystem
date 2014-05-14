@@ -20,10 +20,12 @@ class ExternalRecordsDao {
  */
 
     static function approve($record_id, $user){
+        $record_id = mysql_real_escape_string($record_id);
+        $user_id = mysql_real_escape_string($user->id);
         $q = "
             UPDATE rating_external_records
             SET status='approved',
-            reviewed_by = '$user->id'
+            reviewed_by = '$user_id'
             WHERE id = $record_id
             ";
         $result = mysql_query($q);
@@ -33,10 +35,12 @@ class ExternalRecordsDao {
     }
 
     static function reject($record_id, $user){
+        $record_id = mysql_real_escape_string($record_id);
+        $user_id = mysql_real_escape_string($user->id);
         $result = mysql_query("
             UPDATE rating_external_records
             SET status='rejected',
-            reviewed_by = '$user->id'
+            reviewed_by = '$user_id'
             WHERE id = $record_id
             ");
         if(!$result){

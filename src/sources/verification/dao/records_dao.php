@@ -20,6 +20,7 @@ class RecordsDao {
 
     static function count($criteria_id, $search = null){
       $searchString = self::make_search_query($search);
+      $criteria_id = mysql_real_escape_string($criteria_id);
       $teachers_query = mysql_query("
             SELECT COUNT(*) as length
             FROM rating_records r
@@ -31,6 +32,7 @@ class RecordsDao {
     }
 
     static function find($id){
+        $id = mysql_real_escape_string($id);
         $query = "
             SELECT r.id as id, r.criteria_id as criteria_id, r.name as name, r.date as date, r.staff_id as staff_id, r.value as value,
             t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
@@ -56,6 +58,7 @@ class RecordsDao {
         $limiter = "";
         if ($page!==null) {
             $page = intval($page)-1;
+            $page_length = mysql_real_escape_string($page_length);
             $from = $page * $page_length;
             $limiter = "ORDER BY id desc
                         LIMIT" . " $page_length OFFSET $from";

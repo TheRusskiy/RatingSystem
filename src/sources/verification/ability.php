@@ -55,7 +55,6 @@ class Ability {
                 return true;
             }
         }
-        //mysql_real_escape_string
         return false;
     }
 }

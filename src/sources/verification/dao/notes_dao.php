@@ -7,6 +7,7 @@ class NotesDao {
 
     static function all_notes($record_id, $external=false){
         $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
+        $record_id = mysql_real_escape_string($record_id);
         $notes_query = mysql_query("
             SELECT n.id as id, n.record_id as record_id, n.date as date, n.text as text,
             u.id as user_id, u.name as user_name
@@ -90,6 +91,7 @@ class NotesDao {
 
     static function find($id, $external=false){
         $notes_table = $external ? 'rating_record_external_notes' : 'rating_record_notes';
+        $id = mysql_real_escape_string($id);
         $query = "
             SELECT n.id as id, n.record_id as record_id, n.date as date, n.text as text,
             u.id as user_id, u.name as user_name

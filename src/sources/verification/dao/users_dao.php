@@ -53,6 +53,7 @@ class UsersDao {
     }
 
     static function create_default_permission($id){
+        $id = mysql_real_escape_string($id);
         $query = "
             INSERT INTO rating_user_permissions(id, permissions, role)
             VALUES($id, '', 'operator')
