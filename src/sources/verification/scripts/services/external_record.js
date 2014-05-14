@@ -52,7 +52,7 @@
         return externalCache[criteria_id];
       }
       externalCache[criteria_id] = External.query({
-        criteria: criteria_id
+        criteria_id: criteria_id
       });
       return externalCache[criteria_id];
     };
@@ -62,7 +62,7 @@
         return allExternalCache[criteria_id];
       }
       allExternalCache[criteria_id] = External.all_records({
-        criteria: criteria_id
+        criteria_id: criteria_id
       });
       return allExternalCache[criteria_id];
     };

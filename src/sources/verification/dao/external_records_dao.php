@@ -123,6 +123,31 @@ class ExternalRecordsDao {
         return $rows;
     }
 
+    static function find($id){
+        $id = mysql_real_escape_string($id);
+        $query = "
+            SELECT r.id as id, r.criteria_id as criteria_id, r.description as description, r.date as date, r.staff_id as staff_id, r.status as status,
+            t.name as teacher_name, t.surname as teacher_surname, t.secondname as teacher_secondname,
+            reviewer.id as reviewer_id, reviewer.name as reviewer_name,
+            creator.id as creator_id, creator.name as creator_name
+            FROM rating_external_records r
+            JOIN staff2 t ON r.staff_id = t.id
+            LEFT JOIN user reviewer ON r.reviewed_by = reviewer.id
+            JOIN user creator ON r.created_by = creator.id
+            WHERE r.id = $id
+            LIMIT 1
+            ";
+        $query = mysql_query($query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $row = mysql_fetch_array($query);
+        if(!$row){
+            throw new Exception("Record with id $id not found");
+        }
+        return $row;
+    }
+
     static function upsert_from_object($record, $user){
         $row = array();
         $row["staff_id"]=$record->teacher->id;

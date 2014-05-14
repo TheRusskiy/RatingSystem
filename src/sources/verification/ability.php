@@ -55,6 +55,19 @@ class Ability {
                 return true;
             }
         }
+        if ($controller == 'external_records'){
+            $criteria_id = null;
+            if (in_array($action, array('index', 'all'))){
+                $criteria_id = params("criteria_id");
+            }
+            if (in_array($action, array('approve', 'reject'))){
+                $record = ExternalRecordsDao::find(params("id"));
+                $criteria_id = $record['criteria_id'];
+            }
+            if ($criteria_id != null && isset($user->permissions->$criteria_id) && $user->permissions->$criteria_id){
+                return true;
+            }
+        }
         return false;
     }
 }
