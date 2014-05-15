@@ -11,7 +11,7 @@ function href($controller, $action, $params = array()){
 }
 
 function pagination($link, $page_count, $current_page, $params = array()){
-    $result = "<div id='pagination'>";
+    $result = "<ul class='pagination' id='pagination'>";
     $range = 3;
     $p = 0;
     $print_dots = false;
@@ -19,16 +19,16 @@ function pagination($link, $page_count, $current_page, $params = array()){
         $p++;
         if(abs($current_page-$p)<$range || abs(1-$p)<$range || abs($page_count-$p+1)<$range){
             if ($print_dots){
-                $result.="<b>... </b>";
+                $result.="<li><a><b>...</b></a></li>";
                 $print_dots = false;
             }
             $page_link = modify_url($link, array_merge(array("page"=>$p), $params));
-            $result.="<a href=$page_link#pagination>$p</a> ";
+            $result.="<li><a href=$page_link#pagination>$p</a></li>";
         } else {
             $print_dots = true;
         }
     }
-    $result.="</div>";
+    $result.="</ul>";
     return $result;
 }
 function link_for_teacher($teacher, $text = 'rating'){
