@@ -1,7 +1,7 @@
 <?php
 
 class TeachersDao {
-    static function all($from_date, $to_date, $page=null, $count=null, $search = null){
+    static function all($page=null, $count=null, $search = null){
         $limiter = "";
         $filter = TeachersDao::filter($search);
         if ($page!==null) {
@@ -10,12 +10,8 @@ class TeachersDao {
                         LIMIT" . " $count OFFSET $from_page";
         }
         $teachers_query = mysql_query("
-            SELECT s.*, c.value, c.is_data_complete, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
+            SELECT s.*, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
             FROM staff2 s
-            LEFT JOIN cached_rating c ON
-            (s.id = c.staff_id
-            AND c.date_from='$from_date'
-            AND c.date_to='$to_date')
             JOIN depstaff ds ON
             (s.id = ds.id_staff
             AND ds.rateacc > 0.6
@@ -70,7 +66,9 @@ class TeachersDao {
         $r="";
         foreach ($tokens as $i => $t) {
             $t=strtolower($t);
+            $t=trim($t);
             $r.=" (LOWER(s.name) LIKE '%$t%' OR ";
+            $r.="LOWER(s.secondname) LIKE '%$t%' OR ";
             $r.="LOWER(s.surname) LIKE '%$t%' )";
             if ($i!==sizeof($tokens)-1){
                 $r.=' AND ';

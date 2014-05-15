@@ -8,14 +8,17 @@ class TeachersController extends AppController{
     function index(){
         $on_page = 50;
         $page = intval(params("page", 1));
-        $from = session('from_date');
-        $to = session('to_date');
-        $teachers = TeachersDao::all($from, $to, $page-1, $on_page, params('search'));
+        $teachers = TeachersDao::all($page-1, $on_page, params('search'));
+        $teacher_names = array();
+        foreach($teachers as $t){
+            array_push($teacher_names, "{$t['surname']} {$t['name']} {$t['secondname']}");
+        }
         $page_count = TeachersDao::count(params('search'))/$on_page;
         return $this->wrap('teachers/index', array(
             'teachers'=>$teachers,
             'page_count'=>$page_count,
             'page'=> $page,
+            'teacher_names'=>$teacher_names,
             'script'=>'teachers/index'));
     }
 
