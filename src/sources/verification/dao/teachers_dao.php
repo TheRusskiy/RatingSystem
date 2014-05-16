@@ -15,7 +15,7 @@ class TeachersDao {
         $teachers = array();
         while ($row = mysql_fetch_array($teachers_query)){
             $teacher = array();
-            $teacher["name"]=$row["name"]." ".$row["surname"]." ".$row["secondname"];
+            $teacher["name"]=$row["surname"]." ".$row["name"]." ".$row["secondname"];
             $teacher["id"]=$row["id"];
             $teachers[]= $teacher;
         }
