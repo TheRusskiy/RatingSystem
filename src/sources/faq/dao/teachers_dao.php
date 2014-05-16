@@ -9,7 +9,7 @@ class TeachersDao {
             $limiter = "ORDER BY s.id
                         LIMIT" . " $count OFFSET $from_page";
         }
-        $teachers_query = mysql_query("
+        $teachers_query = "
             SELECT s.*, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
             FROM staff2 s
             JOIN depstaff ds ON
@@ -21,7 +21,8 @@ class TeachersDao {
             WHERE
             ".$filter."
             $limiter
-            ");
+            ";
+        $teachers_query = mysql_query($teachers_query);
         $teachers = array();
         while ($row = mysql_fetch_array($teachers_query)){
             $teachers[]= $row;
@@ -65,7 +66,7 @@ class TeachersDao {
         $tokens = explode(' ', $search);
         $r="";
         foreach ($tokens as $i => $t) {
-            $t=strtolower($t);
+            $t=mb_strtolower($t, 'cp1251');
             $t=trim($t);
             $r.=" (LOWER(s.name) LIKE '%$t%' OR ";
             $r.="LOWER(s.secondname) LIKE '%$t%' OR ";
