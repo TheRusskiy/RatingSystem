@@ -66,11 +66,11 @@ class TeachersDao {
         $tokens = explode(' ', $search);
         $r="";
         foreach ($tokens as $i => $t) {
-            $t=mb_strtolower($t, 'cp1251');
+//            $t=mb_strtolower($t, 'utf-8');
             $t=trim($t);
-            $r.=" (LOWER(s.name) LIKE '%$t%' OR ";
-            $r.="LOWER(s.secondname) LIKE '%$t%' OR ";
-            $r.="LOWER(s.surname) LIKE '%$t%' )";
+            $r.=" (s.name COLLATE cp1251_general_ci LIKE '%$t%' OR \n";
+            $r.="s.secondname COLLATE cp1251_general_ci LIKE '%$t%' OR \n";
+            $r.="s.surname COLLATE cp1251_general_ci LIKE '%$t%' )\n";
             if ($i!==sizeof($tokens)-1){
                 $r.=' AND ';
             }

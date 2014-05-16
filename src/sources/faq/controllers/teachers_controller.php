@@ -9,8 +9,9 @@ class TeachersController extends AppController{
         $on_page = 50;
         $page = intval(params("page", 1));
         $teachers = TeachersDao::all($page-1, $on_page, params('search'));
+        $all_teachers = TeachersDao::all();
         $teacher_names = array();
-        foreach($teachers as $t){
+        foreach($all_teachers as $t){
             array_push($teacher_names, "{$t['surname']} {$t['name']} {$t['secondname']}");
         }
         $page_count = TeachersDao::count(params('search'))/$on_page;
