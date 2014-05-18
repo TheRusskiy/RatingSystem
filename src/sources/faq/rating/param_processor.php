@@ -23,8 +23,10 @@ class ParamProcessor {
         if (isset($this->season_id)){
             return $this->season_id;
         }
-        if (isset($_REQUEST['season_id']) || isset($_SESSION['season_id'])){
-            return mysql_real_escape_string(_or_($_REQUEST['season_id'], $_SESSION['season_id']));
+        if (isset($_REQUEST['season_id'])){
+            return mysql_real_escape_string($_REQUEST['season_id']);
+        } elseif (isset($_SESSION['season_id'])){
+            return mysql_real_escape_string($_SESSION['season_id']);
         } else {
             return null;
         }
@@ -42,8 +44,10 @@ class ParamProcessor {
         if (isset($this->from_date)){
             return $this->from_date;
         }
-        if (isset($_REQUEST['from_date']) || isset($_SESSION['from_date'])){
-            return mysql_real_escape_string(_or_($_REQUEST['from_date'], $_SESSION['from_date']));
+        if (isset($_REQUEST['from_date'])){
+            return mysql_real_escape_string($_REQUEST['from_date']);
+        } elseif (isset($_SESSION['from_date'])){
+            return mysql_real_escape_string($_SESSION['from_date']);
         } else {
             return null;
         }
@@ -61,8 +65,10 @@ class ParamProcessor {
         if (isset($this->to_date)){
             return $this->to_date;
         }
-        if (isset($_REQUEST['to_date']) || isset($_SESSION['to_date'])){
-            return mysql_real_escape_string(_or_($_REQUEST['to_date'], $_SESSION['to_date']));
+        if (isset($_REQUEST['to_date'])){
+            return mysql_real_escape_string($_REQUEST['to_date']);
+        } elseif (isset($_SESSION['to_date'])){
+            return mysql_real_escape_string($_SESSION['to_date']);
         } else {
             return null;
         }
@@ -81,8 +87,10 @@ class ParamProcessor {
         if (isset($this->staff_id)){
             return $this->staff_id;
         }
-        if (isset($_REQUEST['staff_id']) || isset($_SESSION['staff_id'])){
-            return mysql_real_escape_string(_or_($_REQUEST['staff_id'], $_SESSION['staff_id']));
+        if (isset($_REQUEST['staff_id'])){
+            return mysql_real_escape_string($_REQUEST['staff_id']);
+        } elseif (isset($_SESSION['staff_id'])){
+            return mysql_real_escape_string($_SESSION['staff_id']);
         } else {
             return null;
         }

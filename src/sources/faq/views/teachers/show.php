@@ -27,9 +27,9 @@ foreach ($results as $r){
                 <select name="season_id" id="" class="form-control">
                     <?php foreach ($seasons as $s) : ?>
                         <option value="<?= $s->id ?>"
-                            <? if($s->id==$season->id) : ?>
+                            <?php if($s->id==$season->id) : ?>
                             selected
-                            <? endif ?>
+                            <?php endif ?>
                             >
                             С <?= $s->from_date ?> по <?= $s->to_date ?>
                         </option>

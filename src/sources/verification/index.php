@@ -1,4 +1,4 @@
-<?
+<?php
 function require_all ($path) {
     $files = glob(dirname(__FILE__)."/".$path.'/*.php');
     foreach ($files as $filename){

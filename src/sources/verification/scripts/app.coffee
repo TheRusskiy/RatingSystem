@@ -3,25 +3,25 @@
 # Intercept 401s and 403s and redirect you to login
 angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngRoute", "ui.bootstrap", "ui.utils"]).config(($routeProvider, $locationProvider, $httpProvider, $localeProvider) ->
   $routeProvider.when("/",
-    templateUrl: "sources/verification/views/_welcome"
+    templateUrl: "sources/verification/views/_welcome.html"
     controller: "GuideCtrl"
   ).when("/records",
-    templateUrl: "sources/verification/views/_records"
+    templateUrl: "sources/verification/views/_records.html"
     controller: "RecordsCtrl"
   ).when("/guide",
-    templateUrl: "sources/verification/views/_user_guide"
+    templateUrl: "sources/verification/views/_user_guide.html"
     controller: "GuideCtrl"
   ).when("/permissions",
-    templateUrl: "sources/verification/views/_permissions"
+    templateUrl: "sources/verification/views/_permissions.html"
     controller: "PermissionsCtrl"
   ).when("/criteria",
-    templateUrl: "sources/verification/views/_criteria"
+    templateUrl: "sources/verification/views/_criteria.html"
     controller: "CriteriaCtrl"
   ).when("/criteria/:id",
-    templateUrl: "sources/verification/views/_criteria_edit"
+    templateUrl: "sources/verification/views/_criteria_edit.html"
     controller: "CriteriaEditCtrl"
   ).when("/external_records",
-    templateUrl: "sources/verification/views/_external_records"
+    templateUrl: "sources/verification/views/_external_records.html"
     controller: "ExternalRecordsCtrl"
   ).otherwise redirectTo: "/"
 #  $locationProvider.html5Mode true
