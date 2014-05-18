@@ -144,6 +144,7 @@ class RecordsDao {
         } else { # create
             $record->id=self::create(array($row));
         }
+        $record->user =new stdClass();
         $record->user->id = $user->id;
         $record->user->name = $user->name;
 
@@ -161,7 +162,11 @@ class RecordsDao {
             $values.="'".mysql_real_escape_string($r['criteria_id'])."', ";
             $values.="'".mysql_real_escape_string($r['user_id'])."', ";
             $values.="'".mysql_real_escape_string($r['name'])."', ";
-            $values.="'".mysql_real_escape_string($r['date'])."', ";
+            $date = $r['date'];
+            if (gettype($date)=="string"){
+                $date = date('Y-m-d', strtotime($date));
+            }
+            $values.="'".mysql_real_escape_string($date)."', ";
             $values.="'".mysql_real_escape_string($r['value'])."'";
             $values.=")";
             if($i!==sizeof($records)-1){
@@ -239,11 +244,19 @@ class RecordsDao {
                 $searchString .= " AND r.value = $option_value ";
             }
             if (isset($search->date_from)) {
-                $from = mysql_real_escape_string($search->date_from);
+                $from = $search->date_from;
+                if (gettype($from)=="string"){
+                    $from = date('Y-m-d', strtotime($from));
+                }
+                $from = mysql_real_escape_string($from);
                 $searchString .= " AND r.date >= '$from' ";
             }
             if (isset($search->date_to)) {
-                $to = mysql_real_escape_string($search->date_to);
+                $to = $search->date_to;
+                if (gettype($to)=="string"){
+                    $to = date('Y-m-d', strtotime($to));
+                }
+                $to = mysql_real_escape_string($to);
                 $searchString .= " AND r.date <= '$to' ";
                 return $searchString;
             }
