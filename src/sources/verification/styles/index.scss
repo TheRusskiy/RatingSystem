@@ -72,6 +72,8 @@ button.clear-search {
     height: 800px;
     width: 100%;
     position: absolute;
+    padding-left: 0px;
+    padding-right: 0px;
     top: 50px;
     bottom: 50px;
     background: #d4f1ff;
@@ -86,5 +88,10 @@ button.clear-search {
   }
   a:hover {
     background: #6de0e6;
+  }
+}
+@media (max-width: 991px) {
+  .go-back a{
+    font-size: 2em;
   }
 }
