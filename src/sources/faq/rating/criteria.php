@@ -60,6 +60,9 @@ class Criteria {
         $this->year_limit = $map["year_limit"];
         $this->year_2_limit = $map["year_2_limit"];
         $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
+        if (gettype($this->creation_date)=="string"){
+            $this->creation_date = date('Y-m-d', strtotime($this->creation_date));
+        }
         $this->result = null;
         $this->value = null;
         $this->has_records = false;
