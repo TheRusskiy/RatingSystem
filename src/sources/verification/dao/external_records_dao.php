@@ -149,6 +149,9 @@ class ExternalRecordsDao {
     }
 
     static function upsert_from_object($record, $user){
+        if (gettype($record->date)=="string"){
+            $record->date = date('Y-m-d', strtotime($record->date));
+        }
         $row = array();
         $row["staff_id"]=$record->teacher->id;
         $row["criteria_id"]=$record->criteria_id;
@@ -163,6 +166,7 @@ class ExternalRecordsDao {
         } else { # create
             $record->id=self::create(array($row));
         }
+        $record->created_by = new stdClass();
         $record->created_by->id = $user->id;
         $record->created_by->name = $user->name;
 

@@ -5,7 +5,7 @@ angular.module("verificationApp").controller "ExternalRecordsCtrl", ($scope, $ht
 
   $scope.displayNotes = (record)->
     modalInstance = $modal.open({
-      templateUrl: 'sources/verification/views/_notes_modal',
+      templateUrl: 'sources/verification/views/_notes_modal.html',
       controller: "ModalInstanceCtrl"
       resolve:
         record: ()-> record
@@ -13,7 +13,7 @@ angular.module("verificationApp").controller "ExternalRecordsCtrl", ($scope, $ht
     })
   $scope.displayExternalNotes = (record)->
     modalInstance = $modal.open({
-      templateUrl: 'sources/verification/views/_notes_modal',
+      templateUrl: 'sources/verification/views/_notes_modal.html',
       controller: "ModalInstanceCtrl"
       resolve:
         record: ()-> record
