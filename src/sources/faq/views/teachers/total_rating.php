@@ -54,9 +54,9 @@ function explain_value($criteria, $value){
         <tr>
 
             <td>
-                <?= link_for_teacher($t, "{$t['name']} {$t['surname']}") ?>
+                <?= link_for_teacher($t, "{$t->name} {$t->surname}") ?>
             </td>
-            <?php foreach ($t['ratings'] as $r) : ?>
+            <?php foreach ($t->ratings as $r) : ?>
                 <td>
                     <?= explain_value($r->criteria, $r->value) ?>
                 </td>
@@ -65,7 +65,7 @@ function explain_value($criteria, $value){
                 </td>
             <?php endforeach ?>
             <td>
-                <?= $t['total_rating']; ?>
+                <?= $t->total_rating; ?>
             </td>
         </tr>
     <?php endforeach; ?>

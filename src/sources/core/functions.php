@@ -11,6 +11,9 @@ function connect_db() {
     echo ("Can't select database");
     exit();
   }
+  if(isset($CONFS['max_allowed_packet'])){
+      mysql_query("SET GLOBAL max_allowed_packet={$CONFS['max_allowed_packet']}");
+  }
   mysql_query("SET NAMES cp1251");
   return $mysql;
 }

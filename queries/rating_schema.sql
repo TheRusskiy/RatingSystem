@@ -41,6 +41,15 @@ CREATE TABLE rating_external_records (
   INDEX status_criteria (staff_id, criteria_id)
 );
 
+DROP TABLE IF EXISTS rating_cache;
+CREATE TABLE rating_cache (
+  `key` VARCHAR(200) NOT NULL ,
+  value LONGTEXT NOT NULL,
+  time_to_live INT(10) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(`key`)
+);
+
 DROP TABLE IF EXISTS rating_record_notes;
 CREATE TABLE rating_record_notes (
   id INT(17) NOT NULL auto_increment,

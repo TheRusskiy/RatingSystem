@@ -32,7 +32,13 @@ function pagination($link, $page_count, $current_page, $params = array()){
     return $result;
 }
 function link_for_teacher($teacher, $text = 'rating'){
-    return url($text, href("teachers", "show", array('id' => $teacher['id'])));
+    $id = "";
+    if (gettype($teacher)=='array'){
+        $id = $teacher['id'];
+    } else {
+        $id = $teacher->id;
+    }
+    return url($text, href("teachers", "show", array('id' => $id)));
 }
 
 function link_to_calculate_rating($teacher){

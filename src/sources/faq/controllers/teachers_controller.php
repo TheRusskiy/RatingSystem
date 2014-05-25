@@ -33,17 +33,27 @@ class TeachersController extends AppController{
         $seasons = SeasonsDao::all();
         $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
         $calculator = new CriteriaCalculator();
-        foreach($teachers as $i=>$t){
-            ParamProcessor::Instance()->set_staff_id($t['id']);
-            $ratings = array();
-            $total = 0;
-            foreach($criteria as $c){
-                $result = $calculator->calculate($c);
-                $ratings[]=$result;
-                $total+=$result->score;
+
+        $cached_teachers = mysql_get_cache('total_rating_teachers');
+        if ($cached_teachers){
+            $teachers = json_decode($cached_teachers);
+        }
+        else {
+            foreach($teachers as $i=>$t){
+                ParamProcessor::Instance()->set_staff_id($t['id']);
+                $ratings = array();
+                $total = 0;
+                foreach($criteria as $c){
+                    $result = $calculator->calculate($c);
+                    $ratings[]=$result;
+                    $total+=$result->score;
+                }
+                $teachers[$i]['ratings'] = $ratings;
+                $teachers[$i]['total_rating'] = $total;
             }
-            $teachers[$i]['ratings'] = $ratings;
-            $teachers[$i]['total_rating'] = $total;
+            $json = json_encode($teachers);
+            $teachers = json_decode($json);
+            mysql_set_cache('total_rating_teachers', $json, 10);
         }
         return $this->wrap('teachers/total_rating', array(
             'seasons'=>$seasons,
