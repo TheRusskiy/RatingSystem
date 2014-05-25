@@ -69,7 +69,20 @@ class TeachersController extends AppController{
             $html_cp1251 = mb_convert_encoding($html, "windows-1251", "utf-8");
             mysql_set_cache('total_rating_html', $html_cp1251, 60);
         }
-        return $html;
+        $etag=md5($html);
+        $headers = apache_request_headers();
+        $old_etag = "invalid etag";
+        if (isset($headers['If-None-Match'])){
+            $old_etag = $headers['If-None-Match'];
+        }
+        header("Etag: $etag");
+        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+        if ($old_etag==$etag){
+            header("HTTP/1.0 304 Not Modified");
+            exit();
+        } else {
+            return $html;
+        }
     }
 
     function show(){
