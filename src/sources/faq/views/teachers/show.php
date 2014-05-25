@@ -44,19 +44,19 @@ foreach ($results as $r){
    <div class="col-md-12">
        <table class="table table-bordered">
            <?php foreach ($results as $ri => $r) : ?>
-               <? $last_year = isset($r->previous_year_score) && ($r->previous_year_score != null) ?>
+               <?php $last_year = isset($r->previous_year_score) && ($r->previous_year_score != null) ?>
                <tr>
                    <td colspan="3">
                        <?= $ri+1 ?>.
                        <?= $r->criteria->name ?>
-                       <? if ($r->criteria->year_limit != 0) : ?>
+                       <?php if ($r->criteria->year_limit != 0) : ?>
                            (
                            максимум в год: <?=$r->criteria->year_limit?>;
                            <? if ($r->criteria->year_2_limit != 0) : ?>
                                в 2 года: <?=$r->criteria->year_2_limit?>
                            <? endif ?>
                            )
-                       <? endif ?>
+                       <?php endif ?>
                        <p>
                            <?= $r->criteria->description ?>
                        </p>
@@ -94,9 +94,9 @@ foreach ($results as $r){
                <tr>
                    <td>Баллы</td>
                    <td>
-                       <? if($last_year) : ?>
+                       <?php if($last_year) : ?>
                            В прошлом году: <?=$r->previous_year_score?>
-                       <? endif ?>
+                       <?php endif ?>
                    </td>
                    <td>Всего: <?= $r->score ?></td>
                </tr>
