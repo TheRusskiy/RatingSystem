@@ -63,7 +63,7 @@ class CriteriaCalculator {
             return;
         }
         $initial_score = $result->value * $criteria->multiplier;
-        if ($initial_score > $criteria->year_limit) {
+        if ($initial_score > $criteria->year_limit && $criteria->year_limit!=0) {
             $result->score = $criteria->year_limit;
             $result->value_with_limit = $criteria->year_limit / $criteria->multiplier;
         } else {
@@ -76,7 +76,7 @@ class CriteriaCalculator {
         for($i = 0; $i<sizeof($criteria->multiplier); $i++){
             $initial_score+= $result->value[$i]*$criteria->multiplier[$i];
         }
-        if ($initial_score > $criteria->year_limit) {
+        if ($initial_score > $criteria->year_limit  && $criteria->year_limit!=0) {
             $result->score = $criteria->year_limit;
             $result->value_with_limit = null;
         } else {
