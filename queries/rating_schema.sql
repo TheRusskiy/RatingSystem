@@ -74,7 +74,7 @@ DROP TABLE IF EXISTS rating_user_permissions;
 CREATE TABLE rating_user_permissions (
   id INT(17) NOT NULL,
   permissions VARCHAR(1000) NOT NULL ,
-  role VARCHAR(1000) NOT NULL ,
+  role VARCHAR(100) NOT NULL ,
   PRIMARY KEY(id)
 );
 

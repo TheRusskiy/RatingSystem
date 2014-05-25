@@ -24,43 +24,52 @@ class TeachersController extends AppController{
     }
 
     function total_rating(){
-        $teachers = TeachersDao::all();
-        $criteria = CriteriaDao::all();
-        if(params('season_id')==null){
-            $all = SeasonsDao::all();
-            ParamProcessor::Instance()->set_season_id($all[0]->id);
-        }
-        $seasons = SeasonsDao::all();
-        $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
-        $calculator = new CriteriaCalculator();
-
-        $cached_teachers = mysql_get_cache('total_rating_teachers');
-        if ($cached_teachers){
-            $teachers = json_decode($cached_teachers);
-        }
-        else {
-            foreach($teachers as $i=>$t){
-                ParamProcessor::Instance()->set_staff_id($t['id']);
-                $ratings = array();
-                $total = 0;
-                foreach($criteria as $c){
-                    $result = $calculator->calculate($c);
-                    $ratings[]=$result;
-                    $total+=$result->score;
-                }
-                $teachers[$i]['ratings'] = $ratings;
-                $teachers[$i]['total_rating'] = $total;
+        $html = "";
+        $cached_html = mysql_get_cache('total_rating_html');
+        if ($cached_html ){
+            $html = mb_convert_encoding($cached_html, "utf-8", "windows-1251");
+        } else {
+            $teachers = TeachersDao::all();
+            $criteria = CriteriaDao::all();
+            if(params('season_id')==null){
+                $all = SeasonsDao::all();
+                ParamProcessor::Instance()->set_season_id($all[0]->id);
             }
-            $json = json_encode($teachers);
-            $teachers = json_decode($json);
-            mysql_set_cache('total_rating_teachers', $json, 10);
+            $seasons = SeasonsDao::all();
+            $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
+            $calculator = new CriteriaCalculator();
+
+            $cached_teachers = mysql_get_cache('total_rating_teachers');
+            if ($cached_teachers){
+                $teachers = json_decode($cached_teachers);
+            }
+            else {
+                foreach($teachers as $i=>$t){
+                    ParamProcessor::Instance()->set_staff_id($t['id']);
+                    $ratings = array();
+                    $total = 0;
+                    foreach($criteria as $c){
+                        $result = $calculator->calculate($c);
+                        $ratings[]=$result;
+                        $total+=$result->score;
+                    }
+                    $teachers[$i]['ratings'] = $ratings;
+                    $teachers[$i]['total_rating'] = $total;
+                }
+                $json = json_encode($teachers);
+                $teachers = json_decode($json);
+                mysql_set_cache('total_rating_teachers', $json, 10);
+            }
+            $html =  $this->wrap('teachers/total_rating', array(
+                'seasons'=>$seasons,
+                'season'=>$season,
+                'criteria'=>$criteria,
+                'container_class'=>'',
+                'teachers'=>$teachers));
+            $html_cp1251 = mb_convert_encoding($html, "windows-1251", "utf-8");
+            mysql_set_cache('total_rating_html', $html_cp1251, 60);
         }
-        return $this->wrap('teachers/total_rating', array(
-            'seasons'=>$seasons,
-            'season'=>$season,
-            'criteria'=>$criteria,
-            'container_class'=>'',
-            'teachers'=>$teachers));
+        return $html;
     }
 
     function show(){
