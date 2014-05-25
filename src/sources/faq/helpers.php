@@ -46,3 +46,10 @@ function mysql_get_cache($key){
         return false;
     }
 }
+
+function mysql_expire_cache($key){
+    $query = mysql_query("DELETE FROM rating_cache WHERE `key` = '$key'");
+    if(!$query){
+        throw new Exception('SQL error: '.mysql_error());
+    }
+}
