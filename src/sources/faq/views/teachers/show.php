@@ -52,9 +52,9 @@ foreach ($results as $r){
                        <?php if ($r->criteria->year_limit != 0) : ?>
                            (
                            максимум в год: <?=$r->criteria->year_limit?>;
-                           <? if ($r->criteria->year_2_limit != 0) : ?>
+                           <?php if ($r->criteria->year_2_limit != 0) : ?>
                                в 2 года: <?=$r->criteria->year_2_limit?>
-                           <? endif ?>
+                           <?php endif ?>
                            )
                        <?php endif ?>
                        <p>
