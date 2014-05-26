@@ -60,6 +60,7 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
     Criteria.delete_criteria {criteria_id: c.id}, (response)->
       console.log(response)
       resetCache()
+    resetCache()
   Criteria.upsert = (c)->
     if c.id # update
       Criteria.update {}, c, (new_c)->
