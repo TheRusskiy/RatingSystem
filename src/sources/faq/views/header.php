@@ -3,9 +3,9 @@ $user = session('user_name');
 $notice = flash('notice');
 $error = flash('error');
 $logout = "";
-function class_for($controller){
-    if (params('controller', 'home')==$controller){
-        return 'current';
+function class_for($controller, $action){
+    if (params('controller', 'home')==$controller && params('action', 'index')==$action){
+        return 'active';
     } else { return ''; }
 }
 ?>
@@ -25,13 +25,13 @@ function class_for($controller){
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="<?= class_for('rating')?>">
+                    <li class="<?= class_for('teachers', 'total_rating')?>">
                         <a href='/?controller=teachers&action=total_rating'>Общий рейтинг</a>
                     </li>
-                    <li class="<?= class_for('teachers')?>">
+                    <li class="<?= class_for('teachers', 'index')?>">
                         <a href='/?controller=teachers&action=index'>Преподаватели</a>
                     </li>
-                    <li class="<?= class_for('home')?>">
+                    <li class="<?= class_for('home', 'help')?>">
                         <a href='/?controller=home&action=help'>Помощь</a>
                     </li>
                 </ul>
