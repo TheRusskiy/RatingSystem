@@ -46,7 +46,7 @@ CREATE TABLE rating_cache (
   `key` VARCHAR(200) NOT NULL ,
   value LONGTEXT NOT NULL,
   time_to_live INT(10) NOT NULL DEFAULT 0,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL,
   PRIMARY KEY(`key`)
 );
 
