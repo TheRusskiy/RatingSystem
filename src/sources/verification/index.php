@@ -25,5 +25,15 @@ include_once('controllers/helpers.php');
 //include_once('views/helpers.php');
 require_once('router.php');
 $router = new Router();
+
+function myErrorHandler($errno, $errstr, $errfile, $errline){
+    echo "<b>SHIT HAPPENED</b>";
+    /* execute PHP internal error handler */
+    return false;
+}
+set_error_handler("myErrorHandler");
+$html = $router->execute();
 ?>
-<?= $router->execute(); ?>
+<?=
+$html;
+?>
