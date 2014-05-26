@@ -9,7 +9,7 @@ class TeachersDao {
             $limiter = "ORDER BY s.id
                         LIMIT" . " $count OFFSET $from_page";
         }
-        $teachers_query = "
+        $query = "
             SELECT s.*, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
             FROM staff2 s
             JOIN depstaff ds ON
@@ -22,9 +22,12 @@ class TeachersDao {
             ".$filter."
             $limiter
             ";
-        $teachers_query = mysql_query($teachers_query);
+        $query = mysql_query($query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
         $teachers = array();
-        while ($row = mysql_fetch_array($teachers_query)){
+        while ($row = mysql_fetch_array($query)){
             $teachers[]= $row;
         }
         return $teachers;
@@ -32,7 +35,7 @@ class TeachersDao {
 
     static function count($search = null){
         $filter = TeachersDao::filter($search);
-        $count_query = mysql_query("
+        $query = mysql_query("
             SELECT count(*)
             FROM staff2 s
             JOIN depstaff ds ON
@@ -43,18 +46,24 @@ class TeachersDao {
             (d.id = ds.id_dep)
             WHERE $filter
             ");
-        $row = mysql_fetch_array($count_query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $row = mysql_fetch_array($query);
         return $row[0];
     }
 
     static function find($id){
-        $count_query = mysql_query("
+        $query = mysql_query("
             SELECT *
             FROM staff2
             WHERE id = $id
             LIMIT 1
             ");
-        $row = mysql_fetch_array($count_query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $row = mysql_fetch_array($query);
         return $row;
     }
 
@@ -68,9 +77,10 @@ class TeachersDao {
         foreach ($tokens as $i => $t) {
 //            $t=mb_strtolower($t, 'utf-8');
             $t=trim($t);
-            $r.=" (s.name COLLATE cp1251_general_ci LIKE '%$t%' OR \n";
-            $r.="s.secondname COLLATE cp1251_general_ci LIKE '%$t%' OR \n";
-            $r.="s.surname COLLATE cp1251_general_ci LIKE '%$t%' )\n";
+//            $t = mb_convert_encoding($t, "windows-1251", "utf-8");
+            $r.=" (s.name LIKE '%$t%' OR \n";
+            $r.="s.secondname LIKE '%$t%' OR \n";
+            $r.="s.surname LIKE '%$t%' )\n"; //COLLATE cp1251_general_ci
             if ($i!==sizeof($tokens)-1){
                 $r.=' AND ';
             }
