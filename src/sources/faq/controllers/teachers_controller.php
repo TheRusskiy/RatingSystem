@@ -39,42 +39,38 @@ class TeachersController extends AppController{
             $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
             $calculator = new CriteriaCalculator();
 
-            foreach($teachers as $i=>$t){
-                ParamProcessor::Instance()->set_staff_id($t['id']);
-                $ratings = array();
-                $total = 0;
-                foreach($criteria as $c){
-                    $result = $calculator->calculate($c);
-                    $ratings[]=$result;
-                    $total+=$result->score;
-                }
-                $teachers[$i]['ratings'] = $ratings;
-                $teachers[$i]['total_rating'] = $total;
+            $cached_teachers = mysql_get_cache('total_rating_teachers');
+            if ($cached_teachers){
+                $teachers = json_decode($cached_teachers);
             }
-            $teachers = arrayToObject($teachers);
-            $html =  $this->wrap('teachers/total_rating', array(
+            else {
+                foreach($teachers as $i=>$t){
+                    ParamProcessor::Instance()->set_staff_id($t['id']);
+                    $ratings = array();
+                    $total = 0;
+                    foreach($criteria as $c){
+                        $result = $calculator->calculate($c);
+                        $ratings[]=$result;
+                        $total+=$result->score;
+                    }
+                    $teachers[$i]['ratings'] = $ratings;
+                    $teachers[$i]['total_rating'] = $total;
+                }
+                $json = json_encode($teachers);
+                $teachers = json_decode($json);
+                mysql_set_cache('total_rating_teachers', $json, 10);
+            }
+            $variables = array(
                 'seasons'=>$seasons,
                 'season'=>$season,
                 'criteria'=>$criteria,
                 'container_class'=>'',
-                'teachers'=>$teachers));
+                'teachers'=>$teachers);
+            $html = render('teachers/total_rating', $variables);
             $html_cp1251 = mb_convert_encoding($html, "windows-1251", "utf-8");
             mysql_set_cache('total_rating_html', $html_cp1251, 60);
         }
-        $etag=md5($html);
-        $headers = apache_request_headers();
-        $old_etag = "invalid etag";
-        if (isset($headers['If-None-Match'])){
-            $old_etag = $headers['If-None-Match'];
-        }
-        header("Etag: $etag");
-        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-        if ($old_etag==$etag){
-            header("HTTP/1.0 304 Not Modified");
-            exit();
-        } else {
-            return $html;
-        }
+        return $this->wrap_html($html, array('container_class'=>''));
     }
 
     function show(){
