@@ -35,6 +35,9 @@
                     </div>
                   </td>
                 </tr>
+                <tr ng-show="records(criteria, criteria.currentPage).length == 0">
+                    <td colspan="7">Достижения отсутствуют</td>
+                </tr>
               </table>
             </div>
           </div>
