@@ -46,7 +46,7 @@ foreach ($results as $r){
            <?php foreach ($results as $ri => $r) : ?>
                <?php $last_year = isset($r->previous_year_score) && ($r->previous_year_score != null) ?>
                <tr>
-                   <td colspan="3">
+                   <td colspan="5">
                        <?= $ri+1 ?>.
                        <?= $r->criteria->name ?>
                        <?php if ($r->criteria->year_limit != 0) : ?>
@@ -60,52 +60,66 @@ foreach ($results as $r){
                        <p>
                            <?= $r->criteria->description ?>
                        </p>
+                       <p>
+                           <?php if($r->criteria->fetch_type=='manual_options'): ?>
+                               Коэффициенты: <?= manual_options_multipliers($r->criteria) ?>
+                           <?php else : ?>
+                               Коэффициент: <?= $r->criteria->multiplier ?>
+                           <?php endif ?>
+                       </p>
                    </td>
                </tr>
                <?php if(sizeof($r->records)>0) : ?>
                    <tr>
                        <td>№</td>
-                       <td>Описание</td>
+                       <td colspan="2">Описание</td>
                        <td>Дата</td>
+                       <td>Баллы</td>
                    </tr>
                    <?php foreach ($r->records as $i=>$record) : ?>
                        <tr>
                            <td><?= $i+1 ?>.</td>
-                           <td><?= $record['name'] ?></td>
-                           <td><?= $record['date'] ?></td>
+                           <?php if($r->criteria->fetch_type=='manual_options'): ?>
+                               <td><?= $r->criteria->options[$record['value']] ?></td>
+                               <td><?= $record['name'] ?></td>
+                           <?php else : ?>
+                               <td colspan="2"><?= $record['name'] ?></td>
+                           <?php endif ?>
+                           <td width="100"><?= $record['date'] ?></td>
+                           <td>
+                               <?php if($r->criteria->fetch_type=='manual_options'): ?>
+                                   <?= $r->criteria->multiplier[$record['value']] ?>
+                               <?php else : ?>
+                                   <?= $r->criteria->multiplier ?>
+                               <?php endif ?>
+                           </td>
                        </tr>
                    <?php endforeach; ?>
                <?php else : ?>
                    <tr>
-                       <td colspan="3">Достижения отсутствуют</td>
+                       <td colspan="5">Достижения отсутствуют</td>
                    </tr>
                <?php endif ?>
 
                <tr>
-                   <td>Коэффициент</td>
-                   <td colspan="2">
-                       <?php if($r->criteria->fetch_type=='manual_options'): ?>
-                           <?= manual_options_multipliers($r->criteria) ?>
-                       <?php else : ?>
-                           <?= $r->criteria->multiplier ?>
-                       <?php endif ?>
-                   </td>
-               </tr>
-               <tr>
-                   <td>Баллы</td>
+                   <td>Всего:</td>
                    <td>
-                       <?php if($last_year) : ?>
-                           В прошлом году: <?=$r->previous_year_score?>
+                       <?php if($last_year): ?>
+                           В прошлый раз: <?=$r->previous_year_score?>
+                       <?php else : ?>
+                           В прошлый раз: достижения отсутствуют
                        <?php endif ?>
                    </td>
-                   <td>Всего: <?= $r->score ?></td>
+                   <td style="text-align: right" colspan="2"></td>
+                   <td><?= $r->score ?></td>
                </tr>
                <tr>
-                   <td colspan="3"></td>
+                   <td colspan="5"></td>
                </tr>
            <?php endforeach; ?>
            <tr>
-               <td colspan="3">Всего баллов: <?= $score_sum ?></td>
+               <td colspan="4">Баллов по всем показателям: </td>
+               <td><?= $score_sum ?></td>
            </tr>
        </table>
    </div>
