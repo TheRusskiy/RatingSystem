@@ -25,18 +25,18 @@ class TeachersController extends AppController{
 
     function total_rating(){
         $html = "";
-        $cached_html = mysql_get_cache('total_rating_html');
-        if ($cached_html ){
+        $seasons = SeasonsDao::all();
+        if(params('season_id')==null){
+            ParamProcessor::Instance()->set_season_id($seasons[0]->id);
+        }
+        $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
+
+        $cached_html = mysql_get_cache('total_rating_html_'.$season->id);
+        if ($cached_html && false ){
             $html = mb_convert_encoding($cached_html, "utf-8", "windows-1251");
         } else {
             $teachers = TeachersDao::all();
             $criteria = CriteriaDao::all();
-            if(params('season_id')==null){
-                $all = SeasonsDao::all();
-                ParamProcessor::Instance()->set_season_id($all[0]->id);
-            }
-            $seasons = SeasonsDao::all();
-            $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());
             $calculator = new CriteriaCalculator();
 
             $cached_teachers = mysql_get_cache('total_rating_teachers');
@@ -58,7 +58,7 @@ class TeachersController extends AppController{
                 }
                 $json = json_encode($teachers);
                 $teachers = json_decode($json);
-                mysql_set_cache('total_rating_teachers', $json, 10);
+                mysql_set_cache('total_rating_html_'.$season->id, $json, 10);
             }
             $variables = array(
                 'seasons'=>$seasons,

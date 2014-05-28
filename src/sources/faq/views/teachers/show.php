@@ -85,7 +85,7 @@ foreach ($results as $r){
                            <?php else : ?>
                                <td colspan="2"><?= $record['name'] ?></td>
                            <?php endif ?>
-                           <td width="100"><?= $record['date'] ?></td>
+                           <td style="min-width: 100px"><?= $record['date'] ?></td>
                            <td>
                                <?php if($r->criteria->fetch_type=='manual_options'): ?>
                                    <?= $r->criteria->multiplier[$record['value']] ?>
@@ -105,12 +105,12 @@ foreach ($results as $r){
                    <td>Всего:</td>
                    <td>
                        <?php if($last_year): ?>
-                           В прошлый раз: <?=$r->previous_year_score?>
+                           В прошлый раз: <?=$r->previous_year_score?> баллов
                        <?php else : ?>
                            В прошлый раз: достижения отсутствуют
                        <?php endif ?>
                    </td>
-                   <td style="text-align: right" colspan="2"></td>
+                   <td style="text-align: right" colspan="2">С учётом ограничений:</td>
                    <td><?= $r->score ?></td>
                </tr>
                <tr>
