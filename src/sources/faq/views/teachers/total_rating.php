@@ -54,7 +54,8 @@ function explain_value($criteria, $value){
         <tr>
 
             <td>
-                <?= link_for_teacher($t, "{$t->name} {$t->surname}") ?>
+                <?= link_for_teacher($t, "{$t->surname} {$t->name} {$t->secondname}") ?>
+                <span class="total-rating-department"><?= $t->department ?></span>
             </td>
             <?php foreach ($t->ratings as $r) : ?>
                 <td>

@@ -189,3 +189,7 @@ body {
         display: inherit !important;
     }
 }
+.total-rating-department {
+    font-size: 10px;
+    display: block;
+}
