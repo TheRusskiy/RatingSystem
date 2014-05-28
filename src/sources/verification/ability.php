@@ -47,7 +47,11 @@ class Ability {
                 $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
                 $criteria_id = $record->criteria_id;
             }
-            if (in_array($action, array('create', 'delete'))){
+            if (in_array($action, array('create'))){
+                $record = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+                $criteria_id = $record->criteria_id;
+            }
+            if (in_array($action, array('delete'))){
                 $record = RecordsDao::find(params("record_id"));
                 $criteria_id = $record['criteria_id'];
             }
