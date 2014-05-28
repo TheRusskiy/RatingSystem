@@ -10,16 +10,24 @@ class TeachersDao {
                         LIMIT" . " $count OFFSET $from_page";
         }
         $query = "
-            SELECT s.*, FLOOR(TO_DAYS(NOW()) - TO_DAYS(s.birthday)) as age, d.name as department
+            SELECT
+                s.id as id,
+                s.shortname as shortname,
+                s.surname as surname,
+                s.secondname as secondname,
+                s.name as name,
+                d.name as department
             FROM staff2 s
             JOIN depstaff ds ON
             (s.id = ds.id_staff
-            AND ds.rateacc > 0.6
             )
             JOIN dep d ON
             (d.id = ds.id_dep)
             WHERE
-            ".$filter."
+            d.id_deptype = 30278001
+            $filter
+            GROUP BY s.id, s.shortname, s.secondname, s.surname, s.name, d.name
+            HAVING SUM(ds.rateacc) > 0.2
             $limiter
             ";
         $query = mysql_query($query);
@@ -37,14 +45,20 @@ class TeachersDao {
         $filter = TeachersDao::filter($search);
         $query = mysql_query("
             SELECT count(*)
-            FROM staff2 s
-            JOIN depstaff ds ON
-            (s.id = ds.id_staff
-            AND ds.rateacc > 0.6
-            )
-            JOIN dep d ON
-            (d.id = ds.id_dep)
-            WHERE $filter
+            FROM(
+                SELECT s.id
+                FROM staff2 s
+                JOIN depstaff ds ON
+                (s.id = ds.id_staff
+                )
+                JOIN dep d ON
+                (d.id = ds.id_dep)
+                WHERE
+                d.id_deptype = 30278001
+                $filter
+                GROUP BY s.id
+                HAVING SUM(ds.rateacc) > 0.2
+                ) filtered
             ");
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
@@ -70,10 +84,13 @@ class TeachersDao {
     private static function filter($search){
         $search = mysql_real_escape_string($search);
         if ($search=== null || trim($search)===""){
-            return " 1=1 ";
+            return " AND 1=1";
         }
         $tokens = explode(' ', $search);
         $r="";
+        if (sizeof($tokens)>0){
+            $r = " AND ";
+        }
         foreach ($tokens as $i => $t) {
 //            $t=mb_strtolower($t, 'utf-8');
             $t=trim($t);
