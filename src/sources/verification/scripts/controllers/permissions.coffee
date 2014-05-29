@@ -10,6 +10,7 @@ angular.module("verificationApp").controller "PermissionsCtrl", (User, $scope, C
   $scope.edit_season = (season, form)->
     form.$setPristine()
     $scope.current_season = season
+    season.new_id = season.id
 
   $scope.newSeason = ()->
     $scope.current_season = {}

@@ -10,7 +10,8 @@
     $scope.seasons = Season.index();
     $scope.edit_season = function(season, form) {
       form.$setPristine();
-      return $scope.current_season = season;
+      $scope.current_season = season;
+      return season.new_id = season.id;
     };
     $scope.newSeason = function() {
       return $scope.current_season = {};
