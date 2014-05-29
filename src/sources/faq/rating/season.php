@@ -54,4 +54,12 @@ class Season {
         $row = mysql_fetch_array(mysql_query($query));
         return intval($row[0]);
     }
+
+    public function properties_for_json(){
+        $properties = new stdClass();
+        $properties->id = $this->id;
+        $properties->from_date = $this->from_date;
+        $properties->to_date = $this->to_date;
+        return $properties;
+    }
 }
