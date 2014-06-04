@@ -143,6 +143,7 @@ class RecordsDao {
             self::update(array($row));
         } else { # create
             $record->id=self::create(array($row));
+            $record->notes = array();
         }
         $record->user =new stdClass();
         $record->user->id = $user->id;
@@ -150,7 +151,6 @@ class RecordsDao {
 
         $timestamp = strtotime($row['date']);
         $record->date = date('Y-m-d', $timestamp);
-        $record->notes = array();
         return $record;
     }
     static function create($records){
