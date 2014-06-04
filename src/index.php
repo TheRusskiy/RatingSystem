@@ -265,7 +265,7 @@ function fLoginForm($error = "") {
 
 return "<html>
   <head>
-    <meta http-equiv=Content-Type content='text/html; charset=windows-1251'>
+    <meta http-equiv=Content-Type content='text/html; charset=utf-8'>
     <title>Мониторинг деятельности подразделений университета</title>
     <link type=text/css href=/styles/common.css rel=stylesheet>
   </head>
