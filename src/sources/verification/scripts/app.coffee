@@ -11,9 +11,6 @@ angular.module("verificationApp", ["ngCookies", "ngResource", "ngSanitize", "ngR
   ).when("/guide",
     templateUrl: "sources/verification/views/_user_guide.html"
     controller: "GuideCtrl"
-  ).when("/seasons",
-    templateUrl: "sources/verification/views/_seasons.html"
-    controller: "SeasonsCtrl"
   ).when("/permissions",
     templateUrl: "sources/verification/views/_permissions.html"
     controller: "PermissionsCtrl"
