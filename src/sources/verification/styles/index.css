@@ -1,87 +1,127 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\000031}}
 html {
   position: relative;
-  min-height: 100%; }
+  min-height: 100%;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\000035}}
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px; }
+  margin-bottom: 60px;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\000039}}
 #footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5; }
+  background-color: #f5f5f5;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000317}}
 #footer .container {
-  margin-top: 20px; }
+  margin-top: 20px;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000321}}
 .criteria-tab-content {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  padding: 10px; }
+  padding: 10px;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000327}}
 .seasons-content {
   border: 1px solid #ddd;
-  padding: 10px; }
+  padding: 10px;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000332}}
 .form input.ng-invalid.ng-dirty, .form textarea.ng-invalid.ng-dirty {
-  background-color: #FA787E; }
+  background-color: #FA787E;
+}
 
 @media (min-width: 992px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000339}}
   .notes-modal .modal-dialog {
-    width: 900px; } }
+    width: 900px;
+  }
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000343}}
 #ssau-logo {
   width: 50px;
-  height: 30px; }
+  height: 30px;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000347}}
 .data-cell {
   max-width: 300px;
   max-height: 60px;
   overflow-x: visible;
-  overflow-y: hidden; }
+  overflow-y: hidden;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000355}}
 button.clear-search {
   margin-bottom: 20px;
-  display: inline-block; }
+  display: inline-block;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000359}}
 .record-count {
   display: inline-block;
   padding-bottom: 20px;
-  vertical-align: middle; }
+  vertical-align: middle;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000364}}
 .all-height {
-  height: 100%; }
+  height: 100%;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000367}}
 .height-80 {
-  height: 80%; }
+  height: 80%;
+}
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000370}}
 .go-back {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  position: relative; }
-  .go-back a {
-    height: 800px;
-    width: 100%;
-    position: absolute;
-    padding-left: 0px;
-    padding-right: 0px;
-    top: 50px;
-    bottom: 50px;
-    background: #d4f1ff;
-    font-size: 4em; }
-    .go-back a i {
-      margin-bottom: auto;
-      padding-top: 350px;
-      padding-bottom: 400px;
-      height: 100px;
-      margin-top: auto; }
-  .go-back a:hover {
-    background: #6de0e6; }
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000375}}
+.go-back a {
+  height: 610px;
+  width: 100%;
+  position: absolute;
+  padding-left: 0px;
+  padding-right: 0px;
+  top: 50px;
+  bottom: 50px;
+  background: #d4f1ff;
+  font-size: 4em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000385}}
+.go-back a i {
+  margin-bottom: auto;
+  padding-top: 350px;
+  padding-bottom: 400px;
+  height: 100px;
+  margin-top: auto;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000393}}
+.go-back a:hover {
+  background: #6de0e6;
+}
 
 @media (max-width: 991px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000398}}
   .go-back a {
-    font-size: 2em; } }
+    font-size: 2em;
+  }
+}
