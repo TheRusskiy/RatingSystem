@@ -6,6 +6,10 @@ angular.module("verificationApp").factory "Season", ($resource) ->
       isArray:true
       params:
         action: "index"
+    get:
+      method: "GET"
+      params:
+        action: "show"
     save:
       method: "POST"
       params:
@@ -27,6 +31,10 @@ angular.module("verificationApp").factory "Season", ($resource) ->
     return @seasonCache if @seasonCache
     @seasonCache = Season.query()
     return @seasonCache
+
+  Season.find = (id)->
+    console.log 'find season '+id
+    return Season.get(id: id)
 
   Season.delete = (c)->
     console.log "deleting season"

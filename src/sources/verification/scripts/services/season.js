@@ -12,6 +12,12 @@
           action: "index"
         }
       },
+      get: {
+        method: "GET",
+        params: {
+          action: "show"
+        }
+      },
       save: {
         method: "POST",
         params: {
@@ -42,6 +48,12 @@
       }
       this.seasonCache = Season.query();
       return this.seasonCache;
+    };
+    Season.find = function(id) {
+      console.log('find season ' + id);
+      return Season.get({
+        id: id
+      });
     };
     Season["delete"] = function(c) {
       var _this = this;

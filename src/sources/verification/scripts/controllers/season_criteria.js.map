@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "season_criteria.js",
+  "sourceRoot": "",
+  "sources": [
+    "season_criteria.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,UAAA;CAAA,CACA,CAAmE,CAAA,EAAnE,CAAO,CAA4D,CAAC,CAApE,EAAmE,KAAnE,GAAA;CACE,CAAA,CAAY,CAAZ,EAAM,MAAkB;CACjB,CAAS,CAAA,CAAA,EAAV,KAAN;CAFF,EAAmE;CADnE"
+}

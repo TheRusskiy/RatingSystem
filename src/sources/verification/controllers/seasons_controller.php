@@ -13,6 +13,11 @@ class SeasonsController extends AppController
         }
         return json_encode($all_json);
     }
+    function show()
+    {
+        $s = SeasonsDao::find(params("id"));
+        return json_encode($s->properties_for_json());
+    }
 
     function create(){
         $season = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
