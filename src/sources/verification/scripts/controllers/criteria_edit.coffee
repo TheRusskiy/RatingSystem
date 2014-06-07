@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criteria, $routeParams, $rootScope) ->
+angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criteria, $routeParams, $rootScope, $location) ->
   $scope.fetch_types = Criteria.fetch_types()
   $scope.id = $routeParams.id
   $scope.criteria = if $scope.id is 'new' then new Criteria else Criteria.find($routeParams.id)
@@ -11,9 +11,13 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
     $event.preventDefault();
     $event.stopPropagation();
     form.datepickerOpened = true
+
   $scope.createCriteria = (c)->
     $scope.criteria=Criteria.upsert(c)
+    $scope.criteria.$promise.then (new_c)->
+      $rootScope.goto('/criteria/'+new_c.id)
     null
+
   $scope.saveCriteria = (c)->
     $scope.criteria=Criteria.upsert(c)
     null

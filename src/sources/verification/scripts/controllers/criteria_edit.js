@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").controller("CriteriaEditCtrl", function($scope, Criteria, $routeParams, $rootScope) {
+  angular.module("verificationApp").controller("CriteriaEditCtrl", function($scope, Criteria, $routeParams, $rootScope, $location) {
     var deleteEmptyElements, isInt;
     $scope.fetch_types = Criteria.fetch_types();
     $scope.id = $routeParams.id;
@@ -15,6 +15,9 @@
     };
     $scope.createCriteria = function(c) {
       $scope.criteria = Criteria.upsert(c);
+      $scope.criteria.$promise.then(function(new_c) {
+        return $rootScope.goto('/criteria/' + new_c.id);
+      });
       return null;
     };
     $scope.saveCriteria = function(c) {
