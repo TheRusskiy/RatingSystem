@@ -1,0 +1,168 @@
+<div class="container">
+    <div class="row">
+        <h3>Интервалы оценки</h3>
+    </div>
+    <div class="row seasons-content">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>Id</th>
+                        <th>С даты</th>
+                        <th>По дату</th>
+                        <th width="60"></th>
+                    </tr>
+                    <tr ng-repeat="s in seasons | orderBy:'id'">
+                        <td>{{s.id}}</td>
+                        <td>{{s.from_date}}</td>
+                        <td>{{s.to_date}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="" class="btn btn-default" ng-click="edit_season(s, form)"><i class="glyphicon glyphicon-pencil"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                      <span ng-if="!current_season.id">
+                          <i class="glyphicon glyphicon-plus-sign"></i>
+                          <span>Ввод</span>
+                      </span>
+                      <span ng-if="current_season.id">
+                          <i class="glyphicon glyphicon-pencil"></i>
+                          <span>
+                              Редактирование
+                              <a href="" class="pull-right" ng-click="newSeason()">
+                                  <i class="glyphicon glyphicon-plus-sign"></i>
+                                  Создать новый интервал
+                              </a>
+                          </span>
+                      </span>
+                        </h4>
+                    </div>
+                    <div id="collapseCreate" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <form novalidate class="form" name="form">
+                                <div ng-if="current_season.id" class="form-group">
+                                    <label>Id</label>
+                                    <input class="form-control"
+                                              type="text"
+                                              name="id"
+                                              ng-model="current_season.id"
+                                              ng-disabled="true"
+                                              ng-required="true"
+                                              >
+                                    </input>
+                                </div>
+                                <div class="form-group">
+                                    <label>Новый Id</label>
+                                    <input class="form-control"
+                                              type="text"
+                                              name="new_id"
+                                              ng-model="current_season.new_id"
+                                              placeholder="Очередь интервала (больше значение - позднее интервал)"
+                                              ng-required="true"
+                                              >
+                                    </input>
+                                </div>
+                                <div class="form-group">
+                                    <label>С даты</label>
+
+                                    <p class="input-group">
+                                        <input type="text"
+                                               name="from_date"
+                                               class="form-control"
+                                               datepicker-popup="dd MMMM yyyy"
+                                               ng-model="current_season.from_date"
+                                               show-weeks="false"
+                                               datepicker-options="dateOptions"
+                                               datepicker-append-to-body="true"
+                                               ng-required="true"
+                                               clear-text="Очистить"
+                                               close-text="X"
+                                               current-text="Сегодня"
+                                               toggle-weeks-text="Недели"
+                                               show-button-bar="false"
+                                               is-open="form.datepickerFromOpened"
+                                               placeholder="Выберите начало интервала"
+                                                />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, form)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label>По дату</label>
+
+                                    <p class="input-group">
+                                        <input type="text"
+                                               name="to_date"
+                                               class="form-control"
+                                               datepicker-popup="dd MMMM yyyy"
+                                               ng-model="current_season.to_date"
+                                               show-weeks="false"
+                                               datepicker-options="dateOptions"
+                                               datepicker-append-to-body="true"
+                                               ng-required="true"
+                                               clear-text="Очистить"
+                                               close-text="X"
+                                               current-text="Сегодня"
+                                               toggle-weeks-text="Недели"
+                                               show-button-bar="false"
+                                               is-open="form.datepickerToOpened"
+                                               placeholder="Выберите окончание интервала (включительно)"
+                                                />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, form)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                                    </p>
+                                </div>
+                                <button type="submit"
+                                        ng-if="!current_season.id"
+                                        ng-disabled="form.$invalid"
+                                        ng-click="saveSeason(current_season, form)"
+                                        class="btn btn-primary">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                    <span>Создать</span>
+                                </button>
+                                <button type="submit"
+                                        ng-if="current_season.id"
+                                        ng-disabled="form.$invalid"
+                                        ng-click="saveSeason(current_season, form)"
+                                        class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                                    <span>Сохранить</span>
+                                </button>
+                        <span ng-show="form.$invalid">
+                            Укажите все поля
+                        </span>
+                                <button type="submit"
+                                        ng-if="current_season.id"
+                                        ng-click="deleteSeason(current_season, form)"
+                                        class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <span>Удалить</span>
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- accordion -->
+            </div>
+        </div>
+    </div>
+</div>

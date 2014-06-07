@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
       <ul class="nav navbar-nav">
         <li class="{{location=='/records' ? 'active' : ''}}">
-          <a href ng-click="goto('/records')">Ввод достижений</a>
+          <a href ng-click="goto('/records')">Достижения</a>
         </li>
         <li ng-if="is_admin" class="{{location=='/permissions' ? 'active' : ''}}">
           <a href ng-click="goto('/permissions')">Администрирование</a>
@@ -21,11 +21,14 @@
         <li ng-if="is_admin" class="{{location=='/external_records' ? 'active' : ''}}">
           <a href ng-click="goto('/external_records')">Внешние записи</a>
         </li>
+        <li ng-if="is_admin" class="{{location=='/seasons' ? 'active' : ''}}">
+          <a href ng-click="goto('/seasons')">Интервалы</a>
+        </li>
         <li ng-if="is_admin" class="{{location=='/criteria' ? 'active' : ''}}">
           <a href ng-click="goto('/criteria')">Показатели</a>
         </li>
         <li class="{{location=='/guide' ? 'active' : ''}}">
-          <a href ng-click="goto('/guide')">Руководство пользователя</a>
+          <a href ng-click="goto('/guide')">Помощь</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
