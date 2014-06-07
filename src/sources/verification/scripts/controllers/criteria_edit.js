@@ -59,16 +59,13 @@
       if ($scope.criteria.fetch_type === 'manual_options') {
         value = $value;
         multi = ($scope.criteria.multiplier || "").toString();
-        console.log('validating:');
-        console.log(value);
-        console.log(multi);
         values = value.split('|');
         multis = multi.split('|');
         oldLength = values.length;
         no_empty_elements = deleteEmptyElements(values).length === oldLength;
         correctCount = values.length === multis.length;
         formatMatches = value.match(/(.+\|)*.+/);
-        if (!correctCount) {
+        if (($scope.criteria.multiplier != null) && !correctCount) {
           $scope.fetchValueErrors.push("Число элементов во множителе и данных не совпадает");
         }
         if (!formatMatches) {
@@ -77,7 +74,7 @@
         if (!no_empty_elements) {
           $scope.fetchValueErrors.push("Не должно быть пустых элементов");
         }
-        return correctCount && !!formatMatches && no_empty_elements;
+        return (correctCount || ($scope.criteria.multiplier == null)) && !!formatMatches && no_empty_elements;
       } else {
         return true;
       }

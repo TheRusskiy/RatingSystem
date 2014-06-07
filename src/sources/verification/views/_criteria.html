@@ -14,10 +14,7 @@
         <th>Способ вычисления</th>
         <th>Данные</th>
         <th>Внешние записи</th>
-        <th>Лимит в год</th>
-        <th>Лимит в 2 года</th>
-        <th>Множитель</th>
-        <th width="90">Дата создания</th>
+        <th>Версии</th>
         <th width="60"></th>
       </tr>
       <tr ng-repeat="c in criteria | orderBy:'id'">
@@ -30,10 +27,6 @@
           <div class="data-cell">{{c.fetch_value}}</div>
         </td>
         <td>{{c.external_records ? 'да' : 'нет'}}</td>
-        <td>{{c.year_limit}}</td>
-        <td>{{c.year_2_limit}}</td>
-        <td>{{c.multiplier}}</td>
-        <td>{{c.creation_date}}</td>
         <td>
           <div class="btn-group">
             <a href="" class="btn btn-default" ng-click="goto('/criteria/'+c.id)"><i class="glyphicon glyphicon-pencil"></i></a>

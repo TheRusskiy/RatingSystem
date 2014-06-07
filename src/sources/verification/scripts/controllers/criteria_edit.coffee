@@ -46,22 +46,19 @@ angular.module("verificationApp").controller "CriteriaEditCtrl", ($scope, Criter
     if $scope.criteria.fetch_type == 'manual_options'
       value = $value
       multi = ($scope.criteria.multiplier||"").toString()
-      console.log 'validating:'
-      console.log value
-      console.log multi
       values = value.split('|')
       multis = multi.split('|')
       oldLength = values.length
       no_empty_elements = deleteEmptyElements(values).length == oldLength
       correctCount = values.length == multis.length
       formatMatches = value.match /(.+\|)*.+/
-      unless correctCount
+      if $scope.criteria.multiplier? and not correctCount
         $scope.fetchValueErrors.push("Число элементов во множителе и данных не совпадает")
       unless !!formatMatches
         $scope.fetchValueErrors.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'")
       unless no_empty_elements
         $scope.fetchValueErrors.push("Не должно быть пустых элементов")
-      correctCount && !!formatMatches && no_empty_elements
+      (correctCount || not $scope.criteria.multiplier?) && !!formatMatches && no_empty_elements
     else
       true
   $scope.validateMultiplierValue = ($value = "")->

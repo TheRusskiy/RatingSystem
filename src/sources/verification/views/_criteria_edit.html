@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
-  <div class="col-xs-1 col-xs-offset-1">
+  <div class="col-xs-1" ng-class="{'col-xs-offset-2': criteria.id == undefined}">
     <div class="go-back">
       <a href ng-click="goto('/criteria')" class="btn btn-link">
         <i class="glyphicon glyphicon-chevron-left"></i>
       </a>
     </div>
   </div>
-    <div class="col-xs-10">
+    <div ng-class="{'col-xs-6' : criteria.id == undefined, 'col-xs-5' : criteria.id !=undefined}">
       <div class="row">
         <div class="col-md-12">
           <h2>
@@ -17,7 +17,7 @@
       <div>
         <form novalidate class="form form-horizontal" name="form">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group" ng-show="criteria.id">
                 <label for="id">ID</label>
                 <input type="text"
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="name">Название</label>
                 <input type="text"
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="fetch_type">Способ вычисления</label>
                 <select type="text"
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group" ng-show="criteria.fetch_type !== 'manual'">
                 <label for="fetch_value">Данные</label>
                 <textarea id="fetch_value"
@@ -85,7 +85,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="external_records">Содержит внешние записи</label>
                 <br/>
@@ -96,86 +96,9 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
-                <label for="multiplier">Множитель</label>
-                <input type="text"
-                       id="multiplier" name="multiplier"
-                       ng-model="criteria.multiplier"
-                       class="form-control"
-                       ui-validate=" 'validateMultiplierValue($value)' "
-                       ui-validate-watch=" 'criteria.multiplier' "
-                       ng-change="revalidateFetchValue(form)"
-                       required
-                       placeholder="Множитель"
-                        />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
-                <label for="year_limit">Лимит в год</label>
-                <input type="text"
-                       id="year_limit" name="year_limit"
-                       ng-model="criteria.year_limit"
-                       class="form-control"
-                       required
-                       placeholder="Максимум баллов в год"
-                        />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
-                <label for="year_2_limit">Лимит в 2 года</label>
-                <input type="text"
-                       id="year_2_limit" name="year_2_limit"
-                       ng-model="criteria.year_2_limit"
-                       class="form-control"
-                       required
-                       placeholder="Максимум баллов в течении 2 лет"
-                        />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
-                <label>Дата введения показателя</label>
 
-                <p class="input-group">
-                  <input type="text"
-                         name="creation_date"
-                         class="form-control"
-                         datepicker-popup="dd MMMM yyyy"
-                         ng-model="criteria.creation_date"
-                         show-weeks="false"
-                         datepicker-options="dateOptions"
-                         datepicker-append-to-body="true"
-                         ng-required="true"
-                         clear-text="Очистить"
-                         close-text="X"
-                         current-text="Сегодня"
-                         toggle-weeks-text="Недели"
-                         show-button-bar="false"
-                         is-open="form.datepickerOpened"
-                         placeholder="Выберите дату"
-                          />
-                <span class="input-group-btn">
-                  <button class="btn btn-default"
-                          ng-click="openDatepicker($event, form)">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-                </p>
-              </div>
-            </div>
-          </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="description">Описание</label>
                 <textarea id="description"
@@ -188,7 +111,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="form-group">
                 <button type="submit"
                         ng-show="!criteria.id"
@@ -220,5 +143,168 @@
         </form>
       </div>
     </div>
+  <div ng-if="criteria.id" class="col-md-6" ng-controller="CriteriaVersionsCtrl">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>
+          Версии
+        </h2>
+        <table class="table">
+          <tbody><tr>
+            <th>Id</th>
+            <th>Множитель</th>
+            <th>Лимит в год</th>
+            <th>Лимит в 2 года</th>
+            <th width="100">Дата</th>
+            <th width="60"></th>
+          </tr>
+          <tr ng-repeat="v in versions | orderBy:'creation_date'">
+            <td>{{v.id}}</td>
+            <td>{{v.multiplier}}</td>
+            <td>{{v.year_limit}}</td>
+            <td>{{v.year_2_limit}}</td>
+            <td>{{v.creation_date}}</td>
+            <td>
+              <div class="btn-group">
+                <a href="" class="btn btn-default" ng-click="edit_version(v, form)"><i class="glyphicon glyphicon-pencil"></i></a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+                      <span ng-if="!current_version.id">
+                          <i class="glyphicon glyphicon-plus-sign"></i>
+                          <span>Создание</span>
+                      </span>
+                      <span ng-if="current_version.id">
+                          <i class="glyphicon glyphicon-pencil"></i>
+                          <span>
+                              Редактирование
+                              <a href="" class="pull-right" ng-click="newVersion()">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                Создать новую версию
+                              </a>
+                          </span>
+                      </span>
+            </h4>
+          </div>
+          <div id="collapseCreate" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <form novalidate class="form" name="form">
+                <div ng-if="current_version.id" class="form-group">
+                  <label>Id</label>
+                  <input class="form-control"
+                         type="text"
+                         name="id"
+                         ng-model="current_version.id"
+                         ng-disabled="true"
+                         ng-required="true"
+                          >
+                  </input>
+                </div>
+                <div class="form-group">
+                  <label>Множитель</label>
+                  <input class="form-control"
+                         type="text"
+                         name="multiplier"
+                         ng-model="current_version.multiplier"
+                         placeholder=""
+                         ng-required="true"
+                          >
+                  </input>
+                </div>
+                <div class="form-group">
+                  <label>Лимит в год</label>
+                  <input class="form-control"
+                         type="text"
+                         name="year_limit"
+                         ng-model="current_version.year_limit"
+                         placeholder='"0" если лимита нет'
+                         ng-required="true"
+                          >
+                  </input>
+                </div>
+                <div class="form-group">
+                  <label>Лимит в 2 года</label>
+                  <input class="form-control"
+                         type="text"
+                         name="year_2_limit"
+                         ng-model="current_version.year_2_limit"
+                         placeholder='"0" если лимита нет'
+                         ng-required="true"
+                          >
+                  </input>
+                </div>
+                <div class="form-group">
+                  <label>Дата введения</label>
+
+                  <p class="input-group">
+                    <input type="text"
+                           name="creation_date"
+                           class="form-control"
+                           datepicker-popup="dd MMMM yyyy"
+                           ng-model="current_version.creation_date"
+                           show-weeks="false"
+                           datepicker-options="dateOptions"
+                           datepicker-append-to-body="true"
+                           ng-required="true"
+                           clear-text="Очистить"
+                           close-text="X"
+                           current-text="Сегодня"
+                           toggle-weeks-text="Недели"
+                           show-button-bar="false"
+                           is-open="form.datepickerOpened"
+                           placeholder="Выберите дату введения показателя"
+                            />
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default"
+                                                ng-click="openDatepicker($event, form)">
+                                          <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                      </span>
+                  </p>
+                </div>
+                <button type="submit"
+                        ng-if="!current_version.id"
+                        ng-disabled="form.$invalid"
+                        ng-click="saveVersion(current_version, form)"
+                        class="btn btn-primary">
+                  <i class="glyphicon glyphicon-plus-sign"></i>
+                  <span>Создать</span>
+                </button>
+                <button type="submit"
+                        ng-if="current_version.id"
+                        ng-disabled="form.$invalid"
+                        ng-click="saveVersion(current_version, form)"
+                        class="btn btn-warning">
+                  <i class="glyphicon glyphicon-floppy-disk"></i>
+                  <span>Сохранить</span>
+                </button>
+                        <span ng-show="form.$invalid">
+                            Укажите все поля
+                        </span>
+                <button type="submit"
+                        ng-if="current_version.id"
+                        ng-click="deleteVersion(current_version, form)"
+                        class="btn btn-danger">
+                  <i class="glyphicon glyphicon-remove"></i>
+                  <span>Удалить</span>
+                </button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- accordion -->
+    </div>
+  </div>
   </div>
 </div>

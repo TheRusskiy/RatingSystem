@@ -1,4 +1,5 @@
 use diploma_development;
+
 DROP TABLE IF EXISTS criteria;
 CREATE TABLE criteria (
   id INT(17) NOT NULL auto_increment,
@@ -6,11 +7,18 @@ CREATE TABLE criteria (
   description VARCHAR(2000) NOT NULL ,
   fetch_type VARCHAR(30) NOT NULL ,
   fetch_value VARCHAR(4000) NOT NULL,
+  external_records TINYINT(1) DEFAULT 0,
+  PRIMARY KEY(id)
+);
+
+DROP TABLE IF EXISTS criteria_versions;
+CREATE TABLE criteria_versions (
+  id INT(17) NOT NULL auto_increment,
+  criteria_id INT(17) NOT NULL,
   multiplier VARCHAR(30),
   year_limit INT(10) NOT NULL DEFAULT 0,
   year_2_limit INT(10) NOT NULL DEFAULT 0,
   creation_date DATE,
-  external_records TINYINT(1) DEFAULT 0,
   PRIMARY KEY(id)
 );
 
