@@ -110,6 +110,13 @@ class CriteriaDao {
         if(mysql_affected_rows()!==1){
             throw new Exception('SQL error: '.mysql_error());
         }
+        $query = mysql_query("
+            DELETE FROM criteria_versions
+            WHERE criteria_id = $id
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
     }
 
 }
