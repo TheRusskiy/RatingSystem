@@ -50,13 +50,13 @@
       return parseFloat(n) === parseInt(n, 10) && !isNaN(n);
     };
     $scope.fetchValueErrors = [];
-    $scope.validateFetchValue = function($value) {
+    $scope.validateFetchValue = function(form, $value) {
       var correctCount, formatMatches, multi, multis, no_empty_elements, oldLength, value, values;
       if ($value == null) {
         $value = "";
       }
       $scope.fetchValueErrors = [];
-      if ($scope.criteria.fetch_type === 'manual_options') {
+      if ($scope.criteria.fetch_type === 'manual_options' && !form.$pristine) {
         value = $value;
         multi = ($scope.criteria.multiplier || "").toString();
         values = value.split('|');
@@ -79,7 +79,7 @@
         return true;
       }
     };
-    return $scope.validateMultiplierValue = function($value) {
+    return $scope.validateMultiplierValue = function(form, $value) {
       var v, valid, values, _i, _len;
       if ($value == null) {
         $value = "";

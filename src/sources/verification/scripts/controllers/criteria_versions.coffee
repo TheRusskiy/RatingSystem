@@ -37,13 +37,24 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
     Version.delete(version)
     $scope.newVersion()
     form.$setPristine()
-    
-  $scope.multiplierErrors = []
-  $scope.validateFetchValue = ($value = "")->
-    $scope.multiplierErrors = []
-    if $scope.criteria.fetch_type == 'manual_options'
+
+  deleteEmptyElements = (arr)->
+    i = 0
+    len = arr.length
+    while i < len
+      arr[i] and arr.push(arr[i])
+      i++
+    arr.splice(0 , len);
+    arr
+  isInt = (n)->
+    return parseFloat(n) is parseInt(n, 10) and not isNaN(n)
+
+  $scope.fetchValueErrorsForMultiplier = []
+  $scope.validateFetchValueForMultiplier = (form, $value = "")->
+    $scope.fetchValueErrorsForMultiplier = []
+    if $scope.criteria.fetch_type == 'manual_options' and not form.$pristine
       value = $value
-      multi = ($scope.criteria.multiplier||"").toString()
+      multi = ($scope.current_version.multiplier||"").toString()
       console.log 'validating:'
       console.log value
       console.log multi
@@ -54,15 +65,23 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
       correctCount = values.length == multis.length
       formatMatches = value.match /(.+\|)*.+/
       unless correctCount
-        $scope.multiplierErrors.push("Число элементов во множителе и данных не совпадает")
+        console.log "Число элементов во множителе и данных не совпадает"
+        console.log values
+        console.log multis
+        $scope.fetchValueErrorsForMultiplier.push("Число элементов во множителе и данных не совпадает")
       unless !!formatMatches
-        $scope.multiplierErrors.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'")
+        console.log "Некорректный формат данных. Данные должны следовать формату 'название{|название"
+        $scope.fetchValueErrorsForMultiplier.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'")
       unless no_empty_elements
-        $scope.multiplierErrors.push("Не должно быть пустых элементов")
-      correctCount && !!formatMatches && no_empty_elements
+        console.log "Не должно быть пустых элементов"
+        $scope.fetchValueErrorsForMultiplier.push("Не должно быть пустых элементов")
+      result = correctCount && !!formatMatches && no_empty_elements
+      console.log "result"
+      console.log result
+      result
     else
       true
-  $scope.validateMultiplierValue = ($value = "")->
+  $scope.validateMultiplierValueForMutliplier = (form, $value = "")->
     $value = $value.toString()
     values = $value.split('|')
     valid = true
@@ -71,4 +90,6 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
         valid = false
     if $scope.criteria.fetch_type != 'manual_options'
       valid = false unless values.length is 1
-    valid 
+    console.log "valid"
+    console.log valid
+    valid

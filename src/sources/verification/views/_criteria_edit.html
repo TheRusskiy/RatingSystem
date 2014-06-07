@@ -65,7 +65,7 @@
                 <label for="fetch_value">Данные</label>
                 <textarea id="fetch_value"
                           name="fetch_value"
-                          ui-validate=" {0: 'validateFetchValue($value)', 1: 'validateFetchValue($value)'} "
+                          ui-validate=" {0: 'validateFetchValue(form, $value)', 1: 'validateFetchValue(form, $value)'} "
                           ui-validate-watch=" {0: 'criteria.fetch_type', 1: 'criteria.multiplier'} "
                           rows="{{criteria.fetch_type=='sql' ? '15' : '1'}}"
                           class="form-control"
@@ -74,14 +74,15 @@
                 </textarea>
               </div>
             </div>
-            <div class="col-md-4" ng-show="fetchValueErrors.length !== 0">
-              <label>Ошибки ввода:</label>
-              <ul class="bg-danger">
-
-                <li ng-repeat="e in fetchValueErrors">
-                  {{e}}
-                </li>
-              </ul>
+            <div class="form-group" ng-show="fetchValueErrors.length !== 0">
+              <div class="col-md-12">
+                <label>Ошибки ввода:</label>
+                <ul class="bg-danger">
+                  <li ng-repeat="e in fetchValueErrors">
+                    {{e}}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -215,10 +216,22 @@
                          type="text"
                          name="multiplier"
                          ng-model="current_version.multiplier"
+                         ui-validate=" {0: 'validateFetchValueForMultiplier(form, criteria.fetch_value)', 1: 'validateMultiplierValueForMutliplier(form, current_version.multiplier)'} "
+                         ui-validate-watch=" {0: 'current_version.multiplier', 1: 'current_version.multiplier'} "
                          placeholder=""
                          ng-required="true"
                           >
                   </input>
+                </div>
+                <div class="form-group" ng-show="fetchValueErrorsForMultiplier.length !== 0">
+                  <div class="col-md-12">
+                    <label>Ошибки ввода:</label>
+                    <ul class="bg-danger">
+                      <li ng-repeat="e in fetchValueErrorsForMultiplier">
+                        {{e}}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>Лимит в год</label>

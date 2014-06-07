@@ -1,6 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").controller("CriteriaVersionsCtrl", function(User, $scope, Criteria, Version) {
+    var deleteEmptyElements, isInt;
     $scope.versions = Version.index($scope.criteria.id);
     $scope.current_version = {
       criteria_id: $scope.criteria.id
@@ -33,16 +34,30 @@
       $scope.newVersion();
       return form.$setPristine();
     };
-    $scope.multiplierErrors = [];
-    $scope.validateFetchValue = function($value) {
-      var correctCount, formatMatches, multi, multis, no_empty_elements, oldLength, value, values;
+    deleteEmptyElements = function(arr) {
+      var i, len;
+      i = 0;
+      len = arr.length;
+      while (i < len) {
+        arr[i] && arr.push(arr[i]);
+        i++;
+      }
+      arr.splice(0, len);
+      return arr;
+    };
+    isInt = function(n) {
+      return parseFloat(n) === parseInt(n, 10) && !isNaN(n);
+    };
+    $scope.fetchValueErrorsForMultiplier = [];
+    $scope.validateFetchValueForMultiplier = function(form, $value) {
+      var correctCount, formatMatches, multi, multis, no_empty_elements, oldLength, result, value, values;
       if ($value == null) {
         $value = "";
       }
-      $scope.multiplierErrors = [];
-      if ($scope.criteria.fetch_type === 'manual_options') {
+      $scope.fetchValueErrorsForMultiplier = [];
+      if ($scope.criteria.fetch_type === 'manual_options' && !form.$pristine) {
         value = $value;
-        multi = ($scope.criteria.multiplier || "").toString();
+        multi = ($scope.current_version.multiplier || "").toString();
         console.log('validating:');
         console.log(value);
         console.log(multi);
@@ -53,20 +68,28 @@
         correctCount = values.length === multis.length;
         formatMatches = value.match(/(.+\|)*.+/);
         if (!correctCount) {
-          $scope.multiplierErrors.push("Число элементов во множителе и данных не совпадает");
+          console.log("Число элементов во множителе и данных не совпадает");
+          console.log(values);
+          console.log(multis);
+          $scope.fetchValueErrorsForMultiplier.push("Число элементов во множителе и данных не совпадает");
         }
         if (!formatMatches) {
-          $scope.multiplierErrors.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'");
+          console.log("Некорректный формат данных. Данные должны следовать формату 'название{|название");
+          $scope.fetchValueErrorsForMultiplier.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'");
         }
         if (!no_empty_elements) {
-          $scope.multiplierErrors.push("Не должно быть пустых элементов");
+          console.log("Не должно быть пустых элементов");
+          $scope.fetchValueErrorsForMultiplier.push("Не должно быть пустых элементов");
         }
-        return correctCount && !!formatMatches && no_empty_elements;
+        result = correctCount && !!formatMatches && no_empty_elements;
+        console.log("result");
+        console.log(result);
+        return result;
       } else {
         return true;
       }
     };
-    return $scope.validateMultiplierValue = function($value) {
+    return $scope.validateMultiplierValueForMutliplier = function(form, $value) {
       var v, valid, values, _i, _len;
       if ($value == null) {
         $value = "";
@@ -85,6 +108,8 @@
           valid = false;
         }
       }
+      console.log("valid");
+      console.log(valid);
       return valid;
     };
   });
