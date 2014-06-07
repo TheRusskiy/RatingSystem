@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").factory "Version", ($resource) ->
+angular.module("verificationApp").factory "Version", ($resource, Criteria) ->
   Version = $resource "/sources/verification/index.php", {controller: "versions"},
     query:
       method: "GET"
@@ -38,6 +38,7 @@ angular.module("verificationApp").factory "Version", ($resource) ->
         if r.id == c.id
           @versionCache.splice(i, 1)
           break
+      Criteria.resetCache()
 
   Version.upsert = (c)->
     if c.id # update
@@ -56,6 +57,7 @@ angular.module("verificationApp").factory "Version", ($resource) ->
         console.log("Created:")
         console.log(new_c)
         @versionCache.unshift(new_c)
+        Criteria.resetCache()
         new_c
 
   return Version

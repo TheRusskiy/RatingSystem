@@ -36,6 +36,8 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
     Criteria.criteriaCache = null
     Criteria.withRecordsCache = null
 
+  Criteria.resetCache = resetCache
+
   Criteria.index = ()->
     console.log 'criteria index'
     return @criteriaCache if @criteriaCache

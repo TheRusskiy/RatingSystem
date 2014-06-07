@@ -9,13 +9,19 @@ class CriteriaDao {
                         LIMIT" . " $count OFFSET $from";
         }
         $query = mysql_query("
-            SELECT id, name, description, fetch_type, fetch_value, external_records
-            FROM criteria
+            SELECT c.id AS id, MAX(c.name) AS name, MAX(c.description) AS description, MAX(c.fetch_type) AS fetch_type, MAX(c.fetch_value) AS fetch_value, MAX(c.external_records) AS external_records, COUNT(v.id) AS version_count
+            FROM criteria c
+            LEFT JOIN criteria_versions v ON (c.id = v.criteria_id)
+            GROUP BY c.id
             $limiter
             ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
         $result = array();
         while ($row = mysql_fetch_array($query)){
-            $result[]= new Criteria($row);
+            $criteria =  new Criteria($row);
+            $result[]=$criteria;
         }
         return $result;
     }

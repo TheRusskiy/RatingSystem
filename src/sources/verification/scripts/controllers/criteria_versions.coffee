@@ -15,7 +15,6 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
 #
   $scope.newVersion = ()->
     $scope.current_version = {criteria_id: $scope.criteria.id}
-    form.$setPristine()
 
   # date
   $scope.dateOptions = {
@@ -37,6 +36,7 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
     version = new Version(version)
     Version.delete(version)
     $scope.newVersion()
+    form.$setPristine()
     
   $scope.multiplierErrors = []
   $scope.validateFetchValue = ($value = "")->

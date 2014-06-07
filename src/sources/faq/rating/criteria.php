@@ -57,6 +57,9 @@ class Criteria {
         $this->fetch_value = $map["fetch_value"];
         $this->name = $map["name"];
         $this->description = $map["description"];
+        if (isset($map["version_count"])){
+            $this->version_count = $map["version_count"];
+        }
 //        $this->year_limit = $map["year_limit"];
 //        $this->year_2_limit = $map["year_2_limit"];
 //        $this->creation_date = isset($map["creation_date"]) ? $map["creation_date"] : date("Y-m-d");
@@ -156,6 +159,9 @@ class Criteria {
             }
             array_shift($options);
             $obj["options"]=$options;
+        }
+        if (isset($this->version_count)){
+            $obj["version_count"] = $this->version_count;
         }
         return $obj;
     }

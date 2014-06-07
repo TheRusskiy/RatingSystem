@@ -10,10 +10,9 @@
       return $scope.current_version = new Version(version);
     };
     $scope.newVersion = function() {
-      $scope.current_version = {
+      return $scope.current_version = {
         criteria_id: $scope.criteria.id
       };
-      return form.$setPristine();
     };
     $scope.dateOptions = {
       'starting-day': 1
@@ -31,7 +30,8 @@
       }
       version = new Version(version);
       Version["delete"](version);
-      return $scope.newVersion();
+      $scope.newVersion();
+      return form.$setPristine();
     };
     $scope.multiplierErrors = [];
     $scope.validateFetchValue = function($value) {

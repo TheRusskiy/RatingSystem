@@ -55,6 +55,7 @@
       Criteria.criteriaCache = null;
       return Criteria.withRecordsCache = null;
     };
+    Criteria.resetCache = resetCache;
     Criteria.index = function() {
       console.log('criteria index');
       if (this.criteriaCache) {
