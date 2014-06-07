@@ -9,8 +9,8 @@ angular.module("verificationApp").controller "PermissionsCtrl", (User, $scope, C
 
   $scope.edit_season = (season, form)->
     form.$setPristine()
-    $scope.current_season = season
-    season.new_id = season.id
+    $scope.current_season = new Season(season)
+    $scope.current_season.new_id = season.id
 
   $scope.newSeason = ()->
     $scope.current_season = {}
@@ -28,6 +28,8 @@ angular.module("verificationApp").controller "PermissionsCtrl", (User, $scope, C
     console.log season
     new_season = new Season(season)
     $scope.current_season = Season.upsert(new_season)
+    $scope.current_season.$promise.then (s)->
+      $scope.current_season.new_id = season.new_id
     form.$setPristine()
 
   $scope.deleteSeason = (season, form)->

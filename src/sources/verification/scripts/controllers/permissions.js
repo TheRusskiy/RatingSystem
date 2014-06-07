@@ -9,8 +9,8 @@
     $scope.seasons = Season.index();
     $scope.edit_season = function(season, form) {
       form.$setPristine();
-      $scope.current_season = season;
-      return season.new_id = season.id;
+      $scope.current_season = new Season(season);
+      return $scope.current_season.new_id = season.id;
     };
     $scope.newSeason = function() {
       return $scope.current_season = {};
@@ -31,6 +31,9 @@
       console.log(season);
       new_season = new Season(season);
       $scope.current_season = Season.upsert(new_season);
+      $scope.current_season.$promise.then(function(s) {
+        return $scope.current_season.new_id = season.new_id;
+      });
       return form.$setPristine();
     };
     return $scope.deleteSeason = function(season, form) {
