@@ -31,7 +31,12 @@
       return false;
     };
     $scope.save = function() {
-      return null;
+      var from_server;
+      from_server = Season.replace_season_criteria($scope.chosen);
+      $scope.chosen = from_server;
+      return from_server.$promise.then(function(vs) {
+        return initial = angular.copy(vs);
+      });
     };
     $scope.displayVersion = function(version) {
       var _j, _len1, _ref1;

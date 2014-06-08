@@ -12,6 +12,13 @@
           action: "index"
         }
       },
+      query_criteria: {
+        method: "GET",
+        isArray: true,
+        params: {
+          action: "index_criteria"
+        }
+      },
       get: {
         method: "GET",
         params: {
@@ -22,6 +29,13 @@
         method: "POST",
         params: {
           action: "create"
+        }
+      },
+      replace_criteria: {
+        method: "POST",
+        isArray: true,
+        params: {
+          action: "replace_criteria"
         }
       },
       update: {
@@ -40,6 +54,21 @@
     resetCache = function() {
       console.log("reset season cache");
       return Season.seasonCache = null;
+    };
+    Season.season_criteria = function() {
+      console.log('season criteria index');
+      if (this.seasonCriteriaCache) {
+        return this.seasonCriteriaCache;
+      }
+      this.seasonCriteriaCache = Season.query_criteria();
+      return this.seasonCriteriaCache;
+    };
+    Season.replace_season_criteria = function(season_criteria) {
+      console.log('replace season criteria');
+      this.seasonCriteriaCache = Season.replace_criteria({
+        season_criteria: season_criteria
+      });
+      return this.seasonCriteriaCache;
     };
     Season.index = function() {
       console.log('season index');

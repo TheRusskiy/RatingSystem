@@ -13,6 +13,11 @@ class SeasonsController extends AppController
         }
         return json_encode($all_json);
     }
+    function index_criteria()
+    {
+        $all = SeasonsDao::all_criteria();
+        return json_encode($all);
+    }
     function show()
     {
         $s = SeasonsDao::find(params("id"));
@@ -24,6 +29,15 @@ class SeasonsController extends AppController
         $season = new Season($season->new_id, $season->from_date, $season->to_date);
         $season = SeasonsDao::insert($season);
         return json_encode($season->properties_for_json());
+    }
+
+    function replace_criteria(){
+        $season_criteria = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+        $season_criteria = $season_criteria->season_criteria;
+        SeasonsDao::delete_criteria();
+        SeasonsDao::insert_criteria($season_criteria);
+        $season_criteria = SeasonsDao::all_criteria();
+        return json_encode($season_criteria);
     }
 
     function delete(){

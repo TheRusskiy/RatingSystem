@@ -20,7 +20,10 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
     false
 
   $scope.save = ()->
-    null
+    from_server = Season.replace_season_criteria($scope.chosen)
+    $scope.chosen = from_server
+    from_server.$promise.then (vs)->
+      initial = angular.copy vs
 
   $scope.displayVersion = (version)->
     for c in $scope.chosen

@@ -6,6 +6,11 @@ angular.module("verificationApp").factory "Season", ($resource) ->
       isArray:true
       params:
         action: "index"
+    query_criteria:
+      method: "GET"
+      isArray:true
+      params:
+        action: "index_criteria"
     get:
       method: "GET"
       params:
@@ -14,6 +19,11 @@ angular.module("verificationApp").factory "Season", ($resource) ->
       method: "POST"
       params:
         action: "create"
+    replace_criteria:
+      method: "POST"
+      isArray: true
+      params:
+        action: "replace_criteria"
     update:
       method: "POST"
       params:
@@ -25,6 +35,17 @@ angular.module("verificationApp").factory "Season", ($resource) ->
   resetCache = ()->
     console.log "reset season cache"
     Season.seasonCache = null
+
+  Season.season_criteria = ()->
+    console.log 'season criteria index'
+    return @seasonCriteriaCache if @seasonCriteriaCache
+    @seasonCriteriaCache = Season.query_criteria()
+    return @seasonCriteriaCache
+
+  Season.replace_season_criteria = (season_criteria)->
+    console.log 'replace season criteria'
+    @seasonCriteriaCache = Season.replace_criteria(season_criteria: season_criteria)
+    return @seasonCriteriaCache
 
   Season.index = ()->
     console.log 'season index'
