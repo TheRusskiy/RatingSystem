@@ -134,6 +134,9 @@ class Criteria {
         }
     }
 
+    public function versions(){
+        return array();
+    }
     public function properties_for_json(){
         $obj = array();
         $obj["id"]=$this->id;
