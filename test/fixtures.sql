@@ -248,6 +248,7 @@ INSERT INTO rating_records (staff_id, criteria_id, date, value)
   (1, 7, '2012-01-02', 1),
   (1, 7, '2012-02-01', 1),
   (1, 7, '2012-02-01', 1)
+# 8, 9, 10 is used
 ;
 
 

@@ -176,20 +176,28 @@ EOF;
 EOF;
 
         $criteria = new Criteria(array(
-            "id" => 6,
+            "id" => 10,
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
             "description" => ""
         ));
+        CriteriaDao::insert($criteria);
+
         $version = new Version(array(
             "id" => 1,
-            "criteria_id" => 6,
+            "criteria_id" => 10,
             "multiplier" => 10,
             "year_limit" => 30,
             "year_2_limit" => 50,
             "creation_date" => "2014-06-05"
         ));
+        VersionsDao::insert($version);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),3);
+        SeasonsDao::insert_criteria_versions(array($season_criteria),2);
+
         $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('4');
@@ -217,20 +225,27 @@ EOF;
 EOF;
 
         $criteria = new Criteria(array(
-            "id" => 6,
+            "id" => 9,
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
             "description" => ""
         ));
+        CriteriaDao::insert($criteria);
+
         $version = new Version(array(
             "id" => 1,
-            "criteria_id" => 6,
+            "criteria_id" => 9,
             "multiplier" => 10,
             "year_limit" => 30,
             "year_2_limit" => 50,
             "creation_date" => "2014-06-05"
         ));
+        VersionsDao::insert($version);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),3);
+
         $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('5');
@@ -259,20 +274,27 @@ EOF;
 EOF;
 
         $criteria = new Criteria(array(
-            "id" => 6,
+            "id" => 8,
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
             "description" => ""
         ));
+        CriteriaDao::insert($criteria);
+
         $version = new Version(array(
             "id" => 1,
-            "criteria_id" => 6,
+            "criteria_id" => 8,
             "multiplier" => 10,
             "year_limit" => 30,
             "year_2_limit" => 40,
             "creation_date" => "2014-06-05"
         ));
+        VersionsDao::insert($version);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),1);
+
         $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(1); // 2010
         ParamProcessor::Instance()->set_staff_id('6');
@@ -415,6 +437,8 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
+        CriteriaDao::insert($criteria);
+
         $version = new Version(array(
             "id" => 1,
             "criteria_id" => 6,
@@ -424,6 +448,12 @@ EOF;
             "creation_date" => "2014-06-05",
             "criteria" => $criteria
         ));
+        VersionsDao::insert($version);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),3);
+        SeasonsDao::insert_criteria_versions(array($season_criteria),2);
+
         $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 20);
         $this->assertEquals($result->value, array(0,3,0,0)); // first digit is for 0 values
