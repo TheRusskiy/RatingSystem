@@ -307,32 +307,8 @@ return "<html>
 </tr>
 </table>
 <table width=500 height=80 cellspacing='0' cellpadding='0' border=0>
-<tr height=1>
-	<td width=1   bgcolor=#7F99BE rowspan=2><img src=/images/blank.gif width=1></td>
-	<td width=498 height=1 valign=center bgcolor=#7F99BE></td>
-	<td width=1   bgcolor=#7F99BE rowspan=2><img src=/images/blank.gif></td>
-</tr>
 <tr>
-	<td width=498 valign=center bgcolor=#FFFFFF>
-		<p>
-		<font color=red>Вниманию пользователей АРМ \"Кафедра\"!</font> Для нормальной работы Вам требуется <a href=http://www.adobe.com/products/flashplayer/ target=_blank>установить Adobe Flash Player 10</a>
-		<br><br>
-По вопросам работы системы обращаться по тел.:<br>
-45-62, Еленев Дмитрий Валерьевич,<br>
-44-46, Пашков Дмитрий Евгеньевич<br>
-		<br><br>
-
-		<b>Обновления системы</b><br>
-		<i>02.04.2010</i>: Обновления АРМ \"Кафедра\": устранено 1 замечание, относящееся к закрытию отчетного периода и отображению кодов ГРНТИ.
-		<br>
-		</p>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_userlist.pdf>Инструкция  по ведению списков пользователей в ИАСМиО</a><br>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_arm_cafedra.pdf>Инструкция пользователю АРМ &quot;Кафедра&quot; ИАСМиО</a><br>
-		&nbsp; <img src=/images/pdf.gif> <a href=/files/monitoring_passwords.pdf>Инструкция по организации парольной защиты в ИАСМиО</a><br>
-</td>
-</tr>
-<tr>
-	<td colspan=3 height=1 bgcolor=#7F99BE><img src=/images/blank.gif></td>
+	<td colspan=3 height=1></td>
 </tr>
 </table>
 
