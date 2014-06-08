@@ -44,6 +44,17 @@
       }
       return true;
     };
+    $scope.isChosen = function(version) {
+      var _j, _len1, _ref1;
+      _ref1 = $scope.chosen;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        c = _ref1[_j];
+        if (c === version) {
+          return true;
+        }
+      }
+      return false;
+    };
     $scope.addVersion = function(version) {
       return $scope.chosen.push(version);
     };

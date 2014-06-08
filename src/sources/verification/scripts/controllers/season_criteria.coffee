@@ -28,6 +28,12 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
         return false
     true
 
+  $scope.isChosen = (version)->
+    for c in $scope.chosen
+      if c == version
+        return true
+    false
+
   $scope.addVersion = (version)->
     $scope.chosen.push version
 

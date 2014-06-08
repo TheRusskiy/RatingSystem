@@ -47,9 +47,10 @@
               </a>
               <p>{{c.description}}</p>
               <div class="" collapse="!isCollapsed[c.id]">
-                <div ng-repeat="v in c.versions() |  orderBy: 'creation_date'" class="row">
+                <div ng-repeat="v in c.versions() |  orderBy: 'creation_date'" class="row" ng-class="{'bg-success': isChosen(v)}">
                   <div class="col-md-1">
                     <a href ng-if="displayVersion(v)" ng-click="addVersion(v)"><i class="glyphicon glyphicon-plus-sign big-icon"></i></a>
+                    <a href ng-if="isChosen(v)" ng-click="removeVersion(v)"><i class="glyphicon glyphicon-minus-sign big-icon"></i></a>
                   </div>
                   <div class="col-md-11">
                     #{{v.id}} от {{v.creation_date}}:
