@@ -19,7 +19,7 @@
       return initial = angular.copy(vs);
     });
     $scope.reset = function() {
-      return $scope.chosen = [];
+      return $scope.chosen = angular.copy(initial);
     };
     $scope.isChanged = function() {
       var chosen, i, v, _j, _len1;

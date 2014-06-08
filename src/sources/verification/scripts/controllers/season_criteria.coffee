@@ -14,7 +14,7 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
     initial = angular.copy vs
 
   $scope.reset = ()->
-    $scope.chosen = []
+    $scope.chosen = angular.copy initial
 
   $scope.isChanged = ()->
     chosen = $scope.chosen
