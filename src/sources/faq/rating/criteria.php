@@ -1,4 +1,6 @@
 <?php
+require_once "version.php";
+require_once __DIR__.'/../dao/versions_dao.php';
 // BE CAREFUL WITH MOVING THIS FILE, IT'S USED IN VERIFICATION
 class Criteria {
     public function __construct($map = array(
@@ -134,8 +136,16 @@ class Criteria {
         }
     }
 
-    public function versions(){
-        return array();
+    public function getVersions(){
+        if (isset($this->versions_value)){
+            return $this->versions_value;
+        }
+        $this->versions_value = VersionsDao::all($this->id);
+        return $this->versions_value;
+    }
+
+    public function setVersions($versions){
+        $this->versions_value = $versions;
     }
     public function properties_for_json(){
         $obj = array();
@@ -167,20 +177,6 @@ class Criteria {
             $obj["version_count"] = $this->version_count;
         }
         return $obj;
-    }
-
-    private function make_multiplier($value){
-        if ($this->fetch_type=='manual_options'){
-            $multis = explode('|', $value);
-            array_unshift($multis , '0');
-            $multiplier = array();
-            for ($i=0; $i<count($multis); $i++){
-                $multiplier[$i] = intval(trim($multis[$i]));
-            }
-            return $multiplier;
-        } else {
-            return intval($value);
-        }
     }
 
     private function make_options(){

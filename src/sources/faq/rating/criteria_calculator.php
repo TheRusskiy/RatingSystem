@@ -1,6 +1,7 @@
 <?php
 require_once "param_processor.php";
 require_once "criteria.php";
+require_once "version.php";
 require_once "date_splitter.php";
 require_once "season.php";
 require_once "rating_result.php";
@@ -9,38 +10,41 @@ class CriteriaCalculator {
         $this->season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
     }
 
-    public function calculate($criteria){
+    public function calculate($version){
+        $criteria = $version->getCriteria();
         $this->staff_id = ParamProcessor::Instance()->get_staff_id();
         $season = $this->season;
         $result = null;
 
-        if (intval($criteria->year_2_limit)!=0){
-            $result = $this->multi_year_result($criteria, $season);
+        if (intval($version->year_2_limit)!=0){
+            $result = $this->multi_year_result($version, $season);
         } else {
-            $result = $this->type_aware_calculate($criteria, $season);
-            $this->update_values_for_limits($criteria, $result);
+            $result = $this->type_aware_calculate($version, $season);
+            $this->update_values_for_limits($version, $result);
         }
         $result->criteria = $criteria;
         return $result;
     }
 
-    private function type_aware_calculate($criteria, $season){
+    private function type_aware_calculate($version, $season){
+        $criteria = $version->getCriteria();
         switch($criteria->fetch_type){
             case "sql":
-                return $this->sql_calculate($criteria, $season);
+                return $this->sql_calculate($version, $season);
             case "php":
-                return $this->php_calculate($criteria, $season);
+                return $this->php_calculate($version, $season);
             case "manual":
-                return $this->manual_calculate($criteria, $season);
+                return $this->manual_calculate($version, $season);
             case "manual_options":
-                return $this->manual_options_calculate($criteria, $season);
+                return $this->manual_options_calculate($version, $season);
             default: throw new Exception("Unknown fetch type");
         }
     }
 
 
-    private function sql_calculate($criteria, $season){
+    private function sql_calculate($version, $season){
 //        $criteria->has_records = true;
+        $criteria = $version->getCriteria();
         $text_query = $criteria->fetch_value;
         $text_query = str_replace("@staff_id@", $this->staff_id, $text_query);
         $text_query = str_replace("@from_period_id@", $season->from_period, $text_query);
@@ -56,28 +60,30 @@ class CriteriaCalculator {
         return $result;
     }
 
-    private function update_values_for_limits($criteria, $result)
+    private function update_values_for_limits($version, $result)
     {
+        $criteria = $version->getCriteria();
         if ($criteria->fetch_type == 'manual_options'){
-            $this->update_values_for_limits_options($criteria, $result);
+            $this->update_values_for_limits_options($version, $result);
             return;
         }
-        $initial_score = $result->value * $criteria->multiplier;
-        if ($initial_score > $criteria->year_limit && $criteria->year_limit!=0) {
-            $result->score = $criteria->year_limit;
-            $result->value_with_limit = $criteria->year_limit / $criteria->multiplier;
+        $initial_score = $result->value * $version->multiplier;
+        if ($initial_score > $version->year_limit && $version->year_limit!=0) {
+            $result->score = $version->year_limit;
+            $result->value_with_limit = $version->year_limit / $version->multiplier;
         } else {
             $result->score = $initial_score;
             $result->value_with_limit = $result->value;
         }
     }
-    private function update_values_for_limits_options($criteria, $result){
+    private function update_values_for_limits_options($version, $result){
+        $criteria = $version->getCriteria();
         $initial_score = 0;
-        for($i = 0; $i<sizeof($criteria->multiplier); $i++){
-            $initial_score+= $result->value[$i]*$criteria->multiplier[$i];
+        for($i = 0; $i<sizeof($version->multiplier); $i++){
+            $initial_score+= $result->value[$i]*$version->multiplier[$i];
         }
-        if ($initial_score > $criteria->year_limit  && $criteria->year_limit!=0) {
-            $result->score = $criteria->year_limit;
+        if ($initial_score > $version->year_limit  && $version->year_limit!=0) {
+            $result->score = $version->year_limit;
             $result->value_with_limit = null;
         } else {
             $result->score = $initial_score;
@@ -85,14 +91,16 @@ class CriteriaCalculator {
         }
     }
 
-    private function php_calculate($criteria, $season){
+    private function php_calculate($version, $season){
+        $criteria = $version->getCriteria();
         $file_result = include($criteria->fetch_value);
         $result = new RatingResult();
         $result->value = $file_result;
         return $result;
     }
 
-    private function manual_calculate($criteria, $season){
+    private function manual_calculate($version, $season){
+        $criteria = $version->getCriteria();
         $query = mysql_query("SELECT * FROM rating_records " .
                              "WHERE ".
                              "staff_id=$this->staff_id " .
@@ -116,7 +124,8 @@ class CriteriaCalculator {
         return $result;
     }
 
-    private function manual_options_calculate($criteria, $season){
+    private function manual_options_calculate($version, $season){
+        $criteria = $version->getCriteria();
         $query = mysql_query("SELECT * FROM rating_records " .
                              "WHERE ".
                              "staff_id=$this->staff_id " .
@@ -124,7 +133,7 @@ class CriteriaCalculator {
                              "AND date >='$season->from_date' " .
                              "AND date <='$season->to_date' ");
         $values = array();
-        for($i = 0; $i<sizeof($criteria->multiplier); $i++){
+        for($i = 0; $i<sizeof($version->multiplier); $i++){
             $values[$i]=0;
         }
         $records = array();
@@ -139,8 +148,9 @@ class CriteriaCalculator {
         return $result;
     }
 
-    private function multi_year_result($criteria, $season)
+    private function multi_year_result($version, $season)
     {
+        $criteria = $version->getCriteria();
         $current_season = $season;
         $seasons = array();
         while ($current_season != null) {
@@ -149,13 +159,13 @@ class CriteriaCalculator {
         }
         $prev = null;
         foreach ($seasons as $season) {
-            $r = $this->type_aware_calculate($criteria, $season);
-            $this->update_values_for_limits($criteria, $r);
-            if ($prev != null && ($r->score + $prev->score > $criteria->year_2_limit)) {
-                $r->score = $criteria->year_2_limit - $prev->score;
+            $r = $this->type_aware_calculate($version, $season);
+            $this->update_values_for_limits($version, $r);
+            if ($prev != null && ($r->score + $prev->score > $version->year_2_limit)) {
+                $r->score = $version->year_2_limit - $prev->score;
             }
             if ($criteria->fetch_type != 'manual_options') {
-                $r->value_with_2_limit = ($r->score) / $criteria->multiplier;
+                $r->value_with_2_limit = ($r->score) / $version->multiplier;
             }
             if($prev != null){
                 $r->previous_year_score = $prev->score;

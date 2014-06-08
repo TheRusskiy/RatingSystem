@@ -24,19 +24,24 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
             "description" => "",
-            "year_limit" => 100,
-            "year_2_limit" => 0
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 1,
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
+        $this->assertEquals($version->getCriteria(), $criteria);
         $this->assertEquals($criteria->id, 1);
         $this->assertEquals($criteria->fetch_type, "sql");
         $this->assertEquals($criteria->fetch_value, $query);
         $this->assertEquals($criteria->name, "name of criteria");
-        $this->assertEquals($criteria->multiplier, 10);
-        $this->assertEquals($criteria->year_limit, 100);
         $calculator = new CriteriaCalculator();
-        $calculator->calculate($criteria);
+        $calculator->calculate($version);
     }
 
     function testCalculateSql(){
@@ -46,13 +51,19 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "description" => "",
+            "description" => ""
+        ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 2,
             "multiplier" => 10,
             "year_limit" => 100,
-            "year_2_limit" => 0
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
         ));
+        $version->setCriteria($criteria);
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 70);
         $this->assertEquals($result->value, 7);
     }
@@ -64,13 +75,19 @@ class TestCriteriaCalculator extends PHPUnit_Framework_TestCase {
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 100,
-            "year_2_limit" => 0
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 2,
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 0);
         $this->assertEquals($result->value, 0);
     }
@@ -91,15 +108,21 @@ EOF;
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 100,
-            "year_2_limit" => 0
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 3,
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(1);
         ParamProcessor::Instance()->set_staff_id('2');
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 20);
         $this->assertEquals($result->value, 2);
     }
@@ -121,15 +144,21 @@ EOF;
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 20,
-            "year_2_limit" => 0
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 6,
+            "criteria_id" => 2,
+            "multiplier" => 10,
+            "year_limit" => 20,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('3');
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 20);
         $this->assertEquals($result->value, 6);
         $this->assertEquals($result->value_with_limit, 2);
@@ -151,15 +180,21 @@ EOF;
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 30,
-            "year_2_limit" => 50
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 6,
+            "multiplier" => 10,
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('4');
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         // 50 for 2011, 30 for 2012, year limit = 30, two year limit = 50,
         // score after limits:
         // 30 for 2011
@@ -186,15 +221,21 @@ EOF;
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 30,
-            "year_2_limit" => 50
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 6,
+            "multiplier" => 10,
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(3); // 2012
         ParamProcessor::Instance()->set_staff_id('5');
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         // 40 for 2010, 40 for 2011, 30 for 2012, year limit = 30, two year limit = 50,
         // score after limits:
         // 30 for 2010
@@ -222,15 +263,21 @@ EOF;
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",
-            "multiplier" => 10,
-            "description" => "",
-            "year_limit" => 30,
-            "year_2_limit" => 40
+            "description" => ""
         ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 6,
+            "multiplier" => 10,
+            "year_limit" => 30,
+            "year_2_limit" => 40,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
         ParamProcessor::Instance()->set_season_id(1); // 2010
         ParamProcessor::Instance()->set_staff_id('6');
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 30);
         $this->assertEquals($result->value, 5);
         $this->assertEquals($result->value_with_limit, 3);
@@ -244,13 +291,19 @@ EOF;
             "fetch_type" => "php",
             "fetch_value" => $file,
             "name" => "name of criteria",
-            "description" => "",
+            "description" => ""
+        ));
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 3,
             "multiplier" => 10,
             "year_limit" => 200,
-            "year_2_limit" => 0
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
         ));
+        $version->setCriteria($criteria);
         $calculator = new CriteriaCalculator();
-        $result = $calculator->calculate($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 170);
         $this->assertEquals($result->value, 17);
     }
@@ -263,17 +316,24 @@ EOF;
                 "fetch_value" => "", // doesn't matter
                 "name" => "name of criteria",
                 "description" => "",
-                "multiplier" => 10,
-                "year_limit" => 100,
-                "year_2_limit" => 0
             ));
         };
+
         ParamProcessor::Instance()->set_season_id(4);
         ParamProcessor::Instance()->set_staff_id('1');
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 4,
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 40);
         $this->assertEquals($result->value, 4);
         $this->assertEquals(sizeof($result->records), 3);
@@ -286,10 +346,7 @@ EOF;
                 "fetch_type" => "manual",
                 "fetch_value" => "", // doesn't matter
                 "name" => "name of criteria",
-                "description" => "",
-                "multiplier" => 10,
-                "year_limit" => 100,
-                "year_2_limit" => 0
+                "description" => ""
             ));
         };
         ParamProcessor::Instance()->set_season_id(4);
@@ -298,7 +355,16 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => -1,
+            "multiplier" => 10,
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05"
+        ));
+        $version->setCriteria($criteria);
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 0);
         $this->assertEquals($result->value, 0);
         $this->assertEquals(sizeof($result->records), 0);
@@ -311,10 +377,7 @@ EOF;
                 "fetch_type" => "manual_options",
                 "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
-                "description" => "",
-                "multiplier" => '25|15|10',
-                "year_limit" => 100,
-                "year_2_limit" => 0
+                "description" => ""
             ));
         };
         ParamProcessor::Instance()->set_season_id(4);
@@ -322,7 +385,16 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 5,
+            "multiplier" => "25|15|10",
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05",
+            "criteria" => $criteria
+        ));
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 75);
         $this->assertEquals($result->value, array(2,2,1,1)); // first digit is for 0 values
         $this->assertEquals(sizeof($result->records), 6);
@@ -335,10 +407,7 @@ EOF;
                 "fetch_type" => "manual_options",
                 "fetch_value" => "v1|v2|v3",
                 "name" => "name of criteria",
-                "description" => "",
-                "multiplier" => '10|10|10',
-                "year_limit" => 30,
-                "year_2_limit" => 50
+                "description" => ""
             ));
         };
         ParamProcessor::Instance()->set_season_id(3);
@@ -346,7 +415,16 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => 6,
+            "multiplier" => "10|10|10",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "creation_date" => "2014-06-05",
+            "criteria" => $criteria
+        ));
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 20);
         $this->assertEquals($result->value, array(0,3,0,0)); // first digit is for 0 values
         $this->assertEquals(sizeof($result->records), 3);
@@ -370,7 +448,16 @@ EOF;
         $calculator = new CriteriaCalculator();
 
         $criteria = $this->build_criteria->__invoke();
-        $result = $calculator->calculate($criteria);
+        $version = new Version(array(
+            "id" => 1,
+            "criteria_id" => -1,
+            "multiplier" => "25|15|10",
+            "year_limit" => 100,
+            "year_2_limit" => 0,
+            "creation_date" => "2014-06-05",
+            "criteria" => $criteria
+        ));
+        $result = $calculator->calculate($version);
         $this->assertEquals($result->score, 0);
         $this->assertEquals($result->value, array(0,0,0,0)); // first digit is for 0 values
         $this->assertEquals(sizeof($criteria->records), 0);

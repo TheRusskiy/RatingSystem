@@ -20,7 +20,7 @@ class TestCriteria extends PHPUnit_Framework_TestCase {
         $this->assertEquals($criteria->fetch_type, "sql");
         $this->assertEquals($criteria->fetch_value, $query);
         $this->assertEquals($criteria->name, "name of criteria");
-        $this->assertEquals($criteria->versions(), array());
+        $this->assertEquals($criteria->getVersions(), array());
     }
 
 }
