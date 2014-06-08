@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").controller("SeasonCriteriaCtrl", function(User, $scope, Criteria, Season, $routeParams, Version) {
-    var c, initial, _i, _len, _ref;
+    var c, initial, versions_promise, _i, _len, _ref;
     $scope.isCollapsed = {};
     $scope.id = $routeParams.id;
     $scope.season = Season.find($scope.id);
@@ -11,8 +11,13 @@
       c = _ref[_i];
       c.versions();
     }
+    versions_promise = Season.season_criteria($scope.id);
+    initial = [];
     $scope.chosen = [];
-    initial = angular.copy($scope.chosen);
+    versions_promise.then(function(vs) {
+      $scope.chosen = vs;
+      return initial = angular.copy(vs);
+    });
     $scope.reset = function() {
       return $scope.chosen = [];
     };
@@ -32,9 +37,9 @@
     };
     $scope.save = function() {
       var from_server;
-      from_server = Season.replace_season_criteria($scope.chosen);
-      $scope.chosen = from_server;
-      return from_server.$promise.then(function(vs) {
+      from_server = Season.replace_season_criteria($scope.id, $scope.chosen);
+      return from_server.then(function(vs) {
+        $scope.chosen = vs;
         return initial = angular.copy(vs);
       });
     };
@@ -54,7 +59,7 @@
       _ref1 = $scope.chosen;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         c = _ref1[_j];
-        if (c === version) {
+        if (c.id === version.id) {
           return true;
         }
       }
@@ -69,7 +74,7 @@
       _results = [];
       for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
         v = _ref1[i];
-        if (v === version) {
+        if (v.id === version.id) {
           $scope.chosen.splice(i, 1);
           break;
         } else {
@@ -84,7 +89,7 @@
       _results = [];
       for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
         v = _ref1[i];
-        if (v === version && i !== 0) {
+        if (v.id === version.id && i !== 0) {
           temp = $scope.chosen[i - 1];
           $scope.chosen[i - 1] = $scope.chosen[i];
           $scope.chosen[i] = temp;
@@ -101,7 +106,7 @@
       _results = [];
       for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
         v = _ref1[i];
-        if (v === version && i !== $scope.chosen.length - 1) {
+        if (v.id === version.id && i !== $scope.chosen.length - 1) {
           temp = $scope.chosen[i + 1];
           $scope.chosen[i + 1] = $scope.chosen[i];
           $scope.chosen[i] = temp;

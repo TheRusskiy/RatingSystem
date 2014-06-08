@@ -1,7 +1,7 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").factory("Season", function($resource) {
-    var Season, resetCache;
+  angular.module("verificationApp").factory("Season", function($resource, Criteria, $q) {
+    var Season, resetCache, set_criteria;
     Season = $resource("/sources/verification/index.php", {
       controller: "seasons"
     }, {
@@ -55,20 +55,48 @@
       console.log("reset season cache");
       return Season.seasonCache = null;
     };
-    Season.season_criteria = function() {
-      console.log('season criteria index');
-      if (this.seasonCriteriaCache) {
-        return this.seasonCriteriaCache;
-      }
-      this.seasonCriteriaCache = Season.query_criteria();
-      return this.seasonCriteriaCache;
-    };
-    Season.replace_season_criteria = function(season_criteria) {
-      console.log('replace season criteria');
-      this.seasonCriteriaCache = Season.replace_criteria({
-        season_criteria: season_criteria
+    Season.seasonCriteriaCache = {};
+    set_criteria = function(promise) {
+      return $q.all([Criteria.index().$promise, promise.$promise]).then(function(data) {
+        var c, criteria, i, j, v, versions, _i, _j, _len, _len1;
+        criteria = data[0];
+        versions = data[1];
+        for (i = _i = 0, _len = versions.length; _i < _len; i = ++_i) {
+          v = versions[i];
+          for (j = _j = 0, _len1 = criteria.length; _j < _len1; j = ++_j) {
+            c = criteria[j];
+            if (c.id === v.criteria_id) {
+              v.criteria = c;
+              break;
+            }
+          }
+        }
+        return versions;
       });
-      return this.seasonCriteriaCache;
+    };
+    Season.season_criteria = function(season_id) {
+      var promise;
+      console.log('season criteria index');
+      if (this.seasonCriteriaCache[season_id]) {
+        return this.seasonCriteriaCache[season_id];
+      }
+      promise = Season.query_criteria({
+        season_id: season_id
+      });
+      promise = set_criteria(promise);
+      this.seasonCriteriaCache[season_id] = promise;
+      return this.seasonCriteriaCache[season_id];
+    };
+    Season.replace_season_criteria = function(season_id, season_criteria) {
+      var promise;
+      console.log('replace season criteria');
+      promise = Season.replace_criteria({
+        season_criteria: season_criteria,
+        season_id: season_id
+      });
+      promise = set_criteria(promise);
+      this.seasonCriteriaCache[season_id] = promise;
+      return this.seasonCriteriaCache[season_id];
     };
     Season.index = function() {
       console.log('season index');

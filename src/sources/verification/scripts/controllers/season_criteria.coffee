@@ -6,10 +6,16 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
   $scope.criteria = Criteria.index()
   for c in $scope.criteria
     c.versions()
+  versions_promise = Season.season_criteria($scope.id)
+  initial = []
   $scope.chosen = []
-  initial = angular.copy $scope.chosen
+  versions_promise.then (vs)->
+    $scope.chosen = vs
+    initial = angular.copy vs
+
   $scope.reset = ()->
     $scope.chosen = []
+
   $scope.isChanged = ()->
     chosen = $scope.chosen
     if initial.length != chosen.length
@@ -20,9 +26,9 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
     false
 
   $scope.save = ()->
-    from_server = Season.replace_season_criteria($scope.chosen)
-    $scope.chosen = from_server
-    from_server.$promise.then (vs)->
+    from_server = Season.replace_season_criteria($scope.id, $scope.chosen)
+    from_server.then (vs)->
+      $scope.chosen = vs
       initial = angular.copy vs
 
   $scope.displayVersion = (version)->
@@ -33,7 +39,7 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
 
   $scope.isChosen = (version)->
     for c in $scope.chosen
-      if c == version
+      if c.id == version.id
         return true
     false
 
@@ -42,13 +48,13 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
 
   $scope.removeVersion = (version)->
     for v, i in $scope.chosen
-      if v==version
+      if v.id==version.id
         $scope.chosen.splice(i, 1)
         break
 
   $scope.moveUp = (version)->
     for v, i in $scope.chosen
-      if v==version and i!=0
+      if v.id==version.id and i!=0
         temp = $scope.chosen[i-1]
         $scope.chosen[i-1] = $scope.chosen[i]
         $scope.chosen[i] = temp
@@ -57,7 +63,7 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
 
   $scope.moveDown = (version)->
     for v, i in $scope.chosen
-      if v==version and i!=$scope.chosen.length-1
+      if v.id==version.id and i!=$scope.chosen.length-1
         temp = $scope.chosen[i+1]
         $scope.chosen[i+1] = $scope.chosen[i]
         $scope.chosen[i] = temp

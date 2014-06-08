@@ -22,6 +22,15 @@ CREATE TABLE criteria_versions (
   PRIMARY KEY(id)
 );
 
+DROP TABLE IF EXISTS rating_seasons_criteria_versions;
+CREATE TABLE rating_seasons_criteria_versions (
+  id INT(17) NOT NULL auto_increment,
+  criteria_version_id INT(17) NOT NULL,
+  rating_season_id INT(17) NOT NULL,
+  version_order INT(17) NOT NULL,
+  PRIMARY KEY(id)
+);
+
 DROP TABLE IF EXISTS rating_records;
 CREATE TABLE rating_records (
   id INT(17) NOT NULL auto_increment,

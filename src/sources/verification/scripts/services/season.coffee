@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").factory "Season", ($resource) ->
+angular.module("verificationApp").factory "Season", ($resource, Criteria, $q) ->
   Season = $resource "/sources/verification/index.php", {controller: "seasons"},
     query:
       method: "GET"
@@ -35,17 +35,36 @@ angular.module("verificationApp").factory "Season", ($resource) ->
   resetCache = ()->
     console.log "reset season cache"
     Season.seasonCache = null
+  Season.seasonCriteriaCache = {}
 
-  Season.season_criteria = ()->
+  set_criteria = (promise)->
+    $q.all([
+      Criteria.index().$promise,
+      promise.$promise
+    ]).then (data)->
+      criteria = data[0]
+      versions = data[1]
+      for v, i in versions
+        for c, j in criteria
+          if c.id == v.criteria_id
+            v.criteria = c
+            break
+      return versions
+
+  Season.season_criteria = (season_id)->
     console.log 'season criteria index'
-    return @seasonCriteriaCache if @seasonCriteriaCache
-    @seasonCriteriaCache = Season.query_criteria()
-    return @seasonCriteriaCache
+    return @seasonCriteriaCache[season_id] if @seasonCriteriaCache[season_id]
+    promise = Season.query_criteria(season_id: season_id)
+    promise = set_criteria(promise)
+    @seasonCriteriaCache[season_id] = promise
+    return @seasonCriteriaCache[season_id]
 
-  Season.replace_season_criteria = (season_criteria)->
+  Season.replace_season_criteria = (season_id, season_criteria)->
     console.log 'replace season criteria'
-    @seasonCriteriaCache = Season.replace_criteria(season_criteria: season_criteria)
-    return @seasonCriteriaCache
+    promise = Season.replace_criteria(season_criteria: season_criteria, season_id: season_id)
+    promise = set_criteria(promise)
+    @seasonCriteriaCache[season_id] = promise
+    return @seasonCriteriaCache[season_id]
 
   Season.index = ()->
     console.log 'season index'

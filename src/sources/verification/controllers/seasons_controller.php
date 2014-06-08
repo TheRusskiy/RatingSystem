@@ -15,8 +15,12 @@ class SeasonsController extends AppController
     }
     function index_criteria()
     {
-        $all = SeasonsDao::all_criteria();
-        return json_encode($all);
+        $all = SeasonsDao::all_criteria_versions(params("season_id"));
+        $all_json = array();
+        foreach($all as $c){
+            $all_json[]=$c->properties_for_json();
+        }
+        return json_encode($all_json);
     }
     function show()
     {
@@ -33,11 +37,16 @@ class SeasonsController extends AppController
 
     function replace_criteria(){
         $season_criteria = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+        $season_id = $season_criteria->season_id;
         $season_criteria = $season_criteria->season_criteria;
-        SeasonsDao::delete_criteria();
-        SeasonsDao::insert_criteria($season_criteria);
-        $season_criteria = SeasonsDao::all_criteria();
-        return json_encode($season_criteria);
+        SeasonsDao::delete_criteria_versions($season_id);
+        SeasonsDao::insert_criteria_versions($season_criteria, $season_id);
+        $season_criteria = SeasonsDao::all_criteria_versions($season_id);
+        $all_json = array();
+        foreach($season_criteria as $c){
+            $all_json[]=$c->properties_for_json();
+        }
+        return json_encode($all_json);
     }
 
     function delete(){

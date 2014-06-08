@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/../rating/season.php');
+require_once(dirname(__FILE__).'/../rating/version.php');
 class SeasonsDao {
     static function find($id){
         $count_query = mysql_query("
@@ -22,11 +23,41 @@ class SeasonsDao {
             FROM rating_seasons
             ORDER BY id DESC
             ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
         $seasons = array();
         while ($row = mysql_fetch_array($query)){
             $seasons[]= new Season($row['id'], $row['from_date'], $row['to_date']);
         }
         return $seasons;
+    }
+
+    static function all_criteria_versions($season_id){
+        $season_id = mysql_real_escape_string($season_id);
+        $query = "
+            SELECT v.*
+            FROM
+              rating_seasons_criteria_versions sv,
+              criteria_versions v,
+              criteria c,
+              rating_seasons s
+            WHERE
+                sv.criteria_version_id = v.id
+                AND sv.rating_season_id = s.id
+                AND v.criteria_id = c.id
+                AND s.id = $season_id
+            ORDER BY sv.version_order ASC
+            ";
+        $query = mysql_query($query);
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        $versions = array();
+        while ($row = mysql_fetch_array($query)){
+            $versions[]= new Version($row);
+        }
+        return $versions;
     }
 
     static function insert($season){
@@ -48,6 +79,29 @@ class SeasonsDao {
             throw new Exception('SQL error: '.mysql_error());
         }
         return $season;
+    }
+
+    static function insert_criteria_versions($season_criteria, $season_id){
+        if (count($season_criteria)==0){
+            return true;
+        }
+        $values = "";
+        foreach($season_criteria as $i=>$sc){
+            $criteria_version_id = mysql_real_escape_string($sc->id);
+            $rating_season_id = mysql_real_escape_string($season_id);
+            $values.="($criteria_version_id, $rating_season_id, $i)";
+            if ($i!=count($season_criteria)-1){
+                $values.=", ";
+            }
+        }
+        $query = mysql_query("
+            INSERT INTO rating_seasons_criteria_versions(criteria_version_id, rating_season_id, version_order)
+             VALUES $values
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        return true;
     }
     static function update($season, $new_id){
         if (gettype($season->from_date)=="string"){
@@ -76,6 +130,17 @@ class SeasonsDao {
         $query = mysql_query("
             DELETE FROM rating_seasons
             WHERE id=$id
+            ");
+        if(!$query){
+            throw new Exception('SQL error: '.mysql_error());
+        }
+        return true;
+    }
+    static function delete_criteria_versions($season_id){
+        $id = mysql_real_escape_string($season_id);
+        $query = mysql_query("
+            DELETE FROM rating_seasons_criteria_versions
+            WHERE rating_season_id=$id
             ");
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
