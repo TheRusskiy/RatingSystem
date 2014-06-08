@@ -88,13 +88,23 @@ button.clear-search {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000370}}
+.big-icon {
+  font-size: 1.5em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000373}}
+.inline {
+  display: inline;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000376}}
 .go-back {
   height: 100%;
   margin: 0px;
   padding: 0px;
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000381}}
 .go-back a {
   height: 610px;
   width: 100%;
@@ -106,7 +116,7 @@ button.clear-search {
   background: #d4f1ff;
   font-size: 4em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000391}}
 .go-back a i {
   margin-bottom: auto;
   padding-top: 280px;
@@ -114,13 +124,13 @@ button.clear-search {
   height: 100px;
   margin-top: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000399}}
 .go-back a:hover {
   background: #6de0e6;
 }
 
 @media (max-width: 991px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\0000398}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/therusskiy\/diploma\/rating_system\/src\/sources\/verification\/styles\/index\.scss}line{font-family:\00003104}}
   .go-back a {
     font-size: 2em;
   }

@@ -1,13 +1,65 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      {{season}}
+    <div class="col-xs-1 col-xs-offset-1">
+      <div class="go-back">
+        <a href ng-click="goto('/permissions')" class="btn btn-link">
+          <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Интервал оценки #{{season.id}}</h2>
-      <h3>С {{season.from_date}} по {{season.to_date}}</h3>
+    <div class='col-xs-10'>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Интервал оценки #{{season.id}} с {{season.from_date}} по {{season.to_date}}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Текущие показатели</h3>
+          <ul class="list-group">
+            <li ng-repeat="c in chosen" class="list-group-item row">
+                <div class="col-md-1">
+                  <a href ng-if="!displayVersion(c)" ng-click="removeVersion(c)"><i class="glyphicon glyphicon-minus-sign big-icon"></i></a>
+                </div>
+                <div class="col-md-9">
+                  <b>{{c.criteria.name}} от {{c.creation_date}} (#{{c.id}})</b>
+                  <p>{{c.criteria.description}}</p>
+                </div>
+                <div class="col-md-2">
+                  <a href class="inline" ng-click="moveUp(c)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                  <a href class="inline" ng-click="moveDown(c)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                </div>
+              <div class="clearfix"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h3>Доступные показатели</h3>
+          <ul class="list-group">
+            <li ng-repeat="c in criteria" class="list-group-item">
+              <a href ng-click="isCollapsed[c.id] = !isCollapsed[c.id]">
+                <b>{{c.id}}: {{c.name}}</b>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isCollapsed[c.id], 'glyphicon-chevron-right': !isCollapsed[c.id]}"></i>
+              </a>
+              <p>{{c.description}}</p>
+              <div class="" collapse="!isCollapsed[c.id]">
+                <div ng-repeat="v in c.versions() |  orderBy: 'creation_date'" class="row">
+                  <div class="col-md-1">
+                    <a href ng-if="displayVersion(v)" ng-click="addVersion(v)"><i class="glyphicon glyphicon-plus-sign big-icon"></i></a>
+                  </div>
+                  <div class="col-md-11">
+                    #{{v.id}} от {{v.creation_date}}:
+                    <p>Множитель: {{v.multiplier}};
+                    Лимит в год: {{v.year_limit}};
+                    Лимит в 2 года: {{v.year_2_limit}}</p>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -11,6 +11,7 @@
       <tr>
         <th>#</th>
         <th>Название</th>
+        <th>Описание</th>
         <th>Способ вычисления</th>
         <th>Данные</th>
         <th>Внешние записи</th>
@@ -20,6 +21,7 @@
       <tr ng-repeat="c in criteria | orderBy:'id'">
         <td>{{c.id}}</td>
         <td>{{c.name}}</td>
+        <td>{{c.description}}</td>
         <td>{{fetch_types[c.fetch_type]}}</td>
         <td data-toggle="tooltip"
             data-placement="bottom"

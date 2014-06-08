@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").factory("Version", function($resource, Criteria) {
+  angular.module("verificationApp").factory("Version", function($resource, $injector) {
     var Version, resetCache;
     Version = $resource("/sources/verification/index.php", {
       controller: "versions"
@@ -63,7 +63,7 @@
             break;
           }
         }
-        return Criteria.resetCache();
+        return $injector.get('Cache').Criteria.resetCache();
       });
     };
     Version.upsert = function(c) {
@@ -91,7 +91,7 @@
           console.log("Created:");
           console.log(new_c);
           _this.versionCache[c.criteria_id].unshift(new_c);
-          Criteria.resetCache();
+          $injector.get('Cache').Criteria.resetCache();
           return new_c;
         });
       }

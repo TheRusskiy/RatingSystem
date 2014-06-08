@@ -1,5 +1,5 @@
 "use strict"
-angular.module("verificationApp").factory "Criteria", ($resource) ->
+angular.module("verificationApp").factory "Criteria", ($resource, Version) ->
   Criteria = $resource "/sources/verification/index.php", {controller: "criteria"},
     query:
       method: "GET"
@@ -37,6 +37,21 @@ angular.module("verificationApp").factory "Criteria", ($resource) ->
     Criteria.withRecordsCache = null
 
   Criteria.resetCache = resetCache
+
+  Criteria.prototype.versions = ()->
+    return @versionsCache if @versionsCache
+    @versionsCache = Version.index(@id)
+    @versionsCache.$promise.then (vs)=>
+      for v in vs
+        v.criteria = {
+          id: @.id
+          name: @.name
+          fetch_type: @.fetch_type
+          fetch_value: @.fetch_value
+          external_records : @.external_records
+          description : @.description
+        }
+    @versionsCache
 
   Criteria.index = ()->
     console.log 'criteria index'

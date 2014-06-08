@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  angular.module("verificationApp").factory("Criteria", function($resource) {
+  angular.module("verificationApp").factory("Criteria", function($resource, Version) {
     var Criteria, resetCache;
     Criteria = $resource("/sources/verification/index.php", {
       controller: "criteria"
@@ -56,6 +56,30 @@
       return Criteria.withRecordsCache = null;
     };
     Criteria.resetCache = resetCache;
+    Criteria.prototype.versions = function() {
+      var _this = this;
+      if (this.versionsCache) {
+        return this.versionsCache;
+      }
+      this.versionsCache = Version.index(this.id);
+      this.versionsCache.$promise.then(function(vs) {
+        var v, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = vs.length; _i < _len; _i++) {
+          v = vs[_i];
+          _results.push(v.criteria = {
+            id: _this.id,
+            name: _this.name,
+            fetch_type: _this.fetch_type,
+            fetch_value: _this.fetch_value,
+            external_records: _this.external_records,
+            description: _this.description
+          });
+        }
+        return _results;
+      });
+      return this.versionsCache;
+    };
     Criteria.index = function() {
       console.log('criteria index');
       if (this.criteriaCache) {
