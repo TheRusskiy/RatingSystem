@@ -11,7 +11,7 @@ class TestCriteria extends PHPUnit_Framework_TestCase {
     function testInitialize(){
         $query = "SELECT * FROM staff";
         $criteria = new Criteria(array(
-            "id" => 0,
+            "id" => -1,
             "fetch_type" => "sql",
             "fetch_value" => $query,
             "name" => "name of criteria",

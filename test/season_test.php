@@ -38,7 +38,6 @@ class TestSeason extends PHPUnit_Framework_TestCase {
         VersionsDao::insert($saved_version);
         $season_criteria = new stdClass();
         $season_criteria->id = $saved_version->id;
-        $season_criteria->rating_season_id = $season->id;
         SeasonsDao::insert_criteria_versions(array($season_criteria),$season->id);
 
         $criteria_id = 666;

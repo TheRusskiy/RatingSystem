@@ -65,4 +65,15 @@ class Version {
             return intval($value);
         }
     }
+
+    public function multiplier_to_string(){
+        $m = $this->multiplier;
+        if(is_int($m)){
+            return $m;
+        } else {
+            // in PHP arrays are assigned by copy, so there's no danger of messing up an original
+            array_shift($m);
+            return implode("|", $m);
+        }
+    }
 }
