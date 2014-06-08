@@ -79,10 +79,18 @@ class CriteriaDao {
     static function insert($criteria){
 //        $multi = $criteria->multiplier_to_string();
         $external_records = $criteria->external_records_int();
+        $id_name = "";
+        $id_value = "";
+        $id_is_set = isset($criteria->id) && ($criteria->id != null);
+        if ($id_is_set){
+            $id_name = "id, ";
+            $id_value = $criteria->id.", ";
+        }
         $query = mysql_query("
-            INSERT INTO criteria(fetch_type, fetch_value, name, description, external_records)
+            INSERT INTO criteria($id_name fetch_type, fetch_value, name, description, external_records)
              VALUES
-             ('$criteria->fetch_type',
+             ($id_value
+             '$criteria->fetch_type',
              '$criteria->fetch_value',
              '$criteria->name',
              '$criteria->description',
@@ -91,7 +99,9 @@ class CriteriaDao {
         if(!$query){
             throw new Exception('SQL error: '.mysql_error());
         }
-        $criteria->id = mysql_insert_id();
+        if (!$id_is_set){
+            $criteria->id = mysql_insert_id();
+        }
         return $criteria;
     }
 

@@ -430,6 +430,55 @@ EOF;
         $this->assertEquals(sizeof($result->records), 3);
     }
 
+    function testCalculateManuallyFromOptionsWith2YearLimitDifferentVersions(){
+        $this->build_criteria = function(){
+            return new Criteria(array(
+                "id" => 7,
+                "fetch_type" => "manual_options",
+                "fetch_value" => "v1|v2|v3",
+                "name" => "name of criteria",
+                "description" => ""
+            ));
+        };
+        ParamProcessor::Instance()->set_season_id(3);
+        ParamProcessor::Instance()->set_staff_id('1');
+        $calculator = new CriteriaCalculator();
+
+        $criteria = $this->build_criteria->__invoke();
+        CriteriaDao::insert($criteria);
+
+        $version = new Version(array(
+            "criteria_id" => 7,
+            "multiplier" => "10|10|10",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "creation_date" => "2014-06-05",
+            "criteria" => $criteria
+        ));
+        VersionsDao::insert($version);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),3);
+
+        $version2 = new Version(array(
+            "criteria_id" => 7,
+            "multiplier" => "20|20|20",
+            "year_limit" => 30,
+            "year_2_limit" => 50,
+            "creation_date" => "2014-06-05",
+            "criteria" => $criteria
+        ));
+        VersionsDao::insert($version2);
+        $season_criteria = new stdClass();
+        $season_criteria->id = $version2->id;
+        SeasonsDao::insert_criteria_versions(array($season_criteria),2);
+
+        $result = $calculator->calculate($version);
+        $this->assertEquals($result->score, 20);
+        $this->assertEquals($result->value, array(0,3,0,0)); // first digit is for 0 values
+        $this->assertEquals(sizeof($result->records), 3);
+    }
+
     function testCalculateManuallyFromOptionsNoRecords(){
         $this->build_criteria = function(){
             return new Criteria(array(

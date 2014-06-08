@@ -154,11 +154,16 @@ class CriteriaCalculator {
         $current_season = $season;
         $seasons = array();
         while ($current_season != null) {
+            $v = $current_season->getVersionFromCriteria($criteria->id);
+            if ($v == null){
+                break;
+            }
             array_unshift($seasons, $current_season);
             $current_season = $current_season->previous();
         }
         $prev = null;
         foreach ($seasons as $season) {
+            $version = $season->getVersionFromCriteria($criteria->id);
             $r = $this->type_aware_calculate($version, $season);
             $this->update_values_for_limits($version, $r);
             if ($prev != null && ($r->score + $prev->score > $version->year_2_limit)) {
