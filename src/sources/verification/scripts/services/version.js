@@ -31,17 +31,20 @@
         }
       }
     });
+    Version.versionCache = {};
     resetCache = function() {
       console.log("reset version cache");
-      return Version.versionCache = null;
+      return Version.versionCache = {};
     };
-    Version.index = function() {
+    Version.index = function(criteria_id) {
       console.log('version index');
-      if (this.versionCache) {
-        return this.versionCache;
+      if (this.versionCache[criteria_id]) {
+        return this.versionCache[criteria_id];
       }
-      this.versionCache = Version.query();
-      return this.versionCache;
+      this.versionCache[criteria_id] = Version.query({
+        criteria_id: criteria_id
+      });
+      return this.versionCache[criteria_id];
     };
     Version["delete"] = function(c) {
       var _this = this;
@@ -52,11 +55,11 @@
       }, function(response) {
         var i, r, _i, _len, _ref;
         console.log(response);
-        _ref = _this.versionCache;
+        _ref = _this.versionCache[c.criteria_id];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           r = _ref[i];
           if (r.id === c.id) {
-            _this.versionCache.splice(i, 1);
+            _this.versionCache[c.criteria_id].splice(i, 1);
             break;
           }
         }
@@ -72,11 +75,11 @@
           var i, r, _i, _len, _ref;
           console.log("Updated:");
           console.log(new_c);
-          _ref = _this.versionCache;
+          _ref = _this.versionCache[c.criteria_id];
           for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
             r = _ref[i];
             if (r.id === old_id) {
-              _this.versionCache[i] = new_c;
+              _this.versionCache[c.criteria_id][i] = new_c;
               console.log("replace version");
               break;
             }
@@ -87,7 +90,7 @@
         return Version.save({}, c, function(new_c) {
           console.log("Created:");
           console.log(new_c);
-          _this.versionCache.unshift(new_c);
+          _this.versionCache[c.criteria_id].unshift(new_c);
           Criteria.resetCache();
           return new_c;
         });

@@ -16,10 +16,16 @@ class VersionsDao {
         }
     }
 
-    static function all(){
+    static function all($criteria_id = null){
+        $condition = "";
+        if ($criteria_id != null){
+            $criteria_id = mysql_real_escape_string($criteria_id);
+            $condition = " WHERE criteria_id = $criteria_id";
+        }
         $query = mysql_query("
             SELECT *
             FROM criteria_versions
+            $condition
             ORDER BY creation_date DESC
             ");
         $versions = array();

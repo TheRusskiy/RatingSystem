@@ -8,7 +8,7 @@ class VersionsController extends AppController
 {
     function index()
     {
-        $all = VersionsDao::all();
+        $all = VersionsDao::all(params("criteria_id", null));
         $all_json = array();
         foreach($all as $c){
             $all_json[]=$c->properties_for_json();
