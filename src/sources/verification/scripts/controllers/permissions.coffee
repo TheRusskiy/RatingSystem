@@ -25,7 +25,6 @@ angular.module("verificationApp").controller "PermissionsCtrl", (User, $scope, C
     form[datepickerOpenedVar] = true
 
   $scope.saveSeason = (season, form)->
-    console.log season
     new_season = new Season(season)
     $scope.current_season = Season.upsert(new_season)
     $scope.current_season.$promise.then (s)->

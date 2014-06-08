@@ -28,11 +28,7 @@
     externalNotesCache = {};
     ExternalRecordNote.insert = function(note) {
       return note.$save({}, function(n) {
-        console.log(externalNotesCache);
-        externalNotesCache[n.record_id].push(n);
-        console.log("External note created:");
-        console.log(n);
-        return console.log(externalNotesCache[n.record_id]);
+        return externalNotesCache[n.record_id].push(n);
       });
     };
     ExternalRecordNote["delete"] = function(note) {
@@ -44,25 +40,20 @@
         if (n.id.toString() === note.id.toString()) {
           position = i;
           notesArray.splice(position, 1);
-          console.log("External note deleted");
           break;
         }
       }
       return ExternalRecordNote.delete_note({
         note_id: note.id
-      }, function(response) {
-        return console.log(response);
-      });
+      }, function(response) {});
     };
     ExternalRecordNote.index = function(record_id) {
-      console.log('External notes index');
       if (externalNotesCache[record_id]) {
         return externalNotesCache[record_id];
       }
       externalNotesCache[record_id] = ExternalRecordNote.query({
         record: record_id
       });
-      console.log(externalNotesCache[record_id]);
       return externalNotesCache[record_id];
     };
     return ExternalRecordNote;

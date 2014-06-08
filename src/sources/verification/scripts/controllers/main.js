@@ -4,7 +4,6 @@
     if (!$rootScope.currentUser) {
       Auth.currentUser().$promise.then(function(user) {
         var new_path;
-        console.log(user);
         if (user.id != null) {
           $rootScope.currentUser = user;
           return $rootScope.is_admin = user.role === "admin";

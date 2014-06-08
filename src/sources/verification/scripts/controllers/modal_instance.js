@@ -12,7 +12,6 @@
       var note;
       note = $scope.new_note;
       note.record_id = record.id;
-      console.log(note);
       note = new Note(note);
       Note.insert(note);
       $scope.new_note = {};

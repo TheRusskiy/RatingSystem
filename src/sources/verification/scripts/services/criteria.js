@@ -51,7 +51,6 @@
       }
     });
     resetCache = function() {
-      console.log("reset criteria cache");
       Criteria.criteriaCache = null;
       return Criteria.withRecordsCache = null;
     };
@@ -81,7 +80,6 @@
       return this.versionsCache;
     };
     Criteria.index = function() {
-      console.log('criteria index');
       if (this.criteriaCache) {
         return this.criteriaCache;
       }
@@ -89,7 +87,6 @@
       return this.criteriaCache;
     };
     Criteria.with_records = function() {
-      console.log('criteria with records');
       if (this.withRecordsCache) {
         return this.withRecordsCache;
       }
@@ -97,7 +94,6 @@
       return this.withRecordsCache;
     };
     Criteria.fetch_types = function() {
-      console.log('fetch types');
       if (this.fetchTypesCache) {
         return this.fetchTypesCache;
       }
@@ -105,18 +101,14 @@
       return this.fetchTypesCache;
     };
     Criteria.find = function(id) {
-      console.log('find criteria ' + id);
       return Criteria.get({
         id: id
       });
     };
     Criteria["delete"] = function(c) {
-      console.log("deleting criteria");
-      console.log(c);
       Criteria.delete_criteria({
         criteria_id: c.id
       }, function(response) {
-        console.log(response);
         return resetCache();
       });
       return resetCache();
@@ -124,15 +116,11 @@
     Criteria.upsert = function(c) {
       if (c.id) {
         return Criteria.update({}, c, function(new_c) {
-          console.log("Updated:");
-          console.log(new_c);
           resetCache();
           return new_c;
         });
       } else {
         return Criteria.save({}, c, function(new_c) {
-          console.log("Updated:");
-          console.log(new_c);
           resetCache();
           return new_c;
         });

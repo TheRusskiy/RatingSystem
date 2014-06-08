@@ -27,7 +27,6 @@
       }
     });
     Users.index = function() {
-      console.log('users index');
       if (this.usersCache) {
         return this.usersCache;
       }
@@ -35,13 +34,9 @@
       return this.usersCache;
     };
     Users.update_permissions = function(user) {
-      console.log('updating permissions');
       return Users.update({
         user_id: user.id
-      }, user, function(u) {
-        console.log("updated:");
-        return console.log(u);
-      });
+      }, user, function(u) {});
     };
     return Users;
   });

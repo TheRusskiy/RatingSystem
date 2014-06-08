@@ -52,7 +52,6 @@
       }
     });
     resetCache = function() {
-      console.log("reset season cache");
       return Season.seasonCache = null;
     };
     Season.seasonCriteriaCache = {};
@@ -76,7 +75,6 @@
     };
     Season.season_criteria = function(season_id) {
       var promise;
-      console.log('season criteria index');
       if (this.seasonCriteriaCache[season_id]) {
         return this.seasonCriteriaCache[season_id];
       }
@@ -89,7 +87,6 @@
     };
     Season.replace_season_criteria = function(season_id, season_criteria) {
       var promise;
-      console.log('replace season criteria');
       promise = Season.replace_criteria({
         season_criteria: season_criteria,
         season_id: season_id
@@ -99,7 +96,6 @@
       return this.seasonCriteriaCache[season_id];
     };
     Season.index = function() {
-      console.log('season index');
       if (this.seasonCache) {
         return this.seasonCache;
       }
@@ -107,20 +103,16 @@
       return this.seasonCache;
     };
     Season.find = function(id) {
-      console.log('find season ' + id);
       return Season.get({
         id: id
       });
     };
     Season["delete"] = function(c) {
       var _this = this;
-      console.log("deleting season");
-      console.log(c);
       return Season.delete_season({
         season_id: c.id
       }, function(response) {
         var i, r, _i, _len, _ref, _results;
-        console.log(response);
         _ref = _this.seasonCache;
         _results = [];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -142,14 +134,11 @@
         old_id = c.id;
         return Season.update({}, c, function(new_c) {
           var i, r, _i, _len, _ref;
-          console.log("Updated:");
-          console.log(new_c);
           _ref = _this.seasonCache;
           for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
             r = _ref[i];
             if (r.id === old_id) {
               _this.seasonCache[i] = new_c;
-              console.log("replace season");
               break;
             }
           }
@@ -157,8 +146,6 @@
         });
       } else {
         return Season.save({}, c, function(new_c) {
-          console.log("Created:");
-          console.log(new_c);
           _this.seasonCache.unshift(new_c);
           return new_c;
         });

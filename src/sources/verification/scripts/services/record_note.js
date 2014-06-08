@@ -28,11 +28,7 @@
     notesCache = {};
     RecordNote.insert = function(note) {
       return note.$save({}, function(n) {
-        console.log(notesCache);
-        notesCache[n.record_id].push(n);
-        console.log("Created:");
-        console.log(n);
-        return console.log(notesCache[n.record_id]);
+        return notesCache[n.record_id].push(n);
       });
     };
     RecordNote["delete"] = function(note) {
@@ -44,25 +40,20 @@
         if (n.id.toString() === note.id.toString()) {
           position = i;
           notesArray.splice(position, 1);
-          console.log("Deleted");
           break;
         }
       }
       return RecordNote.delete_note({
         note_id: note.id
-      }, function(response) {
-        return console.log(response);
-      });
+      }, function(response) {});
     };
     RecordNote.index = function(record_id) {
-      console.log('notes index');
       if (notesCache[record_id]) {
         return notesCache[record_id];
       }
       notesCache[record_id] = RecordNote.query({
         record: record_id
       });
-      console.log(notesCache[record_id]);
       return notesCache[record_id];
     };
     return RecordNote;

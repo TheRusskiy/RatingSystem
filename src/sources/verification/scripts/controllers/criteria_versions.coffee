@@ -26,7 +26,6 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
 #    form[datepickerOpenedVar] = true
 #
   $scope.saveVersion = (version, form)->
-    console.log version
     new_version = new Version(version)
     $scope.current_version = Version.upsert(new_version)
     form.$setPristine()
@@ -55,9 +54,6 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
     if $scope.criteria.fetch_type == 'manual_options' and not form.$pristine
       value = $value
       multi = ($scope.current_version.multiplier||"").toString()
-      console.log 'validating:'
-      console.log value
-      console.log multi
       values = value.split('|')
       multis = multi.split('|')
       oldLength = values.length
@@ -65,19 +61,12 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
       correctCount = values.length == multis.length
       formatMatches = value.match /(.+\|)*.+/
       unless correctCount
-        console.log "Число элементов во множителе и данных не совпадает"
-        console.log values
-        console.log multis
         $scope.fetchValueErrorsForMultiplier.push("Число элементов во множителе и данных не совпадает")
       unless !!formatMatches
-        console.log "Некорректный формат данных. Данные должны следовать формату 'название{|название"
         $scope.fetchValueErrorsForMultiplier.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'")
       unless no_empty_elements
-        console.log "Не должно быть пустых элементов"
         $scope.fetchValueErrorsForMultiplier.push("Не должно быть пустых элементов")
       result = correctCount && !!formatMatches && no_empty_elements
-      console.log "result"
-      console.log result
       result
     else
       true
@@ -90,6 +79,4 @@ angular.module("verificationApp").controller "CriteriaVersionsCtrl", (User, $sco
         valid = false
     if $scope.criteria.fetch_type != 'manual_options'
       valid = false unless values.length is 1
-    console.log "valid"
-    console.log valid
     valid

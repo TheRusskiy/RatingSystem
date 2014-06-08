@@ -28,7 +28,6 @@
     };
     $scope.saveSeason = function(season, form) {
       var new_season;
-      console.log(season);
       new_season = new Season(season);
       $scope.current_season = Season.upsert(new_season);
       $scope.current_season.$promise.then(function(s) {

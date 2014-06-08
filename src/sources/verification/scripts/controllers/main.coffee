@@ -4,7 +4,6 @@ angular.module('verificationApp')
   .controller 'MainCtrl', ($scope, $http, Auth, $rootScope, $location, $window)->
     unless $rootScope.currentUser
       Auth.currentUser().$promise.then( (user)->
-        console.log user
         if user.id?
           $rootScope.currentUser = user;
           $rootScope.is_admin = user.role=="admin"

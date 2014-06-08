@@ -8,7 +8,6 @@ angular.module("verificationApp").factory "Teacher", ($resource) ->
         action: "index"
   return {
       index: ()->
-        console.log 'teacher index'
         return @teachersCache if @teachersCache
         @teachersCache = teachers.query()
         return @teachersCache

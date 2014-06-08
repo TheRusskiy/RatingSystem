@@ -56,11 +56,8 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
         break
 
   $scope.saveRecord = (criteria, form)->
-    console.log criteria.current_record
     new_record = new Record(criteria.current_record)
     Record.upsert(new_record).then (resolved_record)->
-      console.log "Resolved record"
-      console.log resolved_record
       criteria.original_record = new Record(resolved_record)
       criteria.current_record = new Record(resolved_record)
       restore_option(criteria)
@@ -75,16 +72,11 @@ angular.module("verificationApp").controller "RecordsCtrl", ($scope, $http, $mod
     for key, value of criteria.current_record
       if key is 'option'
         if criteria.original_record.option.value.toString() != value.value.toString()
-          console.log criteria.original_record.option.value
-          console.log value.value
           equal = false
       else
         if JSON.stringify(value) != JSON.stringify(criteria.original_record[key])
-          console.log JSON.stringify(value)
-          console.log JSON.stringify(criteria.original_record[key])
           equal = false
           break
-    console.log "EQUAL "+equal.toString()
     not equal
 
   $scope.newRecord = (criteria)->

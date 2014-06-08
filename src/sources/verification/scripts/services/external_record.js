@@ -47,7 +47,6 @@
     externalCache = {};
     allExternalCache = {};
     External.index = function(criteria_id) {
-      console.log('external records index');
       if (externalCache[criteria_id]) {
         return externalCache[criteria_id];
       }
@@ -57,7 +56,6 @@
       return externalCache[criteria_id];
     };
     External.all = function(criteria_id) {
-      console.log('external records index');
       if (allExternalCache[criteria_id]) {
         return allExternalCache[criteria_id];
       }
@@ -68,8 +66,6 @@
     };
     External.create = function(record) {
       return record.$save({}, function(r) {
-        console.log("External created:");
-        console.log(record);
         allExternalCache[record.criteria_id] = null;
         return r;
       });
@@ -79,7 +75,6 @@
         record_id: record.id
       }, function(response) {
         var i, rec, _i, _len, _ref, _results;
-        console.log(response);
         _ref = allExternalCache[record.criteria_id];
         _results = [];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -100,8 +95,6 @@
       }
       return External.record_approve(record, {}, function(r) {
         var i, rec, _i, _len, _ref;
-        console.log("approved:");
-        console.log(r);
         _ref = externalCache[record.criteria_id];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           rec = _ref[i];
@@ -119,8 +112,6 @@
       }
       return External.record_reject(record, {}, function(r) {
         var i, rec, _i, _len, _ref;
-        console.log("rejected:");
-        console.log(r);
         _ref = externalCache[record.criteria_id];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           rec = _ref[i];

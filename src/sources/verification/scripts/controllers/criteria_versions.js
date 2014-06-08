@@ -20,7 +20,6 @@
     };
     $scope.saveVersion = function(version, form) {
       var new_version;
-      console.log(version);
       new_version = new Version(version);
       $scope.current_version = Version.upsert(new_version);
       return form.$setPristine();
@@ -58,9 +57,6 @@
       if ($scope.criteria.fetch_type === 'manual_options' && !form.$pristine) {
         value = $value;
         multi = ($scope.current_version.multiplier || "").toString();
-        console.log('validating:');
-        console.log(value);
-        console.log(multi);
         values = value.split('|');
         multis = multi.split('|');
         oldLength = values.length;
@@ -68,22 +64,15 @@
         correctCount = values.length === multis.length;
         formatMatches = value.match(/(.+\|)*.+/);
         if (!correctCount) {
-          console.log("Число элементов во множителе и данных не совпадает");
-          console.log(values);
-          console.log(multis);
           $scope.fetchValueErrorsForMultiplier.push("Число элементов во множителе и данных не совпадает");
         }
         if (!formatMatches) {
-          console.log("Некорректный формат данных. Данные должны следовать формату 'название{|название");
           $scope.fetchValueErrorsForMultiplier.push("Некорректный формат данных. Данные должны следовать формату 'название{|название}'");
         }
         if (!no_empty_elements) {
-          console.log("Не должно быть пустых элементов");
           $scope.fetchValueErrorsForMultiplier.push("Не должно быть пустых элементов");
         }
         result = correctCount && !!formatMatches && no_empty_elements;
-        console.log("result");
-        console.log(result);
         return result;
       } else {
         return true;
@@ -108,8 +97,6 @@
           valid = false;
         }
       }
-      console.log("valid");
-      console.log(valid);
       return valid;
     };
   });

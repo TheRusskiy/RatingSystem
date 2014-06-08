@@ -66,7 +66,6 @@
           if (r.id === record.id) {
             position = i;
             cachePage[position] = record;
-            console.log("replaced");
             break;
           }
         }
@@ -81,7 +80,6 @@
             if (r.id === record.id) {
               position = i;
               cachePage[position] = record;
-              console.log("replaced");
               break;
             }
           }
@@ -89,37 +87,26 @@
       }
       if (record.id) {
         return record.$update({}, function(r) {
-          console.log("Updated:");
-          console.log(r);
           return r;
         });
       } else {
         return record.$save({}, function(r) {
-          console.log(recordsCache);
           recordsCache[r.criteria_id][1].unshift(r);
-          console.log("Created:");
-          console.log(r);
-          console.log(recordsCache[r.criteria_id][1]);
           return r;
         });
       }
     };
     Record["delete"] = function(record) {
       var cachePage, i, key, position, r, _i, _j, _len, _len1, _ref, _ref1;
-      console.log("cache pages");
-      console.log(recordsCache[record.criteria_id]);
       _ref = recordsCache[record.criteria_id];
       for (key in _ref) {
         cachePage = _ref[key];
-        console.log("cachePage");
-        console.log(cachePage);
         position = null;
         for (i = _i = 0, _len = cachePage.length; _i < _len; i = ++_i) {
           r = cachePage[i];
           if (r.id === record.id) {
             position = i;
             cachePage.splice(position, 1);
-            console.log("Deleted");
             break;
           }
         }
@@ -128,15 +115,12 @@
         _ref1 = recordsSearchCache[record.criteria_id];
         for (key in _ref1) {
           cachePage = _ref1[key];
-          console.log("cachePage");
-          console.log(cachePage);
           position = null;
           for (i = _j = 0, _len1 = cachePage.length; _j < _len1; i = ++_j) {
             r = cachePage[i];
             if (r.id === record.id) {
               position = i;
               cachePage.splice(position, 1);
-              console.log("Deleted");
               break;
             }
           }
@@ -144,16 +128,13 @@
       }
       return Record.delete_record({
         record_id: record.id
-      }, function(response) {
-        return console.log(response);
-      });
+      }, function(response) {});
     };
     Record.countPerPage = countPerPage;
     Record.index = function(criteria_id, pageNumber) {
       if (pageNumber == null) {
         pageNumber = 1;
       }
-      console.log('record index');
       if (recordsCache[criteria_id] == null) {
         recordsCache[criteria_id] = {};
       }
@@ -165,7 +146,6 @@
         page: pageNumber,
         page_length: countPerPage
       });
-      console.log("writing to page " + pageNumber);
       return recordsCache[criteria_id][pageNumber];
     };
     Record.count = function(criteria_id) {
@@ -176,8 +156,6 @@
       Record.record_count({
         criteria_id: criteria_id
       }, function(result) {
-        console.log("count");
-        console.log(result);
         return recordsCountCache[criteria_id] = result.count;
       });
       return recordsCountCache[criteria_id];
@@ -191,8 +169,6 @@
         criteria_id: criteria_id,
         search: record_template
       }, function(result) {
-        console.log("search count");
-        console.log(result);
         return recordsSearchCountCache[criteria_id] = result.count;
       });
       return recordsSearchCountCache[criteria_id];
@@ -201,7 +177,6 @@
       if (pageNumber == null) {
         pageNumber = 1;
       }
-      console.log('record search');
       if (recordsSearchCache[criteria_id] == null) {
         recordsSearchCache[criteria_id] = {};
       }
@@ -214,7 +189,6 @@
         page_length: countPerPage,
         search: record_template
       });
-      console.log("writing to search page " + pageNumber);
       return recordsSearchCache[criteria_id][pageNumber];
     };
     Record.newSearch = function(criteria_id) {
