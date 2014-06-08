@@ -3,7 +3,7 @@ require_once '../test/test_helper.php';
 require_once '../src/sources/faq/rating/criteria.php';
 require_once '../src/sources/faq/rating/version.php';
 
-class TestCriteriaVersion extends PHPUnit_Framework_TestCase {
+class TestVersion extends PHPUnit_Framework_TestCase {
 
     protected function setUp(){
         connect_test_db();

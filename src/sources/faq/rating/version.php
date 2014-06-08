@@ -14,7 +14,9 @@ class Version {
             $this->creation_date = $attrs->creation_date;
         }
         else {
-            $this->id = $attrs["id"];
+            if (isset($attrs["id"])) {
+                $this->id = $attrs["id"];
+            }
             $this->criteria_id = $attrs["criteria_id"];
             $this->multiplier = $attrs["multiplier"];
             $this->year_limit = $attrs["year_limit"];

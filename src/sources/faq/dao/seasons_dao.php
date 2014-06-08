@@ -33,20 +33,22 @@ class SeasonsDao {
         return $seasons;
     }
 
-    static function all_criteria_versions($season_id){
-        $season_id = mysql_real_escape_string($season_id);
+    static function all_criteria_versions($season_id = null){
+        $condition = "";
+        if ($season_id!=null){
+            $season_id = mysql_real_escape_string($season_id);
+            $condition = "AND s.id = $season_id";
+        }
         $query = "
             SELECT v.*
             FROM
               rating_seasons_criteria_versions sv,
               criteria_versions v,
-              criteria c,
               rating_seasons s
             WHERE
                 sv.criteria_version_id = v.id
                 AND sv.rating_season_id = s.id
-                AND v.criteria_id = c.id
-                AND s.id = $season_id
+                $condition
             ORDER BY sv.version_order ASC
             ";
         $query = mysql_query($query);

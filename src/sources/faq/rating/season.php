@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__).'/../dao/seasons_dao.php');
+require_once(dirname(__FILE__).'/../dao/versions_dao.php');
 class Season {
     public function __construct($id, $from, $to) {
         $this->id = $id;
@@ -15,6 +16,18 @@ class Season {
         }
         $this->cachedPrevious = SeasonsDao::find(intval($this->id)-1);
         return $this->cachedPrevious;
+    }
+
+    public function getVersionFromCriteria($criteria_id){
+        if (!isset($this->versions)){
+            $this->versions = SeasonsDao::all_criteria_versions($this->id);
+        }
+        foreach($this->versions as $version){
+            if ($version->criteria_id == $criteria_id){
+                return $version;
+            }
+        }
+        return null;
     }
 
     public function split($from, $to){
