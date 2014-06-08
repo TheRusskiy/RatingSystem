@@ -1,7 +1,7 @@
 (function() {
   "use strict";
   angular.module("verificationApp").controller("SeasonCriteriaCtrl", function(User, $scope, Criteria, Season, $routeParams, Version) {
-    var c, _i, _len, _ref;
+    var c, initial, _i, _len, _ref;
     $scope.isCollapsed = {};
     $scope.id = $routeParams.id;
     $scope.season = Season.find($scope.id);
@@ -11,6 +11,28 @@
       c = _ref[_i];
       c.versions();
     }
+    $scope.chosen = [];
+    initial = angular.copy($scope.chosen);
+    $scope.reset = function() {
+      return $scope.chosen = [];
+    };
+    $scope.isChanged = function() {
+      var chosen, i, v, _j, _len1;
+      chosen = $scope.chosen;
+      if (initial.length !== chosen.length) {
+        return true;
+      }
+      for (i = _j = 0, _len1 = chosen.length; _j < _len1; i = ++_j) {
+        v = chosen[i];
+        if (v.id !== initial[i].id) {
+          return true;
+        }
+      }
+      return false;
+    };
+    $scope.save = function() {
+      return null;
+    };
     $scope.displayVersion = function(version) {
       var _j, _len1, _ref1;
       _ref1 = $scope.chosen;
@@ -40,7 +62,6 @@
       }
       return _results;
     };
-    $scope.chosen = [];
     $scope.moveUp = function(version) {
       var i, temp, v, _j, _len1, _ref1, _results;
       _ref1 = $scope.chosen;

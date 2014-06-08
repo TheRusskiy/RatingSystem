@@ -6,6 +6,22 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
   $scope.criteria = Criteria.index()
   for c in $scope.criteria
     c.versions()
+  $scope.chosen = []
+  initial = angular.copy $scope.chosen
+  $scope.reset = ()->
+    $scope.chosen = []
+  $scope.isChanged = ()->
+    chosen = $scope.chosen
+    if initial.length != chosen.length
+      return true
+    for v, i in chosen
+      if v.id != initial[i].id
+        return true
+    false
+
+  $scope.save = ()->
+    null
+
   $scope.displayVersion = (version)->
     for c in $scope.chosen
       if c.criteria_id == version.criteria_id
@@ -20,8 +36,6 @@ angular.module("verificationApp").controller "SeasonCriteriaCtrl", (User, $scope
       if v==version
         $scope.chosen.splice(i, 1)
         break
-
-  $scope.chosen = []
 
   $scope.moveUp = (version)->
     for v, i in $scope.chosen
