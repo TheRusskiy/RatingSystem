@@ -14,7 +14,7 @@
             {{criteria.id ? 'Редактирование' : 'Создание'}} показателя</h2>
         </div>
       </div>
-      <div>
+      <div class="row col-md-12">
         <form novalidate class="form form-horizontal" name="form">
           <div class="row">
             <div class="col-md-12">
@@ -144,12 +144,16 @@
         </form>
       </div>
     </div>
-  <div ng-if="criteria.id" class="col-md-6" ng-controller="CriteriaVersionsCtrl">
+  <div ng-if="criteria.id" class="col-xs-6" ng-controller="CriteriaVersionsCtrl">
     <div class="row">
       <div class="col-md-12">
         <h2>
           Версии
         </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
         <table class="table">
           <tbody><tr>
             <th>Id</th>
