@@ -37,7 +37,9 @@ class TeachersController extends AppController{
         } else {
             $teachers = TeachersDao::all();
             $criteria = CriteriaDao::all();
-            $calculator = new CriteriaCalculator();
+            $season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
+            $versions = SeasonsDao::all_criteria_versions($season->id);
+            $calculator = new CriteriaCalculator($season);
 
             $cached_teachers = mysql_get_cache('total_rating_teachers');
             if ($cached_teachers){
@@ -48,8 +50,8 @@ class TeachersController extends AppController{
                     ParamProcessor::Instance()->set_staff_id($t['id']);
                     $ratings = array();
                     $total = 0;
-                    foreach($criteria as $c){
-                        $result = $calculator->calculate($c);
+                    foreach($versions as $v){
+                        $result = $calculator->calculate($v);
                         $ratings[]=$result;
                         $total+=$result->score;
                     }
@@ -63,7 +65,7 @@ class TeachersController extends AppController{
             $variables = array(
                 'seasons'=>$seasons,
                 'season'=>$season,
-                'criteria'=>$criteria,
+                'versions'=>$versions,
                 'container_class'=>'',
                 'teachers'=>$teachers);
             $html = render('teachers/total_rating', $variables);

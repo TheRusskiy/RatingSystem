@@ -1,5 +1,6 @@
 <?php
-function explain_value($criteria, $value){
+function explain_value($version, $value){
+    $criteria = $version->criteria;
     if($criteria->fetch_type!='manual_options'){
         return $value;
     }
@@ -7,6 +8,16 @@ function explain_value($criteria, $value){
     array_shift($res);
     return implode("; ", $res);
 };
+function manual_options_multipliers($version){
+    $criteria = $version->criteria;
+    $arr = array();
+    $m = $version->multiplier;
+    array_shift($m);
+    for($i = 0; $i < sizeof($m); $i++){
+        array_unshift($arr, $criteria->options[$i+1].": ".$m[$i]);
+    }
+    return "(".implode("; ", $arr).")";
+}
 ?>
 <div class="container">
     <div class="row">
@@ -39,14 +50,21 @@ function explain_value($criteria, $value){
 <table class="table table-bordered table-condensed">
     <tr>
         <td rowspan="2">ФИО</td>
-        <?php foreach ($criteria as $i=>$c) : ?>
+        <?php foreach ($versions as $i=>$v) : ?>
+            <?php $c = $v->criteria ?>
             <td colspan="2"><?= $i+1 ?>. <?= $c->name ?></td>
         <?php endforeach ?>
         <td rowspan="2">Итого</td>
     </tr>
     <tr>
-        <?php foreach ($criteria as $c) : ?>
-            <td>Очков</td>
+        <?php foreach ($versions as $v) : ?>
+            <td>
+                Очков
+                <?php if($v->criteria->fetch_type=='manual_options'): ?>
+                    <br/>
+                    <?= manual_options_multipliers($v) ?>
+                <?php endif?>
+            </td>
             <td>Баллов</td>
         <?php endforeach ?>
     </tr>
@@ -59,7 +77,7 @@ function explain_value($criteria, $value){
             </td>
             <?php foreach ($t->ratings as $r) : ?>
                 <td>
-                    <?= explain_value($r->criteria, $r->value) ?>
+                    <?= explain_value($r->version, $r->value) ?>
                 </td>
                 <td>
                     <?= $r->score ?>
