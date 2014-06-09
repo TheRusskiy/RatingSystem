@@ -61,7 +61,7 @@ class VersionsDao {
         }
         $id = mysql_real_escape_string($version->id);
         $criteria_id = mysql_real_escape_string($version->criteria_id);
-        $multiplier = mysql_real_escape_string($version->multiplier);
+        $multiplier = mysql_real_escape_string($version->multiplier_to_string());
         $year_limit = mysql_real_escape_string($version->year_limit);
         $year_2_limit = mysql_real_escape_string($version->year_2_limit);
         $creation_date = mysql_real_escape_string($version->creation_date);
