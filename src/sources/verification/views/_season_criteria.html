@@ -41,12 +41,11 @@
           <h3>Доступные показатели</h3>
           <ul class="list-group">
             <li ng-repeat="c in criteria" class="list-group-item">
-              <a href ng-click="isCollapsed[c.id] = !isCollapsed[c.id]">
+              <a href ng-click="goto('/criteria/'+c.id)">
                 <b>{{c.id}}: {{c.name}}</b>
-                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isCollapsed[c.id], 'glyphicon-chevron-right': !isCollapsed[c.id]}"></i>
               </a>
               <p>{{c.description}}</p>
-              <div class="" collapse="!isCollapsed[c.id]">
+              <div class="" collapse="false">
                 <div ng-repeat="v in c.versions() |  orderBy: 'creation_date'" class="row" ng-class="{'bg-success': isChosen(v)}">
                   <div class="col-md-1">
                     <a href ng-if="displayVersion(v)" ng-click="addVersion(v)" class="icon-vertical-center"><i class="glyphicon glyphicon-plus-sign big-icon"></i></a>
