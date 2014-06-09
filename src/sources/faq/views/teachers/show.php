@@ -70,7 +70,7 @@ foreach ($results as $r){
                        </p>
                    </td>
                </tr>
-               <?php if(sizeof($r->records)>0) : ?>
+               <?php if($r->criteria->fetch_type!='php' && $r->criteria->fetch_type!='sql' && sizeof($r->records)>0) : ?>
                    <tr>
                        <td>№</td>
                        <td colspan="2">Описание</td>
@@ -96,7 +96,7 @@ foreach ($results as $r){
                            </td>
                        </tr>
                    <?php endforeach; ?>
-               <?php else : ?>
+               <?php elseif ($r->criteria->fetch_type!='php' && $r->criteria->fetch_type!='sql'): ?>
                    <tr>
                        <td colspan="5">Достижения отсутствуют</td>
                    </tr>
