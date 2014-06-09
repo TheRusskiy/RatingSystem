@@ -40,6 +40,14 @@ class ParamProcessor {
         unset($this->season_id);
     }
 
+    public function set_season($value){
+        $this->season = $value;
+    }
+
+    public function unset_season(){
+        unset($this->season);
+    }
+
     public function get_from_date(){
         if (isset($this->from_date)){
             return $this->from_date;

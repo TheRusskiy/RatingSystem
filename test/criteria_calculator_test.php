@@ -307,7 +307,7 @@ EOF;
     }
 
     function testCalculatePhp(){
-        $file = "../test/php_queries/q1.php";
+        $file = "../../../../test/php_queries/q1.php";
         $criteria = new Criteria(array(
             "id" => 3,
             "fetch_type" => "php",

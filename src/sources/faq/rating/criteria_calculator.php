@@ -96,8 +96,10 @@ class CriteriaCalculator {
     }
 
     private function php_calculate($version, $season){
+        ParamProcessor::Instance()->set_season_id($season->id);
+        ParamProcessor::Instance()->set_season($season);
         $criteria = $version->getCriteria();
-        $file_result = include($criteria->fetch_value);
+        $file_result = include(__DIR__."/../php_queries/".$criteria->fetch_value);
         $result = new RatingResult();
         $result->value = $file_result;
         return $result;
