@@ -1,7 +1,8 @@
 <?php
-function manual_options_multipliers($criteria){
+function manual_options_multipliers($version){
+    $criteria = $version->criteria;
     $arr = array();
-    $m = $criteria->multiplier;
+    $m = $version->multiplier;
     array_shift($m);
     for($i = 0; $i < sizeof($m); $i++){
         array_unshift($arr, $criteria->options[$i+1].": ".$m[$i]);
@@ -49,11 +50,11 @@ foreach ($results as $r){
                    <td colspan="5">
                        <?= $ri+1 ?>.
                        <?= $r->criteria->name ?>
-                       <?php if ($r->criteria->year_limit != 0) : ?>
+                       <?php if ($r->version->year_limit != 0) : ?>
                            (
-                           максимум в год: <?=$r->criteria->year_limit?>;
-                           <?php if ($r->criteria->year_2_limit != 0) : ?>
-                               в 2 года: <?=$r->criteria->year_2_limit?>
+                           максимум в год: <?=$r->version->year_limit?>;
+                           <?php if ($r->version->year_2_limit != 0) : ?>
+                               в 2 года: <?=$r->version->year_2_limit?>
                            <?php endif ?>
                            )
                        <?php endif ?>
@@ -62,9 +63,9 @@ foreach ($results as $r){
                        </p>
                        <p>
                            <?php if($r->criteria->fetch_type=='manual_options'): ?>
-                               Коэффициенты: <?= manual_options_multipliers($r->criteria) ?>
+                               Коэффициенты: <?= manual_options_multipliers($r->version) ?>
                            <?php else : ?>
-                               Коэффициент: <?= $r->criteria->multiplier ?>
+                               Коэффициент: <?= $r->version->multiplier ?>
                            <?php endif ?>
                        </p>
                    </td>
@@ -88,9 +89,9 @@ foreach ($results as $r){
                            <td style="min-width: 100px"><?= $record['date'] ?></td>
                            <td>
                                <?php if($r->criteria->fetch_type=='manual_options'): ?>
-                                   <?= $r->criteria->multiplier[$record['value']] ?>
+                                   <?= $r->version->multiplier[$record['value']] ?>
                                <?php else : ?>
-                                   <?= $r->criteria->multiplier ?>
+                                   <?= $r->version->multiplier ?>
                                <?php endif ?>
                            </td>
                        </tr>

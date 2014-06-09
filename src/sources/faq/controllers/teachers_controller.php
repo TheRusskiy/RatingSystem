@@ -82,10 +82,12 @@ class TeachersController extends AppController{
             ParamProcessor::Instance()->set_season_id($all[0]->id);
         }
         ParamProcessor::Instance()->set_staff_id(params('id'));
-        $calculator = new CriteriaCalculator();
+        $season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
+        $versions = SeasonsDao::all_criteria_versions($season->id);
+        $calculator = new CriteriaCalculator($season);
         $results = array();
-        foreach($criteria as $c){
-            $results[]=$calculator->calculate($c);
+        foreach($versions as $v){
+            $results[]=$calculator->calculate($v);
         }
         $seasons = SeasonsDao::all();
         $season = SeasonsDao::find(ParamProcessor::Instance()->get_season_id());

@@ -6,8 +6,11 @@ require_once "date_splitter.php";
 require_once "season.php";
 require_once "rating_result.php";
 class CriteriaCalculator {
-    public function __construct() {
-        $this->season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
+    public function __construct($season = null) {
+        if ($season == null){
+            $season = SeasonsDAO::find(ParamProcessor::Instance()->get_season_id());
+        }
+        $this->season = $season;
     }
 
     public function calculate($version){
@@ -23,6 +26,7 @@ class CriteriaCalculator {
             $this->update_values_for_limits($version, $result);
         }
         $result->criteria = $criteria;
+        $result->version = $version;
         return $result;
     }
 
