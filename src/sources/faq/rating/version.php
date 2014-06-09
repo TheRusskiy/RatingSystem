@@ -12,6 +12,9 @@ class Version {
             $this->year_limit = $attrs->year_limit;
             $this->year_2_limit = $attrs->year_2_limit;
             $this->creation_date = $attrs->creation_date;
+            if (isset($attrs->criteria)){
+                $this->setCriteria($attrs->criteria);
+            }
         }
         else {
             if (isset($attrs["id"])) {
@@ -22,9 +25,9 @@ class Version {
             $this->year_limit = $attrs["year_limit"];
             $this->year_2_limit = $attrs["year_2_limit"];
             $this->creation_date = $attrs["creation_date"];
-        }
-        if (isset($attrs["criteria"])){
-            $this->setCriteria($attrs["criteria"]);
+            if (isset($attrs["criteria"])){
+                $this->setCriteria($attrs["criteria"]);
+            }
         }
         $this->multiplier = $this->make_multiplier($this->multiplier);
     }
