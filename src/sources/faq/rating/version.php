@@ -48,7 +48,7 @@ class Version {
         $properties = new stdClass();
         $properties->id = $this->id;
         $properties->criteria_id = $this->criteria_id;
-        $properties->multiplier = $this->multiplier;
+        $properties->multiplier = $this->multiplier_to_string();
         $properties->year_limit = $this->year_limit;
         $properties->year_2_limit = $this->year_2_limit;
         $properties->creation_date = $this->creation_date;
