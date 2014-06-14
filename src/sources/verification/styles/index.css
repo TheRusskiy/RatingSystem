@@ -44,7 +44,7 @@ body {
   overflow-y: hidden; }
 
 button.clear-search {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   display: inline-block; }
 
 .record-count {
@@ -99,7 +99,8 @@ button.clear-search {
   .go-back a {
     font-size: 2em; } }
 .pagination {
-  margin-top: 5px; }
+  margin-top: 5px;
+  margin-bottom: 2px; }
 
 .criteria-tab-content .table {
   margin-bottom: 2px; }
