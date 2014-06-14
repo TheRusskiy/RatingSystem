@@ -82,7 +82,7 @@ class ExternalRecordsDao {
             $record["date"]=$row["date"];
             // teacher
             $teacher = array();
-            $teacher["name"]=$row["teacher_name"]." ".$row["teacher_surname"]." ".$row["teacher_secondname"];
+            $teacher["name"]=$row["teacher_surname"]." ".$row["teacher_name"]." ".$row["teacher_secondname"];
             $teacher["id"]=$row["staff_id"];
             $record["teacher"]=$teacher;
             // reviewer (reviewed_by)
